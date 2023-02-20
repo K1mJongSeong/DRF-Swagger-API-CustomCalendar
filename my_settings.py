@@ -1,7 +1,7 @@
 DATABASES = { 
 	'default': { 
     	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'CustomCalendar', 
+        'NAME': 'user', 
         'USER': 'root', 
         'PASSWORD': '004124', 
         'HOST': 'localhost', 
