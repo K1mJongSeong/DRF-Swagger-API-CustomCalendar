@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import MyModel
-from .models import Order
+from .models import Order, Nansu, OrderInfo, Calendar
 
 
-admin.site.register(MyModel)
 admin.site.register(Order)
-
+admin.site.register(OrderInfo)
+admin.site.register(Nansu)
+admin.site.register(Calendar)
 # class OrderAdmin(admin.ModelAdmin):
 #     list_display = ('user', 'product', 'quantity',)
 

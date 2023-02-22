@@ -24,18 +24,16 @@ class NansuList(APIView):
         serializers = NansuSerializer(nansuData, many=True)
         return Response(serializers.data)
 
-class OrderList(APIView): #주문 버튼을 누를때 Update
-    def get(self, request):
-        orderData = Order.objects.all()
-        serializers = OrderSerializer(orderData, many=True)
-        return Response(serializers.data)
-# class OrderList(generics.ListCreateAPIView):
-#     def get_serializer_class(self):
-#         if self.request.method == 'POST':
-
-#             return OrderSerializer
-
-#     queryset = Order.objects.all()
+# class OrderList(APIView): #주문 버튼을 누를때 Update
+#     def get(self, request):
+#         orderData = Order.objects.all()
+#         serializers = OrderSerializer(orderData, many=True)
+#         return Response(serializers.data)
+class OrderList(generics.RetrieveUpdateAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    print(queryset)
+    loolip_field = 'order_seq'
 
 class OrderInfoList(APIView):
     def get(self, request):
@@ -57,19 +55,19 @@ class NansuUrlDetail(APIView): #url에 NansuUrlDetail/1 입력하면 nansu_seq=1
             raise Http404
 
     def get(self, request, nansu):
-        book = self.get_object(nansu)
-        serializer = NansuSerializer(book)
+        nansuUrl = self.get_object(nansu)
+        serializer = NansuSerializer(nansuUrl)
         return Response(serializer.data)
 
     def put(self, request, nansu):
-        book = self.get_object(nansu)
-        serializer = NansuSerializer(book, data=request.data)
+        nansuUrl = self.get_object(nansu)
+        serializer = NansuSerializer(nansuUrl, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, nansu):
-        book = self.get_object(nansu)
-        book.delete()
+        nansuUrl = self.get_object(nansu)
+        nansuUrl.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
