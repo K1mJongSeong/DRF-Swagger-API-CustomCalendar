@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.158']
+ALLOWED_HOSTS = ['*']
 #Git에서 clone 후 이 부분 IP를 본인 IP로 바꾸셔야합니다.
 
 # Application definition

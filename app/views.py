@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Nansu
-from .serializers import NansuSerializer
+from rest_framework import generics
+from .models import Nansu,Order, OrderInfo, Calendar
+from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer
 
 def index(request):
     return HttpResponse("TEST PAGE")
@@ -23,7 +24,32 @@ class NansuList(APIView):
         serializers = NansuSerializer(nansuData, many=True)
         return Response(serializers.data)
 
-class NansuUrlDetail(APIView):
+class OrderList(APIView): #주문 버튼을 누를때 Update
+    def get(self, request):
+        orderData = Order.objects.all()
+        serializers = OrderSerializer(orderData, many=True)
+        return Response(serializers.data)
+# class OrderList(generics.ListCreateAPIView):
+#     def get_serializer_class(self):
+#         if self.request.method == 'POST':
+
+#             return OrderSerializer
+
+#     queryset = Order.objects.all()
+
+class OrderInfoList(APIView):
+    def get(self, request):
+        nansuInfoData = OrderInfo.objects.all()
+        serializers = OrderInfoSerializer(nansuInfoData, many=True)
+        return Response(serializers.data)
+
+class CalendarList(APIView):
+    def get(self, request):
+        calendarData = Calendar.objects.all()
+        serializers = CalendarSerializer(calendarData, many=True)
+        return Response(serializers.data)
+
+class NansuUrlDetail(APIView): #url에 NansuUrlDetail/1 입력하면 nansu_seq=1 데이터나옴(테스트용)
     def get_object(self, nansu):
         try:
             return Nansu.objects.get(nansu_seq=1)
