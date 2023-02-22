@@ -1,10 +1,10 @@
 DATABASES = { 
 	'default': { 
     	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'user', 
-        'USER': 'root', 
-        'PASSWORD': '004124', 
-        'HOST': 'localhost', 
+        'NAME': 'm_calendar', 
+        'USER': 'mcalendar', 
+        'PASSWORD': 'ekffur3!@#', 
+        'HOST': '121.254.171.155', 
         'PORT': '3306', 
      } 
 }
