@@ -27,6 +27,46 @@ class Admin(models.Model):
         db_table = 'admin'
 
 
+class AprilBack(models.Model):
+    april_seq = models.IntegerField(primary_key=True)
+    april_memo = models.CharField(max_length=200, blank=True, null=True)
+    april_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'april_back'
+
+
+class AprilFront(models.Model):
+    april_seq = models.IntegerField(primary_key=True)
+    april_memo = models.CharField(max_length=200, blank=True, null=True)
+    april_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'april_front'
+
+
+class AugBack(models.Model):
+    aug_seq = models.IntegerField(primary_key=True)
+    aug_memo = models.CharField(max_length=200, blank=True, null=True)
+    aug_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'aug_back'
+
+
+class AugFront(models.Model):
+    aug_seq = models.IntegerField(primary_key=True)
+    aug_memo = models.CharField(max_length=200, blank=True, null=True)
+    aug_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'aug_front'
+
+
 class Calendar(models.Model):
     calendar_seq = models.IntegerField(primary_key=True)
     template_name = models.CharField(max_length=20, blank=True, null=True)
@@ -36,6 +76,155 @@ class Calendar(models.Model):
     class Meta:
         managed = False
         db_table = 'calendar'
+
+
+class Cover(models.Model):
+    cover_seq = models.IntegerField(primary_key=True)
+    cover_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cover'
+
+
+class DecBack(models.Model):
+    dec_seq = models.IntegerField(primary_key=True)
+    dec_memo = models.CharField(max_length=200, blank=True, null=True)
+    dec_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'dec_back'
+
+
+class DecFront(models.Model):
+    dec_seq = models.IntegerField(primary_key=True)
+    dec_memo = models.CharField(max_length=200, blank=True, null=True)
+    dec_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'dec_front'
+
+
+class FebBack(models.Model):
+    feb_seq = models.IntegerField(primary_key=True)
+    feb_memo = models.CharField(max_length=200, blank=True, null=True)
+    feb_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'feb_back'
+
+
+class FebFront(models.Model):
+    feb_seq = models.IntegerField(primary_key=True)
+    feb_memo = models.CharField(max_length=200, blank=True, null=True)
+    feb_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'feb_front'
+
+
+class JanBack(models.Model):
+    jan_seq = models.IntegerField(primary_key=True)
+    jan_memo = models.CharField(max_length=200, blank=True, null=True)
+    jan_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'jan_back'
+
+
+class JanFront(models.Model):
+    ja_seq = models.IntegerField(primary_key=True)
+    jan_memo = models.CharField(max_length=200, blank=True, null=True)
+    janu_picture = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'jan_front'
+
+
+class JulyBack(models.Model):
+    july_seq = models.IntegerField(primary_key=True)
+    july_memo = models.CharField(max_length=200, blank=True, null=True)
+    july_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'july_back'
+
+
+class JulyFront(models.Model):
+    july_seq = models.IntegerField(primary_key=True)
+    july_memo = models.CharField(max_length=200, blank=True, null=True)
+    july_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'july_front'
+
+
+class JuneBack(models.Model):
+    june_seq = models.IntegerField(primary_key=True)
+    june_memo = models.CharField(max_length=200, blank=True, null=True)
+    june_picl = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'june_back'
+
+
+class JuneFront(models.Model):
+    june_seq = models.IntegerField(primary_key=True)
+    june_memo = models.CharField(max_length=200, blank=True, null=True)
+    june_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'june_front'
+
+
+class MarBack(models.Model):
+    mar_seq = models.IntegerField(primary_key=True)
+    mar_memo = models.CharField(max_length=200, blank=True, null=True)
+    mar_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mar_back'
+
+
+class MarFront(models.Model):
+    mar_seq = models.IntegerField(primary_key=True)
+    mar_memo = models.CharField(max_length=200, blank=True, null=True)
+    mar_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mar_front'
+
+
+class MayFront(models.Model):
+    may_seq = models.IntegerField(primary_key=True)
+    may_memo = models.CharField(max_length=200, blank=True, null=True)
+    may_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'may_front'
+
+
+class MayBack(models.Model):
+    may_seq = models.IntegerField(primary_key=True)
+    may_memo = models.CharField(max_length=200, blank=True, null=True)
+    may_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'may_back'
 
 
 class Nansu(models.Model):
@@ -56,6 +245,46 @@ class Notice(models.Model):
     class Meta:
         managed = False
         db_table = 'notice'
+
+
+class NovBack(models.Model):
+    nov_seq = models.IntegerField(primary_key=True)
+    nov_memo = models.CharField(max_length=200, blank=True, null=True)
+    nov_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nov_back'
+
+
+class NovFront(models.Model):
+    nov_seq = models.IntegerField(primary_key=True)
+    nov_memo = models.CharField(max_length=200, blank=True, null=True)
+    nov_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nov_front'
+
+
+class OctBack(models.Model):
+    oct_seq = models.IntegerField(primary_key=True)
+    oct_memo = models.CharField(max_length=200, blank=True, null=True)
+    oct_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'oct_back'
+
+
+class OctFront(models.Model):
+    oct_seq = models.IntegerField(primary_key=True)
+    oct_memo = models.CharField(max_length=200, blank=True, null=True)
+    oct_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'oct_front'
 
 
 class Order(models.Model):
@@ -81,7 +310,34 @@ class OrderInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'order_info'
-    
+
+
+class SepBack(models.Model):
+    sep_seq = models.IntegerField(primary_key=True)
+    sep_memo = models.CharField(max_length=200, blank=True, null=True)
+    sep_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sep_back'
+
+
+class SepFront(models.Model):
+    sep_seq = models.IntegerField(primary_key=True)
+    sep_memo = models.CharField(max_length=200, blank=True, null=True)
+    sep_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sep_front'
+
+class Prolog(models.Model):
+    prolog_seq = models.IntegerField(primary_key=True)
+    prolog_pic = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'prolog'
 
 # class Order(models.Model):
 #     user = models.ForeignKey('users.Users', verbose_name = "사용자", on_delete = models.CASCADE)
