@@ -138,9 +138,9 @@ class JanBack(models.Model):
 
 
 class JanFront(models.Model):
-    ja_seq = models.IntegerField(primary_key=True)
+    jan_seq = models.IntegerField(primary_key=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
-    janu_picture = models.IntegerField(blank=True, null=True)
+    jan_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

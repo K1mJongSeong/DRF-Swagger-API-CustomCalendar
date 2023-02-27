@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 #Git에서 clone 후 이 부분 IP를 본인 IP로 바꾸셔야합니다.
 
 # Application definition
+
 CSRF_COOKIE_SECURE = False
 INSTALLED_APPS = [
     'django.contrib.admin',

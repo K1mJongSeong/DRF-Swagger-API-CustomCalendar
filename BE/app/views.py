@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view #api
-from rest_framework import generics
+from rest_framework import status, generics
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from .models import Nansu, Order, OrderInfo, Calendar
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer
 
@@ -50,24 +52,146 @@ class OrderInfoList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 class CalendarList(APIView):
+   #@swagger_auto_schema(request_body=CalendarSerializer)
     def get(self, request):
         calendarData = Calendar.objects.all()
         serializers = CalendarSerializer(calendarData, many=True)
         return Response(serializers.data)
-    def post(self, request, order):
-        serializer = Serializer(data=request.data)
+    def post(self, request):
+        serializer = CalendarSerializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
+class MonthAPI(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                #'month': openapi.Schema(type=openapi.TYPE_STRING, description='월 (예: jan_front, jan_back, ..., dec_back, prolog, cover)'),
+                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입',required=['jan_seq']),
+                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입',required=['jan_seq']),
+            },
+        ),
+        responses={
+            400: '에러',
+            201: '작성된 리소스 정보'
+        },
+        operation_summary='월별 리소스 생성 API',
+        operation_description='월별 리소스를 생성하는 API입니다. month 쿼리 매개변수에는 month 값 중 하나를 지정해야 합니다.'
+    )
+    def post(self, request, month):
+        month = request.data.get('month', None)
+        #month = kwargs.get('month',None)
+        if month is None:
+            return Response({'에러'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if month == 'jan_front':
+            properties={
+                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
+            }
+            serializer = JanFrontSerializer(data=request.data)
+            model = JanFront
+        elif month == 'jan_back':
+            properties={
+                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
+            }
+            serializer = JanBackSerializer(data=request.data)
+            model = JanBack
+        elif month == 'feb_front':
+            properties={
+                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['feb_seq'])
+            }
+            serializer = FebFrontSerializer(data=request.data)
+            model = FebFront
+        elif month == 'feb_back':
+            properties={
+                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['feb_seq'])
+            }
+            serializer = FebBackSerializer(data=request.data)
+            model = FebBack
+        elif month == 'mar_front':
+            serializer = MarFrontSerializer(data=request.data)
+            model = MarFront
+        elif month == 'mar_back':
+            serializer = MarBackSerializer(data=request.data)
+            model = MarBack
+        elif month == 'april_front':
+            serializer = AprilFrontSerializer(data=request.data)
+            model = AprilFront
+        elif month == 'april_back':
+            serializer = AprilBackSerializer(data=request.data)
+            model = AprilBack
+        elif month == 'may_front':
+            serializer = MayFrontSerializer(data=request.data)
+            model = MayFront
+        elif month == 'may_back':
+            serializer = MayBackSerializer(data=request.data)
+            model = MayFront
+        elif month == 'june_front':
+            serializer = JuneFrontSerializer(data=request.data)
+            model = JuneFront
+        elif month == 'june_back':
+            serializer = JuneBackSerializer(data=request.data)
+            model = JuneBack
+        elif month == 'july_front':
+            serializer = JulyFrontSerializer(data=request.data)
+            model = JulyFront
+        elif month == 'july_back':
+            serializer = JulyBackSerializer(data=request.data)
+            model = JulyBack
+        elif month == 'aug_front':
+            serializer = AugFrontSerializer(data=request.data)
+            model = AugFront
+        elif month == 'aug_back':
+            serializer = AugBackSerializer(data=request.data)
+            model = AugBack
+        elif month == 'sep_front':
+            serializer = SepFrontSerializer(data=request.data)
+            model = SepFront
+        elif month == 'sep_back':
+            serializer = SepBackSerializer(data=request.data)
+            model = SepBack
+        elif month == 'oct_front':
+            serializer = OctFrontSerializer(data=request.data)
+            model = OctFront
+        elif month == 'oct_back':
+            serializer = OctBackSerializer(data=request.data)
+            model = OctBack
+        elif month == 'nov_front':
+            serializer = NovFrontSerializer(data=request.data)
+            model = NovFront
+        elif month == 'nov_back':
+            serializer = NovBackSerializer(data=request.data)
+            model = NovBack
+        elif month == 'dec_front':
+            serializer = DecFrontSerializer(data=request.data)
+            model = DecFront
+        elif month == 'dec_back':
+            serializer = DecBackSerializer(data=request.data)
+            model = DecBack
+        elif month == 'prolog':
+            serializer = PrologSerializer(data=request.data)
+            model = Prolog
+        elif month == 'cover':
+            serializer = CoverSerializer(data=request.data)
+            model = Cover
+        else:
+            return Response({'error': 'invalid month field.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class JanFront(APIView):
     def get(self, request):
         janFrontData = JanFront.objects.all()
         serializers = JanFrontSerializer(janFrontData, many=True)
         return Response(serializers.data)
-    def post(self, request, order):
+    def post(self, request, jan_front):
         serializer = Serializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
@@ -80,7 +204,7 @@ class JanBack(APIView):
         janBackData = JanBack.objects.all()
         serializers = JanBackSerializer(janBackData, many=True)
         return Response(serializers.data)
-    def post(self, request, order):
+    def post(self, request, jan_back):
         serializer = Serializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
@@ -93,7 +217,7 @@ class FebFront(APIView):
         febFrontData = FebFront.objects.all()
         serializers = FebFrontSerializer(febFrontData, many=True)
         return Response(serializers.data)
-    def post(self, request, order):
+    def post(self, request, feb_front):
         serializer = Serializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
@@ -106,7 +230,7 @@ class FebBack(APIView):
         febBackData = FebBack.objects.all()
         serializers = FebBackSerializer(febBackData, many=True)
         return Response(serializers.data)
-    def post(self, request, order):
+    def post(self, request, feb_back):
         serializer = Serializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
@@ -402,8 +526,8 @@ class Cover(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class NansuUrlDetail(APIView): #url에 NansuUrlDetail/1 입력하면 nansu_seq=1 데이터나옴(테스트용)
+#@csrf_exempt
+class NansuUrlDetail(APIView):
     def get_object(self, nansu):#GET,PUT,DELETE
         try:
             return Nansu.objects.get(nansu_seq=nansu)
@@ -415,12 +539,34 @@ class NansuUrlDetail(APIView): #url에 NansuUrlDetail/1 입력하면 nansu_seq=1
         serializer = NansuSerializer(nansuUrl)
         return Response(serializer.data)
 
-    def put(self, request, nansu):
+    def put(self, request, nansu): 
         nansuUrl = self.get_object(nansu)
         serializer = NansuSerializer(nansuUrl, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema( #Nansu POST API 성공.
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'nansu_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['nansu_seq'])
+            },#properties에서 ORM하면 됨. 'nansu','nansu_state','permission' 컬럼 추가 가능.
+        ),
+            responses={
+                400: '에러',
+                201: '작성된 리소스 정보'
+            },
+            operation_summary='난수 리소스 생성 API',
+            operation_description='난수 리소스를 생성하는 API입니다.'
+        )
+    def post(self, request, nansu):
+        serializer = NansuSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, nansu):
