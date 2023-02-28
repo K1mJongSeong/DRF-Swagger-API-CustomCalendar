@@ -2,6 +2,7 @@ import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { SwiperProps, SwiperRef, SwiperSlideProps } from 'swiper/react';
 import { Swiper, SwiperModule } from 'swiper/types';
+import { FcPlus } from 'react-icons/fc';
 
 interface EditorConProps {
   Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
@@ -12,6 +13,20 @@ interface EditorConProps {
   Thumbs: SwiperModule;
   swiperRef: React.Ref<SwiperRef> | undefined;
   onSwiper: (idx: number) => void;
+}
+
+interface itemProps {
+  item: {
+    id: number;
+    tempSrc: string;
+    name: string;
+    ctrlItems?: Array<{
+      w: string;
+      h: string;
+      l: string;
+      t?: string;
+    }>;
+  };
 }
 
 const EditorConWrap = ({
@@ -45,14 +60,29 @@ const EditorConWrap = ({
   );
 };
 
-const EditorItem = ({
-  item,
-}: {
-  item: { id: number; tempSrc: string; name: string };
-}) => {
+const EditorItem = ({ item }: itemProps) => {
+  const onClick = () => {
+    alert('클릭!');
+  };
   return (
     <div className="item">
-      <div className="cntrl_wrap"></div>
+      <div className="ctrl_wrap">
+        {item.ctrlItems?.map((ci, idx) => (
+          <div
+            onClick={onClick}
+            key={idx}
+            className="ctrl_handler"
+            style={{
+              width: ci.w,
+              height: ci.h,
+              top: ci.t,
+              left: ci.l,
+            }}
+          >
+            <FcPlus />
+          </div>
+        ))}
+      </div>
       <div className="page_wrap">
         <img src={item?.tempSrc} />
       </div>
@@ -76,7 +106,7 @@ const EditorConWrapBlock = styled.div`
       max-width: 500px;
       position: relative;
 
-      .cntrl_wrap {
+      .ctrl_wrap {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -84,6 +114,11 @@ const EditorConWrapBlock = styled.div`
         left: 0;
         bottom: 0;
         right: 0;
+
+        .ctrl_handler {
+          position: absolute;
+          border: 1px dashed;
+        }
       }
     }
   }
