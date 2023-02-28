@@ -46,6 +46,8 @@ const EditorItem = ({ item }: ItemProps) => {
     input.setAttribute('accept', '.jpg, .png');
     input.click();
 
+    console.log(cId);
+
     input.onchange = async () => {
       const files = input.files;
       if (files) {

@@ -77,8 +77,10 @@ const EditorTopListBlock = styled.div`
     align-items: center;
     transition: all 0.2s;
     font-size: 12px;
+    cursor: pointer;
 
     .top_view_wrap {
+      overflow: hidden;
       margin-bottom: 4px;
       position: relative;
       .img_viewer {
@@ -88,8 +90,10 @@ const EditorTopListBlock = styled.div`
 
     &.swiper-slide-thumb-active {
       color: #e64c66;
-      img {
+      .top_view_wrap {
         border: 1px solid #e64c66;
+        img {
+        }
       }
     }
   }

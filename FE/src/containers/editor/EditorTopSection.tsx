@@ -7,22 +7,23 @@ import { useSearchParams } from 'react-router-dom';
 
 const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
   const nevigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const params = useParams();
+  const [searchParams] = useSearchParams();
+
+  const { nansu } = params;
+  const isEdit = searchParams?.get('isEdit');
+  const temp = searchParams?.get('temp');
+  const year = searchParams?.get('year');
+  const page = searchParams?.get('page');
 
   const handleClickBackBtn = () => {
-    const isEdit = searchParams?.get('isEdit');
-    const { nansu } = params;
-    const temp = searchParams?.get('temp');
-    const year = searchParams?.get('year');
-
     if (isEdit) return nevigate(-1);
 
     nevigate(`/${nansu}/list?temp=${temp}&year=${year}`);
   };
 
   const handleTestClick = () => {
-    nevigate('/');
+    alert(`템플릿 이름: ${temp}, 선택 년도: ${year}, 저장 페이지: ${page}`);
   };
   return (
     <EditorTop>
