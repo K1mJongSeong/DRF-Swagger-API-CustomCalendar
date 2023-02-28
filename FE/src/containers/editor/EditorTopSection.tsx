@@ -25,6 +25,7 @@ const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
   const handleTestClick = () => {
     alert(`템플릿 이름: ${temp}, 선택 년도: ${year}, 저장 페이지: ${page}`);
   };
+
   return (
     <EditorTop>
       <EditorTextButton white onClick={handleClickBackBtn}>
