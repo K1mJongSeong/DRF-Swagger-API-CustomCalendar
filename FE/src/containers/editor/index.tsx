@@ -2,7 +2,7 @@ import EditorConWrap from 'components/editor/EditorConWrap';
 import { useEffect, useRef, useState } from 'react';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 // Import Swiper React components
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
@@ -23,10 +23,19 @@ const EditorContainer = () => {
     null,
   );
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const page = searchParams?.get('page');
+  const temp = searchParams?.get('temp');
+  const year = searchParams?.get('year');
+  const { pathname } = location;
+
+  const handleChangeSlidePage = (idx: number) => {
+    navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
+  };
 
   useEffect(() => {
-    if (!page) return;
     swiperRef.current?.swiper.slideTo((page as unknown as number) - 1, 1000);
   }, [page]);
 
@@ -50,6 +59,7 @@ const EditorContainer = () => {
         Navigation={Navigation}
         Thumbs={Thumbs}
         swiperRef={swiperRef}
+        onSwiper={handleChangeSlidePage}
       />
     </>
   );

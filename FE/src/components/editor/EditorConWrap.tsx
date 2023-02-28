@@ -11,6 +11,7 @@ interface EditorConProps {
   Navigation: SwiperModule;
   Thumbs: SwiperModule;
   swiperRef: React.Ref<SwiperRef> | undefined;
+  onSwiper: (idx: number) => void;
 }
 
 const EditorConWrap = ({
@@ -21,6 +22,7 @@ const EditorConWrap = ({
   Navigation,
   Thumbs,
   swiperRef,
+  onSwiper,
 }: EditorConProps) => {
   return (
     <EditorConWrapBlock>
@@ -31,6 +33,7 @@ const EditorConWrap = ({
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
+        onSlideChange={(i) => onSwiper(i.activeIndex)}
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>
