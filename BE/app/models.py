@@ -33,7 +33,7 @@ class AprilBack(models.Model):
     april_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'april_back'
 
 
@@ -43,7 +43,7 @@ class AprilFront(models.Model):
     april_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'april_front'
 
 
@@ -53,7 +53,7 @@ class AugBack(models.Model):
     aug_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'aug_back'
 
 
@@ -63,7 +63,7 @@ class AugFront(models.Model):
     aug_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'aug_front'
 
 
@@ -74,7 +74,7 @@ class Calendar(models.Model):
     month = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'calendar'
 
 
@@ -83,7 +83,7 @@ class Cover(models.Model):
     cover_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'cover'
 
 
@@ -93,7 +93,7 @@ class DecBack(models.Model):
     dec_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'dec_back'
 
 
@@ -103,7 +103,7 @@ class DecFront(models.Model):
     dec_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'dec_front'
 
 
@@ -113,7 +113,7 @@ class FebBack(models.Model):
     feb_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'feb_back'
 
 
@@ -123,7 +123,7 @@ class FebFront(models.Model):
     feb_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'feb_front'
 
 
@@ -133,7 +133,7 @@ class JanBack(models.Model):
     jan_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'jan_back'
 
 
@@ -143,7 +143,7 @@ class JanFront(models.Model):
     jan_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'jan_front'
 
 
@@ -153,7 +153,7 @@ class JulyBack(models.Model):
     july_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'july_back'
 
 
@@ -163,7 +163,7 @@ class JulyFront(models.Model):
     july_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'july_front'
 
 
@@ -173,7 +173,7 @@ class JuneBack(models.Model):
     june_picl = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'june_back'
 
 
@@ -183,7 +183,7 @@ class JuneFront(models.Model):
     june_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'june_front'
 
 
@@ -193,7 +193,7 @@ class MarBack(models.Model):
     mar_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mar_back'
 
 
@@ -203,7 +203,7 @@ class MarFront(models.Model):
     mar_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mar_front'
 
 
@@ -213,7 +213,7 @@ class MayFront(models.Model):
     may_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'may_front'
 
 
@@ -223,7 +223,7 @@ class MayBack(models.Model):
     may_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'may_back'
 
 
@@ -234,7 +234,7 @@ class Nansu(models.Model):
     permission = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'nansu'
 
 
@@ -243,7 +243,7 @@ class Notice(models.Model):
     notice_seq = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'notice'
 
 
@@ -253,7 +253,7 @@ class NovBack(models.Model):
     nov_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'nov_back'
 
 
@@ -263,7 +263,7 @@ class NovFront(models.Model):
     nov_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'nov_front'
 
 
@@ -273,7 +273,7 @@ class OctBack(models.Model):
     oct_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'oct_back'
 
 
@@ -283,7 +283,7 @@ class OctFront(models.Model):
     oct_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'oct_front'
 
 
@@ -318,7 +318,7 @@ class SepBack(models.Model):
     sep_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'sep_back'
 
 
@@ -328,7 +328,7 @@ class SepFront(models.Model):
     sep_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'sep_front'
 
 class Prolog(models.Model):
@@ -336,7 +336,7 @@ class Prolog(models.Model):
     prolog_pic = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'prolog'
 
 # class Order(models.Model):

@@ -4,7 +4,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
 from app import views
-from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail
+from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, DecList, JanList
 from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, MonthAPI
 
 schema_view = get_schema_view(
@@ -33,8 +33,11 @@ urlpatterns = [
     path('NansuUrlDetail/<int:nansu>/', NansuUrlDetail.as_view()),
     path('CalendarUrlDetail/<int:calendar>/',CalendarUrlDetail.as_view()),
     path('Month/<str:month>/',MonthAPI.as_view()),
-    # path('JanBack/',JanBack.as_view()),
-    # path('JanFront/',JanFront.as_view()),
+    path('DecFront/<int:dec_front>/',DecFront.as_view()),
+    path('JanBack/<int:pk>/',JanBack.as_view()),
+    path('DecList/<int:pk>/',DecList.as_view()),
+    path('JanFront/<int:pk>/',JanFront.as_view()),
+    path('JanList/<int:pk>/',JanList.as_view()),
     # path('FebFront/',FebFront.as_view()),
     # path('FebBack/',FebBack.as_view()),
     # path('MarFront/',MarFront.as_view()),
@@ -55,7 +58,7 @@ urlpatterns = [
     # path('OctBack/',OctBack.as_view()),
     # path('NovFront/',NovFront.as_view()),
     # path('NovBack/',NovBack.as_view()),
-    # path('DecFront/',DecFront.as_view()),
+    
     # path('DecBack/',DecBack.as_view()),
     # path('Prolog/',Prolog.as_view()),
     # path('Cover/',Cover.as_view()),
