@@ -1,46 +1,21 @@
 import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
-import { SwiperProps, SwiperRef, SwiperSlideProps } from 'swiper/react';
-import { Swiper, SwiperModule } from 'swiper/types';
 import { FcPlus } from 'react-icons/fc';
 import { useState } from 'react';
+import { EditorConProps, ItemProps } from 'interface/editor';
 
-interface EditorConProps {
-  Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
-  SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
-  thumbsSwiper?: Swiper | null;
-  FreeMode: SwiperModule;
-  Navigation: SwiperModule;
-  Thumbs: SwiperModule;
-  swiperRef: React.Ref<SwiperRef> | undefined;
-  onSwiper: (idx: number) => void;
-}
+const EditorConWrap = (props: EditorConProps) => {
+  const {
+    Swiper,
+    SwiperSlide,
+    thumbsSwiper,
+    FreeMode,
+    Navigation,
+    Thumbs,
+    swiperRef,
+    onSwiper,
+  } = props;
 
-interface itemProps {
-  item: {
-    id: number;
-    tempSrc: string;
-    name: string;
-    ctrlItems?: Array<{
-      cId: number;
-      w: string;
-      h: string;
-      l: string;
-      t?: string;
-    }>;
-  };
-}
-
-const EditorConWrap = ({
-  Swiper,
-  SwiperSlide,
-  thumbsSwiper,
-  FreeMode,
-  Navigation,
-  Thumbs,
-  swiperRef,
-  onSwiper,
-}: EditorConProps) => {
   return (
     <EditorConWrapBlock>
       <Swiper
@@ -62,8 +37,9 @@ const EditorConWrap = ({
   );
 };
 
-const EditorItem = ({ item }: itemProps) => {
+const EditorItem = ({ item }: ItemProps) => {
   const [imgFile, setImgFile] = useState<string | ArrayBuffer | null>('');
+
   const onClick = (cId: number) => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -84,6 +60,7 @@ const EditorItem = ({ item }: itemProps) => {
       }
     };
   };
+
   return (
     <div className="item">
       <div className="ctrl_wrap">

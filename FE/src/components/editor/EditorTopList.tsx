@@ -1,40 +1,11 @@
 import { Renault } from 'data/template/renault';
+import { EditorTopProps, ItemProps } from 'interface/editor';
 import styled from 'styled-components';
-import { SwiperProps, SwiperRef, SwiperSlideProps } from 'swiper/react';
-import { Swiper, SwiperModule } from 'swiper/types';
 
-interface EditorConProps {
-  Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
-  SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
-  setThumbsSwiper?: (swiper: Swiper) => void;
-  FreeMode: SwiperModule;
-  Navigation: SwiperModule;
-  Thumbs: SwiperModule;
-}
+const EditorTopList = (props: EditorTopProps) => {
+  const { Swiper, SwiperSlide, setThumbsSwiper, FreeMode, Navigation, Thumbs } =
+    props;
 
-interface itemProps {
-  item: {
-    id: number;
-    tempSrc: string;
-    name: string;
-    ctrlItems?: Array<{
-      cId: number;
-      w: string;
-      h: string;
-      l: string;
-      t?: string;
-    }>;
-  };
-}
-
-const EditorTopList = ({
-  Swiper,
-  SwiperSlide,
-  setThumbsSwiper,
-  FreeMode,
-  Navigation,
-  Thumbs,
-}: EditorConProps) => {
   return (
     <EditorTopListBlock>
       <Swiper
@@ -69,7 +40,7 @@ const EditorTopList = ({
   );
 };
 
-const EditorTopItem = ({ item }: itemProps) => {
+const EditorTopItem = ({ item }: ItemProps) => {
   return (
     <>
       <div className="top_view_wrap">
