@@ -21,6 +21,7 @@ interface itemProps {
     tempSrc: string;
     name: string;
     ctrlItems?: Array<{
+      cId: number;
       w: string;
       h: string;
       l: string;
@@ -61,15 +62,22 @@ const EditorConWrap = ({
 };
 
 const EditorItem = ({ item }: itemProps) => {
-  const onClick = () => {
-    alert('클릭!');
+  const onClick = (cId: number) => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', '.jpg, .png');
+    input.click();
+
+    input.onchange = async () => {
+      console.log('cId', cId);
+    };
   };
   return (
     <div className="item">
       <div className="ctrl_wrap">
         {item.ctrlItems?.map((ci, idx) => (
           <div
-            onClick={onClick}
+            onClick={() => onClick(ci.cId)}
             key={idx}
             className="ctrl_handler"
             style={{
@@ -84,6 +92,19 @@ const EditorItem = ({ item }: itemProps) => {
         ))}
       </div>
       <div className="page_wrap">
+        {item.ctrlItems?.map((ci, idx) => (
+          <div
+            key={idx}
+            id={`view_${ci.cId}`}
+            className="img_viewer"
+            style={{
+              width: ci.w,
+              height: ci.h,
+              top: ci.t,
+              left: ci.l,
+            }}
+          ></div>
+        ))}
         <img src={item?.tempSrc} />
       </div>
     </div>
@@ -114,10 +135,25 @@ const EditorConWrapBlock = styled.div`
         left: 0;
         bottom: 0;
         right: 0;
+        z-index: 9;
 
         .ctrl_handler {
           position: absolute;
-          border: 1px dashed;
+          border: 1px dashed #999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+        }
+      }
+
+      .page_wrap {
+        position: relative;
+        z-index: 8;
+
+        .img_viewer {
+          position: absolute;
+          background: inherit;
         }
       }
     }

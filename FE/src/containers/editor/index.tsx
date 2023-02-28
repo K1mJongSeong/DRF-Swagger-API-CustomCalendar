@@ -37,7 +37,7 @@ const EditorContainer = () => {
 
   useEffect(() => {
     swiperRef.current?.swiper.slideTo((page as unknown as number) - 1, 1000);
-  }, [page]);
+  }, []);
 
   return (
     <>

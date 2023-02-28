@@ -34,6 +34,12 @@ const EditorTopList = ({
           470: {
             slidesPerView: 4,
           },
+          690: {
+            slidesPerView: 5,
+          },
+          800: {
+            slidesPerView: 9,
+          },
         }}
       >
         <>
