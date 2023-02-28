@@ -9,7 +9,6 @@ const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
   const nevigate = useNavigate();
   const [searchParams] = useSearchParams();
   const params = useParams();
-  console.log(params);
 
   const handleClickBackBtn = () => {
     const isEdit = searchParams?.get('isEdit');

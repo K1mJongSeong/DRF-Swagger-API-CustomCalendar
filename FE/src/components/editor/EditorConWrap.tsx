@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { SwiperProps, SwiperRef, SwiperSlideProps } from 'swiper/react';
 import { Swiper, SwiperModule } from 'swiper/types';
 import { FcPlus } from 'react-icons/fc';
+import { useState } from 'react';
 
 interface EditorConProps {
   Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
@@ -62,6 +63,7 @@ const EditorConWrap = ({
 };
 
 const EditorItem = ({ item }: itemProps) => {
+  const [imgFile, setImgFile] = useState<string | ArrayBuffer | null>('');
   const onClick = (cId: number) => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -69,7 +71,17 @@ const EditorItem = ({ item }: itemProps) => {
     input.click();
 
     input.onchange = async () => {
-      console.log('cId', cId);
+      const files = input.files;
+      if (files) {
+        const file = files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImgFile(reader.result);
+          console.log(imgFile);
+        };
+        console.log(imgFile);
+      }
     };
   };
   return (
@@ -144,6 +156,7 @@ const EditorConWrapBlock = styled.div`
           align-items: center;
           justify-content: center;
           font-size: 2rem;
+          cursor: pointer;
         }
       }
 
