@@ -12,6 +12,21 @@ interface EditorConProps {
   Thumbs: SwiperModule;
 }
 
+interface itemProps {
+  item: {
+    id: number;
+    tempSrc: string;
+    name: string;
+    ctrlItems?: Array<{
+      cId: number;
+      w: string;
+      h: string;
+      l: string;
+      t?: string;
+    }>;
+  };
+}
+
 const EditorTopList = ({
   Swiper,
   SwiperSlide,
@@ -54,14 +69,24 @@ const EditorTopList = ({
   );
 };
 
-const EditorTopItem = ({
-  item,
-}: {
-  item: { id: number; tempSrc: string; name: string };
-}) => {
+const EditorTopItem = ({ item }: itemProps) => {
   return (
     <>
-      <img src={item?.tempSrc} />
+      <div className="top_view_wrap">
+        {item.ctrlItems?.map((ci, idx) => (
+          <div
+            key={idx}
+            className="img_viewer"
+            style={{
+              width: ci.w,
+              height: ci.h,
+              top: ci.t,
+              left: ci.l,
+            }}
+          ></div>
+        ))}
+        <img src={item?.tempSrc} />
+      </div>
       {item?.name}
     </>
   );
@@ -81,8 +106,13 @@ const EditorTopListBlock = styled.div`
     align-items: center;
     transition: all 0.2s;
     font-size: 12px;
-    img {
+
+    .top_view_wrap {
       margin-bottom: 4px;
+      position: relative;
+      .img_viewer {
+        position: absolute;
+      }
     }
 
     &.swiper-slide-thumb-active {
