@@ -1,25 +1,11 @@
 import { Renault } from 'data/template/renault';
+import { EditorTopProps, ItemProps } from 'interface/editor';
 import styled from 'styled-components';
-import { SwiperProps, SwiperRef, SwiperSlideProps } from 'swiper/react';
-import { Swiper, SwiperModule } from 'swiper/types';
 
-interface EditorConProps {
-  Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
-  SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
-  setThumbsSwiper?: (swiper: Swiper) => void;
-  FreeMode: SwiperModule;
-  Navigation: SwiperModule;
-  Thumbs: SwiperModule;
-}
+const EditorTopList = (props: EditorTopProps) => {
+  const { Swiper, SwiperSlide, setThumbsSwiper, FreeMode, Navigation, Thumbs } =
+    props;
 
-const EditorTopList = ({
-  Swiper,
-  SwiperSlide,
-  setThumbsSwiper,
-  FreeMode,
-  Navigation,
-  Thumbs,
-}: EditorConProps) => {
   return (
     <EditorTopListBlock>
       <Swiper
@@ -33,6 +19,12 @@ const EditorTopList = ({
         breakpoints={{
           470: {
             slidesPerView: 4,
+          },
+          690: {
+            slidesPerView: 5,
+          },
+          800: {
+            slidesPerView: 9,
           },
         }}
       >
@@ -48,14 +40,24 @@ const EditorTopList = ({
   );
 };
 
-const EditorTopItem = ({
-  item,
-}: {
-  item: { id: number; tempSrc: string; name: string };
-}) => {
+const EditorTopItem = ({ item }: ItemProps) => {
   return (
     <>
-      <img src={item?.tempSrc} />
+      <div className="top_view_wrap">
+        {item.ctrlItems?.map((ci, idx) => (
+          <div
+            key={idx}
+            className="img_viewer"
+            style={{
+              width: ci.w,
+              height: ci.h,
+              top: ci.t,
+              left: ci.l,
+            }}
+          ></div>
+        ))}
+        <img src={item?.tempSrc} />
+      </div>
       {item?.name}
     </>
   );
@@ -75,14 +77,23 @@ const EditorTopListBlock = styled.div`
     align-items: center;
     transition: all 0.2s;
     font-size: 12px;
-    img {
+    cursor: pointer;
+
+    .top_view_wrap {
+      overflow: hidden;
       margin-bottom: 4px;
+      position: relative;
+      .img_viewer {
+        position: absolute;
+      }
     }
 
     &.swiper-slide-thumb-active {
       color: #e64c66;
-      img {
+      .top_view_wrap {
         border: 1px solid #e64c66;
+        img {
+        }
       }
     }
   }

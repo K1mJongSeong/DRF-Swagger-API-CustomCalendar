@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { MdArrowForwardIos } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Renault } from 'data/template/renault';
 
 interface ItemProps {
@@ -18,9 +18,14 @@ const TempList = () => {
 };
 
 const TempItem = ({ item }: ItemProps) => {
+  const location = useLocation();
+  const param = useParams();
+  const { nansu } = param;
+  const { search } = location;
+
   return (
     <li className="item">
-      <Link to="/난수/editor">
+      <Link to={`/${nansu}/editor${search}&page=${item.id}`}>
         {item?.name}
         <MdArrowForwardIos />
       </Link>
