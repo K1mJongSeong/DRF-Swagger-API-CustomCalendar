@@ -1,10 +1,11 @@
 import EditorConWrap from 'components/editor/EditorConWrap';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
+import { useSearchParams } from 'react-router-dom';
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import * as SwiperTypes from 'swiper/types';
 
 // Import Swiper styles
@@ -17,9 +18,17 @@ import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper';
 
 const EditorContainer = () => {
+  const swiperRef = useRef<SwiperRef>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperTypes.Swiper | null>(
     null,
   );
+  const [searchParams] = useSearchParams();
+  const page = searchParams?.get('page');
+
+  useEffect(() => {
+    if (!page) return;
+    swiperRef.current?.swiper.slideTo((page as unknown as number) - 1, 1000);
+  }, [page]);
 
   return (
     <>
@@ -40,6 +49,7 @@ const EditorContainer = () => {
         FreeMode={FreeMode}
         Navigation={Navigation}
         Thumbs={Thumbs}
+        swiperRef={swiperRef}
       />
     </>
   );

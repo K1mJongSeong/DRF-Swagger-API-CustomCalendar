@@ -10,6 +10,7 @@ interface EditorConProps {
   FreeMode: SwiperModule;
   Navigation: SwiperModule;
   Thumbs: SwiperModule;
+  swiperRef: React.Ref<SwiperRef> | undefined;
 }
 
 const EditorConWrap = ({
@@ -19,10 +20,12 @@ const EditorConWrap = ({
   FreeMode,
   Navigation,
   Thumbs,
+  swiperRef,
 }: EditorConProps) => {
   return (
     <EditorConWrapBlock>
       <Swiper
+        ref={swiperRef}
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
