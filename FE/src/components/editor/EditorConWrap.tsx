@@ -50,7 +50,14 @@ const EditorItem = ({
 }: {
   item: { id: number; tempSrc: string; name: string };
 }) => {
-  return <img src={item?.tempSrc} />;
+  return (
+    <div className="item">
+      <div className="cntrl_wrap"></div>
+      <div className="page_wrap">
+        <img src={item?.tempSrc} />
+      </div>
+    </div>
+  );
 };
 
 const EditorConWrapBlock = styled.div`
@@ -58,13 +65,26 @@ const EditorConWrapBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   .swiper-slide {
     display: flex;
     align-content: center;
     justify-content: center;
-    img {
+
+    .item {
       width: calc(100% - 32px);
       max-width: 500px;
+      position: relative;
+
+      .cntrl_wrap {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
     }
   }
 `;
