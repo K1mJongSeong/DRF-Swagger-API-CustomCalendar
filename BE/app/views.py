@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view #api
 from rest_framework import status, generics
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import Nansu, Order, OrderInfo, Calendar
+from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MarBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer
 
 def index(request):
@@ -16,10 +17,6 @@ def nansu(request):
     nansuTest = Nansu.objects.filter(nansu_state='정상')
     print(nansuTest)
     return render(request,'index.html', {"nansuTest":nansuTest})
-
-class HelloWorld(APIView):
-    def get(self, request):
-        return Response("Hello, World!")
 
 class NansuList(APIView):
     def get(self, request):
@@ -35,6 +32,18 @@ class NansuList(APIView):
 class OrderList(generics.RetrieveUpdateAPIView): #GET,PUT,PATCH
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
+    print(queryset)
+    loolip_field = '__all__'
+
+class DecList(generics.RetrieveUpdateAPIView): #GET,PUT,PATCH
+    serializer_class = DecFrontSerializer
+    queryset = DecFront.objects.all()
+    print(queryset)
+    loolip_field = '__all__'
+
+class JanList(generics.RetrieveUpdateAPIView): #GET,PUT,PATCH
+    serializer_class = JanFrontSerializer
+    queryset = JanFront.objects.all()
     print(queryset)
     loolip_field = '__all__'
 
@@ -65,14 +74,64 @@ class CalendarList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
+
+# class MonthAPI(APIView):
+#     @swagger_auto_schema(
+#         request_body=openapi.Schema(
+#             type=openapi.TYPE_OBJECT,
+#             properties={
+#                 'jan_front': openapi.Schema(type=openapi.TYPE_STRING, description='1월앞'),
+#                 'jan_back': openapi.Schema(type=openapi.TYPE_STRING, description='1월뒤'),
+#                 'feb_front': openapi.Schema(type=openapi.TYPE_STRING, description='2월앞'),
+#                 'feb_back': openapi.Schema(type=openapi.TYPE_STRING, description='2월뒤'),
+#                 'mar_front': openapi.Schema(type=openapi.TYPE_STRING, description='3월앞'),
+#                 'mar_back': openapi.Schema(type=openapi.TYPE_STRING, description='3월뒤'),
+#                 'april_front': openapi.Schema(type=openapi.TYPE_STRING, description='4월앞'),
+#                 'april_back': openapi.Schema(type=openapi.TYPE_STRING, description='4월뒤'),
+#                 'may_front': openapi.Schema(type=openapi.TYPE_STRING, description='5월앞'),
+#                 'may_back': openapi.Schema(type=openapi.TYPE_STRING, description='5월뒤'),
+#                 'june_front': openapi.Schema(type=openapi.TYPE_STRING, description='6월앞'),
+#                 'june_back': openapi.Schema(type=openapi.TYPE_STRING, description='6월뒤'),
+#                 'july_front': openapi.Schema(type=openapi.TYPE_STRING, description='7월앞'),
+#                 'july_back': openapi.Schema(type=openapi.TYPE_STRING, description='7월뒤'),
+#                 'aug_front': openapi.Schema(type=openapi.TYPE_STRING, description='8월앞'),
+#                 'aug_back': openapi.Schema(type=openapi.TYPE_STRING, description='8월뒤'),
+#                 'sep_front': openapi.Schema(type=openapi.TYPE_STRING, description='9월앞'),
+#                 'sep_back': openapi.Schema(type=openapi.TYPE_STRING, description='9월뒤'),
+#                 'oct_front': openapi.Schema(type=openapi.TYPE_STRING, description='10월앞'),
+#                 'oct_back': openapi.Schema(type=openapi.TYPE_STRING, description='10월뒤'),
+#                 'nov_front': openapi.Schema(type=openapi.TYPE_STRING, description='11월앞'),
+#                 'nov_back': openapi.Schema(type=openapi.TYPE_STRING, description='11월뒤'),
+#                 'dec_front': openapi.Schema(type=openapi.TYPE_STRING, description='12월앞'),
+#                 'dec_back': openapi.Schema(type=openapi.TYPE_STRING, description='12월뒤'),
+#                 'prolog': openapi.Schema(type=openapi.TYPE_STRING, description='프롤로그'),
+#                 'cover': openapi.Schema(type=openapi.TYPE_STRING, description='커버'),
+
+
+#             },
+#             required=['jan_front', 'jan_back', 'feb_front','feb_back','mar_front','mar_back','april_front','april_back',
+#             'may_front','may_back','june_front','june_back','aug_front','aug_back','sep_front','sep_back','oct_front','oct_back','nov_front','nov_back','dec_front','dec_back',
+#             'prolog','cover']
+#         ),
+#         responses={
+#             400: '에러',
+#             201: '작성된 리소스 정보'
+#         },
+#         operation_summary='데이터 생성 API',
+#         operation_description='24개의 데이터를 생성하는 API입니다.'
+#     )
+#     def post(self, request):
+#         serializer = DataSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class MonthAPI(APIView):
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
-                #'month': openapi.Schema(type=openapi.TYPE_STRING, description='월 (예: jan_front, jan_back, ..., dec_back, prolog, cover)'),
                 'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입',required=['jan_seq']),
-                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입',required=['jan_seq']),
             },
         ),
         responses={
@@ -82,34 +141,22 @@ class MonthAPI(APIView):
         operation_summary='월별 리소스 생성 API',
         operation_description='월별 리소스를 생성하는 API입니다. month 쿼리 매개변수에는 month 값 중 하나를 지정해야 합니다.'
     )
-    def post(self, request, month):
+    def post(self, request,month):
         month = request.data.get('month', None)
-        #month = kwargs.get('month',None)
         if month is None:
             return Response({'에러'}, status=status.HTTP_400_BAD_REQUEST)
         
         if month == 'jan_front':
-            properties={
-                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
-            }
             serializer = JanFrontSerializer(data=request.data)
+            print('jan_front print')
             model = JanFront
         elif month == 'jan_back':
-            properties={
-                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
-            }
             serializer = JanBackSerializer(data=request.data)
             model = JanBack
         elif month == 'feb_front':
-            properties={
-                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['feb_seq'])
-            }
             serializer = FebFrontSerializer(data=request.data)
             model = FebFront
         elif month == 'feb_back':
-            properties={
-                'feb_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['feb_seq'])
-            }
             serializer = FebBackSerializer(data=request.data)
             model = FebBack
         elif month == 'mar_front':
@@ -187,12 +234,33 @@ class MonthAPI(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class JanFront(APIView):
-    def get(self, request):
-        janFrontData = JanFront.objects.all()
-        serializers = JanFrontSerializer(janFrontData, many=True)
-        return Response(serializers.data)
+    def get_object(self, jan_front):#GET,PUT,DELETE
+        try:
+            return JanFront.objects.get(jan_seq=jan_front)
+        except ObjectDoesNotExist:
+            raise Http404
+            
+    def get(self, request,jan_front):
+        janFrontData = self.get_object(jan_front)
+        serializer = JanFrontSerializer(janFrontDat)
+        return Response(serializer.data)
+        
+    @swagger_auto_schema( #Nansu POST API 성공.
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
+            },#properties에서 ORM하면 됨. 'nansu','nansu_state','permission' 컬럼 추가 가능.
+        ),
+            responses={
+                400: '에러',
+                201: '작성된 리소스 정보'
+            },
+            operation_summary='난수 리소스 생성 API',
+            operation_description='난수 리소스를 생성하는 API입니다.'
+        )
     def post(self, request, jan_front):
-        serializer = Serializer(data=request.data)
+        serializer = JanFrontSerializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
             serializer.save()
@@ -200,12 +268,32 @@ class JanFront(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 class JanBack(APIView):
+    def get_object(self, jan_back):#GET,PUT,DELETE
+        try:
+            return JanBack.objects.get(jan_seq=jan_back)
+        except ObjectDoesNotExist:
+            raise Http404
     def get(self, request):
-        janBackData = JanBack.objects.all()
+        janBackData = self.get_object(jan_back)
         serializers = JanBackSerializer(janBackData, many=True)
         return Response(serializers.data)
+
+    @swagger_auto_schema( #Nansu POST API 성공.
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'jan_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['jan_seq'])
+            },#properties에서 ORM하면 됨. 'nansu','nansu_state','permission' 컬럼 추가 가능.
+        ),
+            responses={
+                400: '에러',
+                201: '작성된 리소스 정보'
+            },
+            operation_summary='난수 리소스 생성 API',
+            operation_description='난수 리소스를 생성하는 API입니다.'
+        )
     def post(self, request, jan_back):
-        serializer = Serializer(data=request.data)
+        serializer = JanBackSerializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
             serializer.save()
@@ -473,12 +561,33 @@ class NovBack(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DecFront(APIView):
-    def get(self, request):
-        decFrontData = DecFront.objects.all()
-        serializers = DecFrontSerializer(decFrontData, many=True)
-        return Response(serializers.data)
-    def post(self, request, order):
-        serializer = Serializer(data=request.data)
+    def get_object(self, dec_front):#GET,PUT,DELETE
+        try:
+            return DecFront.objects.get(dec_seq=dec_front)
+        except DecFront.DoesNotExist:
+            raise Http404
+            
+    def get(self, request, dec_front):
+        decFrontData = self.get_object(dec_front)
+        serializer = DecFrontSerializer(decFrontData)
+        return Response(serializer.data)
+
+    @swagger_auto_schema( #Nansu POST API 성공.
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'dec_seq': openapi.Schema(type=openapi.TYPE_INTEGER, description='정수타입', required=['dec_seq'])
+            },#properties에서 ORM하면 됨. 'nansu','nansu_state','permission' 컬럼 추가 가능.
+        ),
+            responses={
+                400: '에러',
+                201: '작성된 리소스 정보'
+            },
+            operation_summary='난수 리소스 생성 API',
+            operation_description='난수 리소스를 생성하는 API입니다.'
+        )
+    def post(self, request):
+        serializer = DecFrontSerializer(data=request.data, many=True)
         print(serializer)
         if serializer.is_valid():
             serializer.save()
