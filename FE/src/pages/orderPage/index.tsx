@@ -1,10 +1,10 @@
 import DefaultTemplate from 'components/common/DefaultTemplate';
-import OrderTopContainer from 'containers/order/OrderTopContainer';
+import OrderContainer from 'containers/order';
 
 const OrderPage = () => {
   return (
     <DefaultTemplate>
-      <OrderTopContainer />
+      <OrderContainer />
     </DefaultTemplate>
   );
 };

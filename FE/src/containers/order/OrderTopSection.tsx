@@ -2,7 +2,7 @@ import Top from 'components/common/Top';
 import { EditorIconButton } from 'components/editor/EditorButtons';
 import { MdArrowBackIos } from 'react-icons/md';
 
-const OrderTopContainer = () => {
+const OrderTopSection = () => {
   return (
     <Top>
       <EditorIconButton>
@@ -12,4 +12,4 @@ const OrderTopContainer = () => {
   );
 };
 
-export default OrderTopContainer;
+export default OrderTopSection;
