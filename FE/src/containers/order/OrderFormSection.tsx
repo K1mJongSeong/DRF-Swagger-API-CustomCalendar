@@ -2,13 +2,34 @@ import OrderTemplate, {
   StyledInput,
   StyledSearchBtn,
 } from 'components/order/OrderTemplate';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { PostCodeProps } from 'interface/order';
-import { useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import { changeFieldOrderForm } from 'reducer/order';
+import { RootState } from 'store';
 
 const OrderFormSection = () => {
-  const [address, setAddress] = useState<string>('');
-  const [postCode, setPostCode] = useState<string>('');
+  const { orderInfo } = useAppSelector((state: RootState) => state.order);
+  const dispatch = useAppDispatch();
+
+  const { userName, userPhone, postCode, address, detailAddress } = orderInfo;
+
+  const handleChangeOrderFormField = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value, name } = e.target;
+    const numCheck = /^[0-9]+$/;
+
+    if (name === 'userPhone' && !numCheck.test(value))
+      return alert('숫자만 입력하세요.');
+
+    dispatch(
+      changeFieldOrderForm({
+        key: name,
+        value,
+      }),
+    );
+  };
 
   const open = useDaumPostcodePopup();
 
@@ -28,8 +49,18 @@ const OrderFormSection = () => {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    setAddress(fullAddress);
-    setPostCode(zoneCode);
+    dispatch(
+      changeFieldOrderForm({
+        key: 'address',
+        value: fullAddress,
+      }),
+    );
+    dispatch(
+      changeFieldOrderForm({
+        key: 'postCode',
+        value: zoneCode,
+      }),
+    );
   };
 
   const handleClickOpenPopup = (e: React.MouseEvent<HTMLElement>) => {
@@ -41,32 +72,46 @@ const OrderFormSection = () => {
       <form>
         <label>성명</label>
         <StyledInput
+          name="userName"
           autoComplete="name"
           placeholder="주문자 성명을 입력해주세요."
+          value={userName ? userName : ''}
+          onChange={handleChangeOrderFormField}
         />
         <label>연락처</label>
         <StyledInput
+          name="userPhone"
           autoComplete="phone_num"
-          type="number"
           placeholder="- 없이 연락처를 입력해주세요."
+          value={userPhone ? userPhone : ''}
+          onChange={handleChangeOrderFormField}
         />
         <label>주소</label>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <StyledInput
+            name="postCode"
             autoComplete="postCode"
             placeholder="유편번호"
             value={postCode ? postCode : ''}
+            onChange={handleChangeOrderFormField}
             readOnly
           />
           <StyledSearchBtn onClick={handleClickOpenPopup}>검색</StyledSearchBtn>
         </div>
         <StyledInput
+          name="address"
           autoComplete="address"
           placeholder="도로명(ex: 서울시 금천구 디지털로)"
           value={address ? address : ''}
+          onChange={handleChangeOrderFormField}
           readOnly
         />
-        <StyledInput placeholder="상세주소를 입력해주세요." />
+        <StyledInput
+          name="detailAddress"
+          placeholder="상세주소를 입력해주세요."
+          onChange={handleChangeOrderFormField}
+          value={detailAddress ? detailAddress : ''}
+        />
       </form>
     </OrderTemplate>
   );
