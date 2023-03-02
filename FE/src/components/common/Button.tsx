@@ -13,7 +13,11 @@ interface ButtonProps {
 }
 
 const Button = (props: ButtonProps) => {
-  return props?.to ? <StyledLink {...props} /> : <StyledButton {...props} />;
+  return props?.to ? (
+    <StyledLink {...props} />
+  ) : (
+    <StyledButton type="button" {...props} />
+  );
 };
 
 const buttonStyle = css`

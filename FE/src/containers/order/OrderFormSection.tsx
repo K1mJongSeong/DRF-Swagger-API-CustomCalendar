@@ -13,7 +13,6 @@ const OrderFormSection = () => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: PostCodeProps) => {
-    console.log(data);
     let fullAddress = data.address;
     const zoneCode = data.zonecode;
     let extraAddress = '';
@@ -29,8 +28,6 @@ const OrderFormSection = () => {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    console.log(zoneCode);
     setAddress(fullAddress);
     setPostCode(zoneCode);
   };
