@@ -26,6 +26,10 @@ const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
     alert(`템플릿 이름: ${temp}, 선택 년도: ${year}, 저장 페이지: ${page}`);
   };
 
+  const handleGotoOrder = () => {
+    nevigate(`/${nansu}/order`);
+  };
+
   return (
     <EditorTop>
       <EditorTextButton white onClick={handleClickBackBtn}>
@@ -35,7 +39,7 @@ const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
         <EditorTextButton red onClick={handleTestClick}>
           저장
         </EditorTextButton>
-        <EditorTextButton white>
+        <EditorTextButton white onClick={handleGotoOrder}>
           <BsCartPlus />
         </EditorTextButton>
       </div>

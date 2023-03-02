@@ -1,4 +1,4 @@
-import ListMainTemplate from 'components/list/ListMainTemplate';
+import PBody from 'components/common/PBody';
 import SelectYear from 'components/list/SelectYear';
 import TempList from 'components/list/TempList';
 import { useEffect, useState } from 'react';
@@ -24,7 +24,7 @@ const ListMainSection = ({ year }: { year?: string | null }) => {
   };
 
   return (
-    <ListMainTemplate>
+    <PBody>
       {!year ? (
         <SelectYear
           onChange={handleChangeYears}
@@ -33,7 +33,7 @@ const ListMainSection = ({ year }: { year?: string | null }) => {
       ) : (
         <TempList />
       )}
-    </ListMainTemplate>
+    </PBody>
   );
 };
 
