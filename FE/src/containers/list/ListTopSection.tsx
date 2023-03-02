@@ -1,5 +1,5 @@
+import Top from 'components/common/Top';
 import { EditorIconButton } from 'components/editor/EditorButtons';
-import ListTop from 'components/list/ListTop';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
@@ -19,12 +19,12 @@ const ListTopSection = ({ temp }: { temp: string | null }) => {
   };
 
   return (
-    <ListTop>
+    <Top>
       <EditorIconButton onClick={handleClickBackBtn}>
         <MdArrowBackIos />
       </EditorIconButton>
       {temp}
-    </ListTop>
+    </Top>
   );
 };
 
