@@ -2,6 +2,7 @@ import OrderTemplate, {
   StyledInput,
   StyledSearchBtn,
 } from 'components/order/OrderTemplate';
+import { PostCodeProps } from 'interface/order';
 import { useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
@@ -11,13 +12,7 @@ const OrderFormSection = () => {
 
   const open = useDaumPostcodePopup();
 
-  const handleComplete = (data: {
-    address: string;
-    zonecode: string;
-    addressType: string;
-    bname: string;
-    buildingName: string;
-  }) => {
+  const handleComplete = (data: PostCodeProps) => {
     console.log(data);
     let fullAddress = data.address;
     const zoneCode = data.zonecode;
