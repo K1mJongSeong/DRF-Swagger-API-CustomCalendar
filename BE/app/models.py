@@ -7,6 +7,13 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+class Image(models.Model):
+    image_file = models.ImageField(upload_to='images/')
+
+    class Meta:
+        managed = False
+        db_table = 'image'
+
 class MyModel(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -72,6 +79,11 @@ class Calendar(models.Model):
     template_name = models.CharField(max_length=20, blank=True, null=True)
     years = models.CharField(max_length=20, blank=True, null=True)
     month = models.CharField(max_length=20, blank=True, null=True)
+    nansu = models.CharField(max_length=100, blank=True, null=True)
+    def save(self, *args, **kwargs):
+        if self.nansu is None or self.nansu == "":
+            self.nansu = Nansu.objects.all()
+        super().save(*args, **kwargs)
 
     class Meta:
         managed = True
@@ -135,7 +147,6 @@ class JanBack(models.Model):
     class Meta:
         managed = True
         db_table = 'jan_back'
-
 
 class JanFront(models.Model):
     jan_seq = models.IntegerField(primary_key=True)
@@ -233,6 +244,7 @@ class Nansu(models.Model):
     nansu_state = models.CharField(max_length=100, blank=True, null=True)
     permission = models.IntegerField(blank=True, null=True)
 
+    related_nansu = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='calendar')
     class Meta:
         managed = True
         db_table = 'nansu'
@@ -291,7 +303,7 @@ class Order(models.Model):
     user_name = models.CharField(max_length=20)
     user_phone = models.CharField(max_length=20)
     address = models.CharField(max_length=45)
-    order_num = models.IntegerField(blank=True, null=True)
+    nansu = models.IntegerField(blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True)
     order_seq = models.IntegerField(primary_key=True)
     order_date = models.DateTimeField(blank=True, null=True)
