@@ -1,5 +1,5 @@
 import PBody from 'components/common/PBody';
-import OrderTemplate from 'components/order/OrderTemplate';
+import OrderFormSection from './OrderFormSection';
 import OrderTopSection from './OrderTopSection';
 
 const OrderContainer = () => {
@@ -7,9 +7,7 @@ const OrderContainer = () => {
     <>
       <OrderTopSection />
       <PBody>
-        <OrderTemplate>
-          <>예시</>
-        </OrderTemplate>
+        <OrderFormSection />
       </PBody>
     </>
   );
