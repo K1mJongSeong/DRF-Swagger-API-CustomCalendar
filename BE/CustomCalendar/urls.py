@@ -1,10 +1,15 @@
 from django.contrib import admin
 from django.urls import path ,include
+from django.conf.urls.static import static
+from django.conf import settings
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
+from rest_framework import routers
+from rest_framework.decorators import api_view
+from rest_framework_swagger.views import get_swagger_view
 from app import views
-from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView
+from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView, SwaggerSchemaView
 from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, MonthAPI
 
 schema_view = get_schema_view(
@@ -17,6 +22,10 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(AllowAny,),
 ) #Swagger API문서 스키마
+
+router = routers.DefaultRouter()
+router.register(r'images', ImageView)
+
 
 urlpatterns = [
     path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -59,6 +68,8 @@ urlpatterns = [
     path('DecBack/',DecBack.as_view()),
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
-    path('images/', ImageView.as_view(), name='image-list'),
+    path('Imagesss/',include(router.urls)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

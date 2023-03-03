@@ -4,7 +4,7 @@ from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFro
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'image_file')
+        fields = '__all__'
 
 class NansuSerializer(serializers.ModelSerializer):
     class Meta:

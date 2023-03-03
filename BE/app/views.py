@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view #api
-from rest_framework import status, generics
+from rest_framework_swagger.renderers import SwaggerUIRenderer
+from rest_framework.decorators import api_view, renderer_classes #api
+from rest_framework import status, generics, viewsets
+from rest_framework.parsers import FileUploadParser
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover
+from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer
 
 def index(request):
@@ -700,18 +702,68 @@ class NansuUrlDetail(APIView):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class ImageView(APIView):
-    @swagger_auto_schema( #Nansu POST API 성공.
-            operation_summary='Image POST API',
-            operation_description='이미지가 sever path에 저장됩니다.'
+@renderer_classes([SwaggerUIRenderer])
+class SwaggerSchemaView(APIView):
+    def get(self, request):
+        schema_url = reverse('schema-json')
+        extra_forms = [
+            {
+                "name": "file",
+                "in": "formData",
+                "required": True,
+                "type": "file"
+            }
+        ]
+        return Response(
+            {
+                "openapi": "3.0.0",
+                "info": {"title": "My API", "version": "1.0.0"},
+                "paths": {},
+                "components": {"schemas": {}},
+                "x-extra-forms": extra_forms,
+            },
+            template_name="swagger-ui.html",
         )
-    def post(self, request, format=None):
-        serializer = ImageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ImageView(viewsets.ModelViewSet):
+    serializer_class = ImageSerializer
+    queryset = Image.objects.all()
+    parsers_class = [FileUploadParser]
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'file': openapi.Schema(type=openapi.TYPE_STRING, format='binary')
+            }
+        ),
+        responses={
+            status.HTTP_201_CREATED: ImageSerializer(),
+            status.HTTP_400_BAD_REQUEST: "Error"
+        },
+        operation_summary="Upload Image",
+        operation_description="Upload an image file",
+    )
+    def create(self, request, *args, **kwargs):
+        file_serializer = self.get_serializer(data=request.data)
+
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class ImageView(APIView):
+#     parsers_class = (FileUploadParser,)
+#     @swagger_auto_schema(
+#             operation_summary='Image POST API',
+#             operation_description='이미지가 sever path에 저장됩니다.'
+#         )
+#     def post(self, request, format=None):
+#         serializer = ImageSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class OrderUrlDetail(generics.CreateAPIView):
     serializer_class = OrderSerializer

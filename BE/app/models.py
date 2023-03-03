@@ -8,11 +8,20 @@
 from django.db import models
 
 class Image(models.Model):
-    image_file = models.ImageField(upload_to='images/')
+    title = models.CharField(primary_key=True, max_length=20)
+    image = models.ImageField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'image'
+
+# class AppImage(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     image_file = models.CharField(max_length=100)
+
+#     class Meta:
+#         managed = False
+#         db_table = 'app_image'
 
 class MyModel(models.Model):
     name = models.CharField(max_length=200)
