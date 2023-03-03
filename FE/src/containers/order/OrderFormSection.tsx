@@ -8,7 +8,7 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { changeFieldOrderForm } from 'reducer/order';
 import { RootState } from 'store';
 
-const OrderFormSection = () => {
+const OrderFormSection = ({ onClick }: { onClick: () => void }) => {
   const { orderInfo } = useAppSelector((state: RootState) => state.order);
   const dispatch = useAppDispatch();
 
@@ -67,8 +67,9 @@ const OrderFormSection = () => {
     e.preventDefault();
     open({ onComplete: handleComplete });
   };
+
   return (
-    <OrderTemplate title="주문접수">
+    <OrderTemplate title="주문접수" onClick={onClick}>
       <form>
         <label>성명</label>
         <StyledInput

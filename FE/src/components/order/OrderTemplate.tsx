@@ -4,15 +4,17 @@ import styled from 'styled-components';
 const OrderTemplate = ({
   children,
   title,
+  onClick,
 }: {
   children: React.ReactNode;
   title: string;
+  onClick?: () => void;
 }) => {
   return (
     <OrderTemplateBlock>
       <h2>{title}</h2>
       {children}
-      <Button $fullWidth $red>
+      <Button $fullWidth $red onClick={onClick}>
         {title === '주문접수' ? '주문' : '확인'}
       </Button>
     </OrderTemplateBlock>
