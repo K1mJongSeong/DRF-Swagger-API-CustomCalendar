@@ -12,7 +12,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<IndexPage />} path="/" />
-        <Route element={<PrivateRoute authentication={false} />}>
+        <Route element={<PrivateRoute authentication={true} />}>
           <Route element={<MainPage />} path="/:nansu" />
           <Route element={<EditListPage />} path="/:nansu/list" />
           <Route element={<EditorPage />} path="/:nansu/editor" />

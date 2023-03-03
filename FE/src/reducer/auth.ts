@@ -3,8 +3,14 @@ import client from 'lib/api/client';
 
 export interface AuthState {
   loading: boolean;
-  result: any;
-  error: any;
+  result: {
+    nansu_seq: number;
+    nansu: string;
+    nansu_state: string;
+    permission: number | null;
+    related_nansu: null;
+  } | null;
+  error: string | null | undefined;
 }
 
 const initialState: AuthState = {
@@ -39,7 +45,7 @@ const authSlice = createSlice({
     });
     builder.addCase(getVerifyNansu.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error;
+      state.error = action.error.message;
     });
   },
 });
