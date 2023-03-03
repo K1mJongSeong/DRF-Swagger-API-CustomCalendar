@@ -9,18 +9,20 @@ import OrderPage from 'pages/orderPage';
 
 const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<IndexPage />} path="/" />
-        <Route element={<PrivateRoute authentication={false} />}>
-          <Route element={<MainPage />} path="/:nansu" />
-          <Route element={<EditListPage />} path="/:nansu/list" />
-          <Route element={<EditorPage />} path="/:nansu/editor" />
-          <Route element={<OrderPage />} path="/:nansu/order" />
-        </Route>
-        <Route path="/*" element={<Error404 />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<IndexPage />} path="/" />
+          <Route element={<PrivateRoute authentication={true} />}>
+            <Route element={<MainPage />} path="/:nansu" />
+            <Route element={<EditListPage />} path="/:nansu/list" />
+            <Route element={<EditorPage />} path="/:nansu/editor" />
+            <Route element={<OrderPage />} path="/:nansu/order" />
+          </Route>
+          <Route path="/*" element={<Error404 />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 

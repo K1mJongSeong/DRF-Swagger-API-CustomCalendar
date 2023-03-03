@@ -8,7 +8,7 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { changeFieldOrderForm } from 'reducer/order';
 import { RootState } from 'store';
 
-const OrderFormSection = () => {
+const OrderFormSection = ({ onClick }: { onClick: () => void }) => {
   const { orderInfo } = useAppSelector((state: RootState) => state.order);
   const dispatch = useAppDispatch();
 
@@ -21,7 +21,7 @@ const OrderFormSection = () => {
     const numCheck = /^[0-9]+$/;
 
     if (name === 'userPhone' && !numCheck.test(value))
-      return alert('숫자만 입력하세요.');
+      if (value) return alert('숫자만 입력하세요.');
 
     dispatch(
       changeFieldOrderForm({
@@ -67,8 +67,9 @@ const OrderFormSection = () => {
     e.preventDefault();
     open({ onComplete: handleComplete });
   };
+
   return (
-    <OrderTemplate title="주문접수">
+    <OrderTemplate title="주문접수" onClick={onClick}>
       <form>
         <label>성명</label>
         <StyledInput
@@ -91,7 +92,7 @@ const OrderFormSection = () => {
           <StyledInput
             name="postCode"
             autoComplete="postCode"
-            placeholder="유편번호"
+            placeholder="우편번호"
             value={postCode ? postCode : ''}
             onChange={handleChangeOrderFormField}
             readOnly

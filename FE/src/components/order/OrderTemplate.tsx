@@ -4,15 +4,17 @@ import styled from 'styled-components';
 const OrderTemplate = ({
   children,
   title,
+  onClick,
 }: {
   children: React.ReactNode;
   title: string;
+  onClick?: () => void;
 }) => {
   return (
     <OrderTemplateBlock>
       <h2>{title}</h2>
       {children}
-      <Button $fullWidth $red>
+      <Button $fullWidth $red onClick={onClick}>
         {title === '주문접수' ? '주문' : '확인'}
       </Button>
     </OrderTemplateBlock>
@@ -45,6 +47,23 @@ const OrderTemplateBlock = styled.div`
 
   & > button {
     margin-top: 25px;
+  }
+  .order_done_con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    word-break: keep-all;
+    h2 {
+      font-size: 1.125rem;
+      font-weight: 900;
+      span {
+        color: #e64c66;
+      }
+    }
+    p {
+      margin-bottom: 1rem;
+    }
   }
 `;
 

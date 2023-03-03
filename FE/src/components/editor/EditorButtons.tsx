@@ -22,6 +22,7 @@ const buttonStyle = css`
   justify-content: center;
   border: none;
   outline: none;
+  color: black;
   &:focus {
     outline: none;
   }

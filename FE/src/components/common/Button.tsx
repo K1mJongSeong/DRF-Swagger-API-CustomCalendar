@@ -9,6 +9,8 @@ interface ButtonProps {
   $navi?: boolean;
   $borderBtn?: boolean;
   $borderRedBtn?: boolean;
+  $blue?: boolean;
+  $gray?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -64,6 +66,26 @@ const buttonStyle = css`
       color: white;
       &:hover {
         background-color: #345087;
+        opacity: 0.7;
+      }
+    `}
+  ${(props: ButtonProps) =>
+    props.$blue &&
+    css`
+      background-color: #495bff;
+      color: white;
+      &:hover {
+        background-color: #495bff;
+        opacity: 0.7;
+      }
+    `}
+  ${(props: ButtonProps) =>
+    props.$gray &&
+    css`
+      background-color: #ccc;
+      color: white;
+      &:hover {
+        background-color: #ccc;
         opacity: 0.7;
       }
     `}

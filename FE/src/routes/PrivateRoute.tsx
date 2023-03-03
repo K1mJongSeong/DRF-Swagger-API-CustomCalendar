@@ -1,5 +1,7 @@
-import { ReactElement } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { ReactElement, useEffect, useState } from 'react';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
+import { getVerifyNansu } from 'reducer/auth';
 
 interface PrivateRouteProps {
   children?: ReactElement; // Router.tsx에서 PrivateRoute가 감싸고 있는 Componet Element
@@ -9,30 +11,39 @@ interface PrivateRouteProps {
 export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
-  /**
-   * 로그인 했는지 여부
-   * 로그인 했을 경우 : true 라는 텍스트 반환
-   * 로그인 안했을 경우 : null or false(로그아웃 버튼 눌렀을경우 false로 설정) 반환
-   */
-  const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+  const { result, error } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const { nansu } = params;
+
+  // const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(getVerifyNansu(nansu as string));
+  }, []);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      setIsAuthenticated(false);
+      return;
+    }
+
+    if (result) {
+      if (result?.nansu_state === '정상') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    }
+  }, [result, error]);
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지
-
-    // 인증을 안했을 경우 로그인 페이지로, 했을 경우 해당 페이지로
-    return isAuthenticated === null || isAuthenticated === 'false' ? (
-      <Navigate to="/" />
-    ) : (
-      <Outlet />
-    );
+    return !isAuthenticated ? <Navigate to="/" /> : <Outlet />;
   } else {
     // 인증이 반드시 필요 없는 페이지
-
-    // 인증을 안햇을 경우 해당 페이지로 인증을 한 상태일 경우 main페이지로
-    return isAuthenticated === null || isAuthenticated === 'false' ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/" />
-    );
+    return !isAuthenticated ? <Outlet /> : <Navigate to="/" />;
   }
 }
