@@ -48,6 +48,23 @@ const OrderTemplateBlock = styled.div`
   & > button {
     margin-top: 25px;
   }
+  .order_done_con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    word-break: keep-all;
+    h2 {
+      font-size: 1.125rem;
+      font-weight: 900;
+      span {
+        color: #e64c66;
+      }
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 export const StyledInput = styled.input`
