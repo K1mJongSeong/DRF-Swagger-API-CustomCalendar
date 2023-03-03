@@ -1,5 +1,7 @@
-import { ReactElement } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useAppDispatch } from 'hooks';
+import { ReactElement, useEffect } from 'react';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
+import { getVerifyNansu } from 'reducer/auth';
 
 interface PrivateRouteProps {
   children?: ReactElement; // Router.tsx에서 PrivateRoute가 감싸고 있는 Componet Element
@@ -9,7 +11,15 @@ interface PrivateRouteProps {
 export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const { nansu } = params;
+
   const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+
+  useEffect(() => {
+    dispatch(getVerifyNansu(nansu as string));
+  }, []);
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지
