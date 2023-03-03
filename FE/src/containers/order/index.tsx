@@ -28,6 +28,10 @@ const OrderContainer = () => {
   }, [searchParams]);
 
   const handleOpenModal = () => {
+    if (!userName) return alert('성명을 입력해주세요.');
+    if (!userPhone) return alert('연락처를 입력해주세요.');
+    if (!postCode || !address) return alert('주소를 입력해주세요.');
+    if (!detailAddress) return alert('상세주소를 입력해주세요.');
     setModalOpen(true);
   };
 
@@ -37,8 +41,13 @@ const OrderContainer = () => {
 
   const handleSubmitOrderInfo = () => {
     setModalOpen(false);
+
     navigate(`/${nansu}/order?isOrdered=true`);
     console.log(userName, userPhone, postCode, address, detailAddress);
+  };
+
+  const handleCompleteOrder = () => {
+    navigate('/');
   };
 
   return (
@@ -48,7 +57,7 @@ const OrderContainer = () => {
         {!isOrdered ? (
           <OrderFormSection onClick={handleOpenModal} />
         ) : (
-          <OrderConfirmSection />
+          <OrderConfirmSection onClick={handleCompleteOrder} />
         )}
         {modalOpen && (
           <ConfirmOrderModal

@@ -21,7 +21,7 @@ const OrderFormSection = ({ onClick }: { onClick: () => void }) => {
     const numCheck = /^[0-9]+$/;
 
     if (name === 'userPhone' && !numCheck.test(value))
-      return alert('숫자만 입력하세요.');
+      if (value) return alert('숫자만 입력하세요.');
 
     dispatch(
       changeFieldOrderForm({
@@ -92,7 +92,7 @@ const OrderFormSection = ({ onClick }: { onClick: () => void }) => {
           <StyledInput
             name="postCode"
             autoComplete="postCode"
-            placeholder="유편번호"
+            placeholder="우편번호"
             value={postCode ? postCode : ''}
             onChange={handleChangeOrderFormField}
             readOnly
