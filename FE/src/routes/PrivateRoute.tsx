@@ -11,25 +11,33 @@ interface PrivateRouteProps {
 export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
-  const { result } = useAppSelector((state) => state.auth);
+  const { result, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const params = useParams();
   const { nansu } = params;
 
   // const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getVerifyNansu(nansu as string));
   }, []);
 
   useEffect(() => {
-    if (result?.nansu_state === '정상') {
-      setIsAuthenticated(true);
-    } else {
+    if (error) {
+      alert(error);
       setIsAuthenticated(false);
+      return;
     }
-  }, [result]);
+
+    if (result) {
+      if (result?.nansu_state === '정상') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    }
+  }, [result, error]);
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지
