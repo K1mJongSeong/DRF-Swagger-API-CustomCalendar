@@ -59,8 +59,19 @@ const EditorItem = ({ item, onClick }: ItemProps) => {
 };
 
 const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+  const { imgs, selectedId } = useAppSelector(
+    (state: RootState) => state.images,
+  );
   const [hadImg, setHadImg] = useState<boolean>(false);
-  const { imgs } = useAppSelector((state: RootState) => state.images);
+  const [isSelect, setIsSelect] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (selectedId === img.cId) {
+      setIsSelect(true);
+    } else {
+      setIsSelect(false);
+    }
+  }, [selectedId]);
 
   useEffect(() => {
     imgs.forEach((el) => {
@@ -76,7 +87,7 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   return (
     <div
       onClick={() => handleClickImg(img.cId)}
-      className="ctrl_handler"
+      className={isSelect ? 'ctrl_handler select' : 'ctrl_handler'}
       style={{
         width: img.w,
         height: img.h,
@@ -148,6 +159,9 @@ const EditorConWrapBlock = styled.div`
           justify-content: center;
           font-size: 2rem;
           cursor: pointer;
+          &.select {
+            border: 1px solid #e64c66;
+          }
         }
       }
 

@@ -35,7 +35,7 @@ export interface ItemProps {
       t?: string;
     }>;
   };
-  onClick?: (cId: number) => void;
+  onClick?: (cId: number, hadImg?: boolean) => void;
 }
 
 export interface ImgBlockProps {

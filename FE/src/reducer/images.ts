@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ImagesState {
   imgs: Array<{ id: number; imgUrl: string }>;
+  selectedId: number | null;
 }
 
 const initialState: ImagesState = {
   imgs: [],
+  selectedId: null,
 };
 
 export const imagesSlice = createSlice({
@@ -25,8 +27,11 @@ export const imagesSlice = createSlice({
       });
       state.imgs.push(action.payload);
     },
+    selectId: (state, action: PayloadAction<number | null>) => {
+      state.selectedId = action.payload;
+    },
   },
 });
 
-export const { updateImg } = imagesSlice.actions;
+export const { updateImg, selectId } = imagesSlice.actions;
 export default imagesSlice.reducer;
