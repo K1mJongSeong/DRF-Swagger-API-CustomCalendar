@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'drf_yasg',
+    'corsheaders',
     'app.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,7 +129,14 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'_media')
+
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+	# 허용할 Origin 추가
+    "http://localhost:3000",
+    "http://121.254.171.155:3002",
+]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 

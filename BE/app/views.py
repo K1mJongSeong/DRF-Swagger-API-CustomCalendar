@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework_swagger.renderers import SwaggerUIRenderer
 from rest_framework.decorators import api_view, renderer_classes #api
 from rest_framework import status, generics, viewsets
-from rest_framework.parsers import FileUploadParser
-from drf_yasg.utils import swagger_auto_schema
+from rest_framework.parsers import FileUploadParser,MultiPartParser, FormParser
+from drf_yasg.utils import swagger_auto_schema, force_serializer_instance
 from drf_yasg import openapi
 from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer
@@ -725,45 +725,11 @@ class SwaggerSchemaView(APIView):
             template_name="swagger-ui.html",
         )
 
-class ImageView(viewsets.ModelViewSet):
+
+class ImageView(generics.CreateAPIView): #이미지 POST API
+    parser_classes = [MultiPartParser, FormParser]
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
-    parsers_class = [FileUploadParser]
-
-    @swagger_auto_schema(
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'file': openapi.Schema(type=openapi.TYPE_STRING, format='binary')
-            }
-        ),
-        responses={
-            status.HTTP_201_CREATED: ImageSerializer(),
-            status.HTTP_400_BAD_REQUEST: "Error"
-        },
-        operation_summary="Upload Image",
-        operation_description="Upload an image file",
-    )
-    def create(self, request, *args, **kwargs):
-        file_serializer = self.get_serializer(data=request.data)
-
-        if file_serializer.is_valid():
-            file_serializer.save()
-            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# class ImageView(APIView):
-#     parsers_class = (FileUploadParser,)
-#     @swagger_auto_schema(
-#             operation_summary='Image POST API',
-#             operation_description='이미지가 sever path에 저장됩니다.'
-#         )
-#     def post(self, request, format=None):
-#         serializer = ImageSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class OrderUrlDetail(generics.CreateAPIView):
     serializer_class = OrderSerializer
@@ -775,14 +741,17 @@ class CalendarUrlDetail(APIView):
         )
     def get_object(self, calendar):
         try:
-            return Calendar.objects.get(calendar_seq=calendar)
+            return Calendar.objects.prefetch_related('nansu').get(calendar_seq=calendar)
         except Calendar.DoesNotExist:
             raise Http404
 
     def get(self, request, calendar):
-        calendarUrl = self.get_object(calendar)
-        serializer = CalendarSerializer(calendarUrl)
-        return Response(serializer.data)
+        calendar_url = self.get_object(calendar)
+        serializer = CalendarSerializer(calendar_url)
+        nansu_serializer = NansuSerializer(calendar_url.nansu)
+        response_data = serializer.data
+        response_data['nansu'] = nansu_serializer.data
+        return Response(response_data)
 
     def post(self, request, calendar):
         serializer = Serializer(data=request.data)
