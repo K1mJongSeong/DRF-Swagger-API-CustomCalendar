@@ -1,7 +1,6 @@
 import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { useState } from 'react';
 import { EditorConProps, ItemProps } from 'interface/editor';
 
 const EditorConWrap = (props: EditorConProps) => {
@@ -14,6 +13,7 @@ const EditorConWrap = (props: EditorConProps) => {
     Thumbs,
     swiperRef,
     onSwiper,
+    onClickImage,
   } = props;
 
   return (
@@ -29,7 +29,7 @@ const EditorConWrap = (props: EditorConProps) => {
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>
-            <EditorItem item={item} />
+            <EditorItem item={item} onClick={onClickImage} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -37,38 +37,17 @@ const EditorConWrap = (props: EditorConProps) => {
   );
 };
 
-const EditorItem = ({ item }: ItemProps) => {
-  const [imgFile, setImgFile] = useState<string | ArrayBuffer | null>('');
-
-  const onClick = (cId: number) => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', '.jpg, .png');
-    input.click();
-
-    console.log(cId);
-
-    input.onchange = async () => {
-      const files = input.files;
-      if (files) {
-        const file = files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setImgFile(reader.result);
-          console.log(imgFile);
-        };
-        console.log(imgFile);
-      }
-    };
+const EditorItem = ({ item, onClick }: ItemProps) => {
+  const handleClickImg = (cId: number) => {
+    if (!onClick) return;
+    onClick(cId);
   };
-
   return (
     <div className="item">
       <div className="ctrl_wrap">
         {item.ctrlItems?.map((ci, idx) => (
           <div
-            onClick={() => onClick(ci.cId)}
+            onClick={() => handleClickImg(ci.cId)}
             key={idx}
             className="ctrl_handler"
             style={{

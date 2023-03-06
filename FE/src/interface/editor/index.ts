@@ -19,6 +19,7 @@ export interface EditorConProps {
   Thumbs: SwiperModule;
   swiperRef: React.Ref<SwiperRef> | undefined;
   onSwiper: (idx: number) => void;
+  onClickImage: (cId: number) => void;
 }
 
 export interface ItemProps {
@@ -34,4 +35,5 @@ export interface ItemProps {
       t?: string;
     }>;
   };
+  onClick?: (cId: number) => void;
 }

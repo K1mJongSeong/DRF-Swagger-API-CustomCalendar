@@ -17,7 +17,7 @@ export default function PrivateRoute({
   const { nansu } = params;
 
   // const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(getVerifyNansu(nansu as string));
@@ -25,7 +25,7 @@ export default function PrivateRoute({
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      console.error(error);
       setIsAuthenticated(false);
       return;
     }

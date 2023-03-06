@@ -16,6 +16,7 @@ import 'swiper/css/thumbs';
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper';
+import client from 'lib/api/client';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -39,6 +40,28 @@ const EditorContainer = () => {
     swiperRef.current?.swiper.slideTo((page as unknown as number) - 1, 1000);
   }, [page]);
 
+  const handleClickImage = (cId: number) => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', '.jpg, .png');
+    input.click();
+
+    input.onchange = async () => {
+      const files = input.files;
+      const formData = new FormData();
+
+      if (!files) return;
+      formData.append('image', files[0]);
+      const res = await client.post('/Image/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(res.data.image);
+    };
+  };
+
   return (
     <>
       <EditorTopSection>
@@ -60,6 +83,7 @@ const EditorContainer = () => {
         Thumbs={Thumbs}
         swiperRef={swiperRef}
         onSwiper={handleChangeSlidePage}
+        onClickImage={handleClickImage}
       />
     </>
   );
