@@ -1,7 +1,10 @@
 import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { EditorConProps, ItemProps } from 'interface/editor';
+import { EditorConProps, ImgBlockProps, ItemProps } from 'interface/editor';
+import { useRef, useEffect } from 'react';
+import { useAppSelector } from 'hooks';
+import { RootState } from 'store';
 
 const EditorConWrap = (props: EditorConProps) => {
   const {
@@ -38,46 +41,69 @@ const EditorConWrap = (props: EditorConProps) => {
 };
 
 const EditorItem = ({ item, onClick }: ItemProps) => {
-  const handleClickImg = (cId: number) => {
-    if (!onClick) return;
-    onClick(cId);
-  };
   return (
     <div className="item">
       <div className="ctrl_wrap">
         {item.ctrlItems?.map((ci, idx) => (
-          <div
-            onClick={() => handleClickImg(ci.cId)}
-            key={idx}
-            className="ctrl_handler"
-            style={{
-              width: ci.w,
-              height: ci.h,
-              top: ci.t,
-              left: ci.l,
-            }}
-          >
-            <FcPlus />
-          </div>
+          <CtrlBlock onClick={onClick} img={ci} key={idx} />
         ))}
       </div>
       <div className="page_wrap">
         {item.ctrlItems?.map((ci, idx) => (
-          <div
-            key={idx}
-            id={`view_${ci.cId}`}
-            className="img_viewer"
-            style={{
-              width: ci.w,
-              height: ci.h,
-              top: ci.t,
-              left: ci.l,
-            }}
-          ></div>
+          <ImgBlock key={idx} img={ci} />
         ))}
         <img src={item?.tempSrc} />
       </div>
     </div>
+  );
+};
+
+const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+  const handleClickImg = (cId: number) => {
+    if (!onClick) return;
+    onClick(cId);
+  };
+
+  return (
+    <div
+      onClick={() => handleClickImg(img.cId)}
+      className="ctrl_handler"
+      style={{
+        width: img.w,
+        height: img.h,
+        top: img.t,
+        left: img.l,
+      }}
+    >
+      <FcPlus />
+    </div>
+  );
+};
+const ImgBlock = ({ img }: ImgBlockProps) => {
+  const { imgs } = useAppSelector((state: RootState) => state.images);
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    imgs.forEach((el) => {
+      console.log(el);
+      if (el.id === img.cId)
+        ref.current!.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+    });
+  }, [imgs]);
+
+  return (
+    <div
+      ref={ref}
+      id={`${img.cId}`}
+      className="img_viewer"
+      style={{
+        width: img.w,
+        height: img.h,
+        top: img.t,
+        left: img.l,
+      }}
+    ></div>
   );
 };
 

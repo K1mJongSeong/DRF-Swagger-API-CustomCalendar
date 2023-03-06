@@ -17,6 +17,8 @@ import 'swiper/css/thumbs';
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper';
 import client from 'lib/api/client';
+import { useAppDispatch } from 'hooks';
+import { updateImg } from 'reducer/images';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -31,6 +33,8 @@ const EditorContainer = () => {
   const temp = searchParams?.get('temp');
   const year = searchParams?.get('year');
   const { pathname } = location;
+
+  const dispatch = useAppDispatch();
 
   const handleChangeSlidePage = (idx: number) => {
     navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
@@ -59,6 +63,9 @@ const EditorContainer = () => {
       });
 
       console.log(res.data.image);
+      console.log(cId);
+
+      dispatch(updateImg({ id: cId, imgUrl: res.data.image }));
     };
   };
 

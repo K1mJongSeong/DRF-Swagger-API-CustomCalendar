@@ -1,5 +1,8 @@
 import { Renault } from 'data/template/renault';
-import { EditorTopProps, ItemProps } from 'interface/editor';
+import { useAppSelector } from 'hooks';
+import { EditorTopProps, ImgBlockProps, ItemProps } from 'interface/editor';
+import { useEffect, useRef } from 'react';
+import { RootState } from 'store';
 import styled from 'styled-components';
 
 const EditorTopList = (props: EditorTopProps) => {
@@ -45,21 +48,39 @@ const EditorTopItem = ({ item }: ItemProps) => {
     <>
       <div className="top_view_wrap">
         {item.ctrlItems?.map((ci, idx) => (
-          <div
-            key={idx}
-            className="img_viewer"
-            style={{
-              width: ci.w,
-              height: ci.h,
-              top: ci.t,
-              left: ci.l,
-            }}
-          ></div>
+          <ImgBlock key={idx} img={ci} />
         ))}
         <img src={item?.tempSrc} />
       </div>
       {item?.name}
     </>
+  );
+};
+
+const ImgBlock = ({ img }: ImgBlockProps) => {
+  const { imgs } = useAppSelector((state: RootState) => state.images);
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    imgs.forEach((el) => {
+      console.log(el);
+      if (el.id === img.cId)
+        ref.current!.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+    });
+  }, [imgs]);
+
+  return (
+    <div
+      className="img_viewer"
+      ref={ref}
+      style={{
+        width: img.w,
+        height: img.h,
+        top: img.t,
+        left: img.l,
+      }}
+    ></div>
   );
 };
 

@@ -37,3 +37,14 @@ export interface ItemProps {
   };
   onClick?: (cId: number) => void;
 }
+
+export interface ImgBlockProps {
+  img: {
+    cId: number;
+    w: string;
+    h: string;
+    l: string;
+    t?: string | undefined;
+  };
+  onClick?: (cId: number) => void;
+}
