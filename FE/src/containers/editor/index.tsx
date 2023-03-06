@@ -2,6 +2,7 @@ import EditorConWrap from 'components/editor/EditorConWrap';
 import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
+import VisibleBackLoading from 'components/common/loading/VisibleBack';
 
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -46,6 +47,8 @@ const EditorContainer = () => {
     (state: RootState) => state.images,
   );
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleChangeSlidePage = (idx: number) => {
     navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
     dispatch(selectId(null));
@@ -76,7 +79,7 @@ const EditorContainer = () => {
       input.onchange = async () => {
         const files = input.files;
         const formData = new FormData();
-
+        setLoading(true);
         if (!files) return;
         formData.append('image', files[0]);
         const res = await client.post('/Image/', formData, {
@@ -86,6 +89,7 @@ const EditorContainer = () => {
         });
 
         dispatch(updateImg({ id: cId, imgUrl: res.data.image }));
+        setLoading(false);
       };
     }
   };
@@ -114,6 +118,7 @@ const EditorContainer = () => {
         onClickImage={handleClickImage}
       />
       {selectedId !== null && <EditorBottomSection />}
+      {loading && <VisibleBackLoading />}
     </>
   );
 };
