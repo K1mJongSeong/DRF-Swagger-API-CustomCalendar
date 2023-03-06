@@ -2,7 +2,7 @@ import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
 import { EditorConProps, ImgBlockProps, ItemProps } from 'interface/editor';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks';
 import { RootState } from 'store';
 
@@ -59,6 +59,16 @@ const EditorItem = ({ item, onClick }: ItemProps) => {
 };
 
 const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+  const [hadImg, setHadImg] = useState<boolean>(false);
+  const { imgs } = useAppSelector((state: RootState) => state.images);
+
+  useEffect(() => {
+    imgs.forEach((el) => {
+      console.log(el);
+      if (el.id === img.cId) setHadImg(true);
+    });
+  }, [imgs]);
+
   const handleClickImg = (cId: number) => {
     if (!onClick) return;
     onClick(cId);
@@ -75,7 +85,7 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
         left: img.l,
       }}
     >
-      <FcPlus />
+      {hadImg || <FcPlus />}
     </div>
   );
 };
@@ -87,8 +97,8 @@ const ImgBlock = ({ img }: ImgBlockProps) => {
   useEffect(() => {
     imgs.forEach((el) => {
       console.log(el);
-      if (el.id === img.cId)
-        ref.current!.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+      if (el.id === img.cId && ref.current)
+        ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
     });
   }, [imgs]);
 

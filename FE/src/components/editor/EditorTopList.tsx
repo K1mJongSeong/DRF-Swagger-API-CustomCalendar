@@ -65,8 +65,8 @@ const ImgBlock = ({ img }: ImgBlockProps) => {
   useEffect(() => {
     imgs.forEach((el) => {
       console.log(el);
-      if (el.id === img.cId)
-        ref.current!.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+      if (el.id === img.cId && ref.current)
+        ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
     });
   }, [imgs]);
 
