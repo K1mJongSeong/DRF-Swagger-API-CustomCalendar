@@ -12,15 +12,27 @@ export const imagesSlice = createSlice({
   name: 'images',
   initialState,
   reducers: {
+    uploadImg: (
+      state,
+      action: PayloadAction<{ id: number; imgUrl: string }>,
+    ) => {
+      state.imgs.push(action.payload);
+    },
     updateImg: (
       state,
       action: PayloadAction<{ id: number; imgUrl: string }>,
     ) => {
-      console.log(action.payload);
+      let Arr = [];
+      state.imgs.forEach((i) => {
+        if (i.id === action.payload.id) {
+          Arr = state.imgs.filter((i) => i.id != action.payload.id);
+          state.imgs = Arr;
+        }
+      });
       state.imgs.push(action.payload);
     },
   },
 });
 
-export const { updateImg } = imagesSlice.actions;
+export const { uploadImg, updateImg } = imagesSlice.actions;
 export default imagesSlice.reducer;

@@ -16,11 +16,16 @@ import 'swiper/css/thumbs';
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper';
+
+// api
 import client from 'lib/api/client';
-import { useAppDispatch } from 'hooks';
-import { updateImg } from 'reducer/images';
+// redux
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { updateImg, uploadImg } from 'reducer/images';
+import { RootState } from 'store';
 
 const EditorContainer = () => {
+  const { imgs } = useAppSelector((state: RootState) => state.images);
   const swiperRef = useRef<SwiperRef>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperTypes.Swiper | null>(
     null,
@@ -61,9 +66,6 @@ const EditorContainer = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      console.log(res.data.image);
-      console.log(cId);
 
       dispatch(updateImg({ id: cId, imgUrl: res.data.image }));
     };
