@@ -12,12 +12,6 @@ export const imagesSlice = createSlice({
   name: 'images',
   initialState,
   reducers: {
-    uploadImg: (
-      state,
-      action: PayloadAction<{ id: number; imgUrl: string }>,
-    ) => {
-      state.imgs.push(action.payload);
-    },
     updateImg: (
       state,
       action: PayloadAction<{ id: number; imgUrl: string }>,
@@ -34,5 +28,5 @@ export const imagesSlice = createSlice({
   },
 });
 
-export const { uploadImg, updateImg } = imagesSlice.actions;
+export const { updateImg } = imagesSlice.actions;
 export default imagesSlice.reducer;

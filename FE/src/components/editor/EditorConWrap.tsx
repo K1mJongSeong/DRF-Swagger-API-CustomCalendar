@@ -103,7 +103,6 @@ const ImgBlock = ({ img }: ImgBlockProps) => {
   return (
     <div
       ref={ref}
-      id={`${img.cId}`}
       className="img_viewer"
       style={{
         width: img.w,

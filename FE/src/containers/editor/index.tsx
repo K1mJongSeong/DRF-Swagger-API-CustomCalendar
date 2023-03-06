@@ -20,12 +20,10 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 // api
 import client from 'lib/api/client';
 // redux
-import { useAppDispatch, useAppSelector } from 'hooks';
-import { updateImg, uploadImg } from 'reducer/images';
-import { RootState } from 'store';
+import { useAppDispatch } from 'hooks';
+import { updateImg } from 'reducer/images';
 
 const EditorContainer = () => {
-  const { imgs } = useAppSelector((state: RootState) => state.images);
   const swiperRef = useRef<SwiperRef>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperTypes.Swiper | null>(
     null,
