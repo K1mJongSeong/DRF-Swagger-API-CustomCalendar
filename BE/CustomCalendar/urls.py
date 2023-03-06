@@ -23,8 +23,8 @@ schema_view = get_schema_view(
     permission_classes=(AllowAny,),
 ) #Swagger API문서 스키마
 
-router = routers.DefaultRouter()
-router.register(r'images', ImageView)
+# router = routers.DefaultRouter()
+# router.register(r'images', ImageViewSet)
 
 
 urlpatterns = [
@@ -68,7 +68,10 @@ urlpatterns = [
     path('DecBack/',DecBack.as_view()),
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
-    path('Imagesss/',include(router.urls)),
+    path('Image/',ImageView.as_view()),
+    #path('Image/',include(router.urls)),
+    #path('api/images/upload/',ImageView.as_view({'post':'create'})),
+    #path('Imagesss/',include(router.urls)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
