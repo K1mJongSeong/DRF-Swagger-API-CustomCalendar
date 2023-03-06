@@ -1,8 +1,10 @@
 import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { useState } from 'react';
-import { EditorConProps, ItemProps } from 'interface/editor';
+import { EditorConProps, ImgBlockProps, ItemProps } from 'interface/editor';
+import { useRef, useEffect, useState } from 'react';
+import { useAppSelector } from 'hooks';
+import { RootState } from 'store';
 
 const EditorConWrap = (props: EditorConProps) => {
   const {
@@ -14,6 +16,7 @@ const EditorConWrap = (props: EditorConProps) => {
     Thumbs,
     swiperRef,
     onSwiper,
+    onClickImage,
   } = props;
 
   return (
@@ -29,7 +32,7 @@ const EditorConWrap = (props: EditorConProps) => {
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>
-            <EditorItem item={item} />
+            <EditorItem item={item} onClick={onClickImage} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -37,68 +40,88 @@ const EditorConWrap = (props: EditorConProps) => {
   );
 };
 
-const EditorItem = ({ item }: ItemProps) => {
-  const [imgFile, setImgFile] = useState<string | ArrayBuffer | null>('');
-
-  const onClick = (cId: number) => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', '.jpg, .png');
-    input.click();
-
-    console.log(cId);
-
-    input.onchange = async () => {
-      const files = input.files;
-      if (files) {
-        const file = files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setImgFile(reader.result);
-          console.log(imgFile);
-        };
-        console.log(imgFile);
-      }
-    };
-  };
-
+const EditorItem = ({ item, onClick }: ItemProps) => {
   return (
     <div className="item">
       <div className="ctrl_wrap">
         {item.ctrlItems?.map((ci, idx) => (
-          <div
-            onClick={() => onClick(ci.cId)}
-            key={idx}
-            className="ctrl_handler"
-            style={{
-              width: ci.w,
-              height: ci.h,
-              top: ci.t,
-              left: ci.l,
-            }}
-          >
-            <FcPlus />
-          </div>
+          <CtrlBlock onClick={onClick} img={ci} key={idx} />
         ))}
       </div>
       <div className="page_wrap">
         {item.ctrlItems?.map((ci, idx) => (
-          <div
-            key={idx}
-            id={`view_${ci.cId}`}
-            className="img_viewer"
-            style={{
-              width: ci.w,
-              height: ci.h,
-              top: ci.t,
-              left: ci.l,
-            }}
-          ></div>
+          <ImgBlock key={idx} img={ci} />
         ))}
         <img src={item?.tempSrc} />
       </div>
     </div>
+  );
+};
+
+const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+  const { imgs, selectedId } = useAppSelector(
+    (state: RootState) => state.images,
+  );
+  const [hadImg, setHadImg] = useState<boolean>(false);
+  const [isSelect, setIsSelect] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (selectedId === img.cId) {
+      setIsSelect(true);
+    } else {
+      setIsSelect(false);
+    }
+  }, [selectedId]);
+
+  useEffect(() => {
+    imgs.forEach((el) => {
+      if (el.id === img.cId) setHadImg(true);
+    });
+  }, [imgs]);
+
+  const handleClickImg = (cId: number) => {
+    if (!onClick) return;
+    onClick(cId);
+  };
+
+  return (
+    <div
+      onClick={() => handleClickImg(img.cId)}
+      className={isSelect ? 'ctrl_handler select' : 'ctrl_handler'}
+      style={{
+        width: img.w,
+        height: img.h,
+        top: img.t,
+        left: img.l,
+      }}
+    >
+      {hadImg || <FcPlus />}
+    </div>
+  );
+};
+const ImgBlock = ({ img }: ImgBlockProps) => {
+  const { imgs } = useAppSelector((state: RootState) => state.images);
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    imgs.forEach((el) => {
+      if (el.id === img.cId && ref.current)
+        ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+    });
+  }, [imgs]);
+
+  return (
+    <div
+      ref={ref}
+      className="img_viewer"
+      style={{
+        width: img.w,
+        height: img.h,
+        top: img.t,
+        left: img.l,
+      }}
+    ></div>
   );
 };
 
@@ -136,6 +159,9 @@ const EditorConWrapBlock = styled.div`
           justify-content: center;
           font-size: 2rem;
           cursor: pointer;
+          &.select {
+            border: 1px solid #e64c66;
+          }
         }
       }
 
