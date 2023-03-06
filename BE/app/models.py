@@ -8,28 +8,12 @@
 from django.db import models
 
 class Image(models.Model):
-    title = models.CharField(primary_key=True, max_length=20)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'image'
 
-# class AppImage(models.Model):
-#     id = models.BigAutoField(primary_key=True)
-#     image_file = models.CharField(max_length=100)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'app_image'
-
-class MyModel(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
 
 class Admin(models.Model):
     admin_seq = models.IntegerField(primary_key=True)
@@ -88,11 +72,7 @@ class Calendar(models.Model):
     template_name = models.CharField(max_length=20, blank=True, null=True)
     years = models.CharField(max_length=20, blank=True, null=True)
     month = models.CharField(max_length=20, blank=True, null=True)
-    nansu = models.CharField(max_length=100, blank=True, null=True)
-    def save(self, *args, **kwargs):
-        if self.nansu is None or self.nansu == "":
-            self.nansu = Nansu.objects.all()
-        super().save(*args, **kwargs)
+    nansu_data = models.ForeignKey("Nansu", on_delete=models.CASCADE, null=True, blank=True, related_name='calendars')
 
     class Meta:
         managed = True
@@ -317,6 +297,8 @@ class Order(models.Model):
     order_seq = models.IntegerField(primary_key=True)
     order_date = models.DateTimeField(blank=True, null=True)
     zipcode = models.IntegerField()
+    postcode = models.CharField(max_length=20)
+    detailAddress = models.CharField(max_length=30)
 
     class Meta:
         managed = False
