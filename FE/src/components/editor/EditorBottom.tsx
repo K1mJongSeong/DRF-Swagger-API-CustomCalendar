@@ -1,7 +1,16 @@
 import styled from 'styled-components';
+import { EditorTextButton } from './EditorButtons';
 
 const EditorBottom = () => {
-  return <EditorBottomBlock>밑에</EditorBottomBlock>;
+  return (
+    <EditorBottomBlock>
+      <div className="editor_bot_ctrl">
+        <EditorTextButton white>사진변경</EditorTextButton>
+        <EditorTextButton white>편집</EditorTextButton>
+        <EditorTextButton white>삭제</EditorTextButton>
+      </div>
+    </EditorBottomBlock>
+  );
 };
 
 const EditorBottomBlock = styled.div`
@@ -13,8 +22,18 @@ const EditorBottomBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   padding: 17px;
+  .editor_bot_ctrl {
+    width: calc(100% - 40px);
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    white-space: nowrap;
+    button {
+      width: 33.333%;
+    }
+  }
 `;
 
 export default EditorBottom;
