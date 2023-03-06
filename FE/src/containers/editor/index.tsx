@@ -1,7 +1,9 @@
 import EditorConWrap from 'components/editor/EditorConWrap';
-import { useEffect, useRef, useState } from 'react';
+import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
+
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 // Import Swiper React components
@@ -23,7 +25,6 @@ import client from 'lib/api/client';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
-import EditorBottom from 'components/editor/EditorBottom';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -47,6 +48,7 @@ const EditorContainer = () => {
 
   const handleChangeSlidePage = (idx: number) => {
     navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
+    dispatch(selectId(null));
   };
 
   useEffect(() => {
@@ -111,7 +113,7 @@ const EditorContainer = () => {
         onSwiper={handleChangeSlidePage}
         onClickImage={handleClickImage}
       />
-      {selectedId && <EditorBottom />}
+      {selectedId !== null && <EditorBottomSection />}
     </>
   );
 };
