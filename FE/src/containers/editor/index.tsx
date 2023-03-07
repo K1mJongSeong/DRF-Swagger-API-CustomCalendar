@@ -63,8 +63,6 @@ const EditorContainer = () => {
     const newArr: Array<number> = [];
     imgs.forEach((i) => {
       newArr.push(i.id);
-      // if (imgArr.includes(i.id)) return;
-      // setImgArr([...imgArr, i.id]);
     });
     setImgArr(newArr);
   }, [imgs]);

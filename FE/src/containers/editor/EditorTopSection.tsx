@@ -5,7 +5,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
+const EditorTopSection = ({ children }: { children?: React.ReactNode }) => {
   const nevigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
