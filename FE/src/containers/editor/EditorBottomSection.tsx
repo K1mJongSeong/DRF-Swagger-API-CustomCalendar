@@ -4,7 +4,11 @@ import client from 'lib/api/client';
 import { updateImg } from 'reducer/images';
 import { RootState } from 'store';
 
-const EditorBottomSection = () => {
+const EditorBottomSection = ({
+  setLoading,
+}: {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { selectedId } = useAppSelector((state: RootState) => state.images);
   const dispatch = useAppDispatch();
 
@@ -17,6 +21,7 @@ const EditorBottomSection = () => {
     input.onchange = async () => {
       const files = input.files;
       const formData = new FormData();
+      setLoading(true);
 
       if (!files) return;
       formData.append('image', files[0]);
@@ -28,6 +33,7 @@ const EditorBottomSection = () => {
 
       if (!selectedId) return;
       dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
+      setLoading(false);
     };
   };
   return <EditorBottom change={handleChangeImage} />;

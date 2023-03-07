@@ -117,7 +117,7 @@ const EditorContainer = () => {
         onSwiper={handleChangeSlidePage}
         onClickImage={handleClickImage}
       />
-      {selectedId !== null && <EditorBottomSection />}
+      {selectedId !== null && <EditorBottomSection setLoading={setLoading} />}
       {loading && <VisibleBackLoading />}
     </>
   );
