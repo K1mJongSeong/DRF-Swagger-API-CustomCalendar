@@ -63,6 +63,9 @@ const ImgBlock = ({ img }: ImgBlockProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
+    ref.current.style.background = 'none';
+
     imgs.forEach((el) => {
       if (el.id === img.cId && ref.current)
         ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;

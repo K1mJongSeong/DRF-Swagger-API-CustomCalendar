@@ -62,7 +62,9 @@ const EditorBottomSection = ({
   return (
     <EditorBottom>
       {isEdit ? (
-        <></>
+        <>
+          <EditorTextButton white>이미지</EditorTextButton>
+        </>
       ) : (
         <>
           <EditorTextButton white onClick={handleChangeImage}>
