@@ -3,9 +3,11 @@ import { EditorTextButton } from './EditorButtons';
 
 const EditorBottom = ({
   onChange,
+  onEdit,
   onDelete,
 }: {
   onChange: () => void;
+  onEdit: () => void;
   onDelete: () => void;
 }) => {
   return (
@@ -14,7 +16,9 @@ const EditorBottom = ({
         <EditorTextButton white onClick={onChange}>
           사진변경
         </EditorTextButton>
-        <EditorTextButton white>편집</EditorTextButton>
+        <EditorTextButton white onClick={onEdit}>
+          편집
+        </EditorTextButton>
         <EditorTextButton white onClick={onDelete}>
           삭제
         </EditorTextButton>

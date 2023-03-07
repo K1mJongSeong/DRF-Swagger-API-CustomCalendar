@@ -1,14 +1,20 @@
 import EditorBottom from 'components/editor/EditorBottom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
+import { useNavigate, useParams } from 'react-router';
 import { deleteImg, selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 
 const EditorBottomSection = ({
   setLoading,
 }: {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const { nansu } = params;
+
   const { selectedId } = useAppSelector((state: RootState) => state.images);
   const dispatch = useAppDispatch();
 
@@ -19,6 +25,7 @@ const EditorBottomSection = ({
     input.click();
 
     input.onchange = async () => {
+      if (!setLoading) return;
       const files = input.files;
       const formData = new FormData();
       setLoading(true);
@@ -37,6 +44,10 @@ const EditorBottomSection = ({
     };
   };
 
+  const handleGotoEdit = () => {
+    navigate(`/${nansu}/editor?isEdit=true`);
+  };
+
   const handleDeleteImage = () => {
     console.log(selectedId);
     dispatch(deleteImg({ selectedId }));
@@ -44,7 +55,11 @@ const EditorBottomSection = ({
   };
 
   return (
-    <EditorBottom onChange={handleChangeImage} onDelete={handleDeleteImage} />
+    <EditorBottom
+      onChange={handleChangeImage}
+      onEdit={handleGotoEdit}
+      onDelete={handleDeleteImage}
+    />
   );
 };
 
