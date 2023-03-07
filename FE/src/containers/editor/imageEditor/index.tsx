@@ -1,3 +1,4 @@
+import ImageEditorCom from 'components/editor/ImageEditor';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
 
@@ -5,7 +6,7 @@ const ImageEditorContainer = () => {
   return (
     <>
       <EditorTopSection />
-      에디터
+      <ImageEditorCom />
       <EditorBottomSection />
     </>
   );
