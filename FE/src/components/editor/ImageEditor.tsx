@@ -1,11 +1,19 @@
 import styled from 'styled-components';
 import ImageEditor from '@toast-ui/react-image-editor';
 
-const ImageEditorCom = () => (
-  <ImageEditorBlock>
-    <ImageEditor cssMaxHeight={500} cssMaxWidth={500} usageStatistics={false} />
-  </ImageEditorBlock>
-);
+const editorOption = {};
+
+const ImageEditorCom = ({
+  editRef,
+}: {
+  editRef: React.MutableRefObject<any>;
+}) => {
+  return (
+    <ImageEditorBlock>
+      <ImageEditor ref={editRef} {...editorOption} />
+    </ImageEditorBlock>
+  );
+};
 
 const ImageEditorBlock = styled.div`
   width: 100%;
