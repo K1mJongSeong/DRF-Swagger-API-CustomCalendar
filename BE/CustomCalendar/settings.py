@@ -137,6 +137,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://121.254.171.155:3002",
 ]
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:3000/",
+    "http://121.254.171.155:3002/"
+)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
