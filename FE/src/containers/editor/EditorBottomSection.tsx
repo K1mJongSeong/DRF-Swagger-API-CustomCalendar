@@ -1,7 +1,9 @@
 import EditorBottom from 'components/editor/EditorBottom';
+import { EditorTextButton } from 'components/editor/EditorButtons';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
 import { useNavigate, useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 import { deleteImg, selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 
@@ -12,8 +14,11 @@ const EditorBottomSection = ({
 }) => {
   const params = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { nansu } = params;
+
+  const isEdit = searchParams?.get('isEdit');
 
   const { selectedId } = useAppSelector((state: RootState) => state.images);
   const dispatch = useAppDispatch();
@@ -55,11 +60,23 @@ const EditorBottomSection = ({
   };
 
   return (
-    <EditorBottom
-      onChange={handleChangeImage}
-      onEdit={handleGotoEdit}
-      onDelete={handleDeleteImage}
-    />
+    <EditorBottom>
+      {isEdit ? (
+        <></>
+      ) : (
+        <>
+          <EditorTextButton white onClick={handleChangeImage}>
+            사진변경
+          </EditorTextButton>
+          <EditorTextButton white onClick={handleGotoEdit}>
+            편집
+          </EditorTextButton>
+          <EditorTextButton white onClick={handleDeleteImage}>
+            삭제
+          </EditorTextButton>
+        </>
+      )}
+    </EditorBottom>
   );
 };
 
