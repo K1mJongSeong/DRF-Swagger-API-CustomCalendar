@@ -1,16 +1,9 @@
 import styled from 'styled-components';
-import { EditorTextButton } from './EditorButtons';
 
-const EditorBottom = ({ change }: { change: () => void }) => {
+const EditorBottom = ({ children }: { children: React.ReactNode }) => {
   return (
     <EditorBottomBlock>
-      <div className="editor_bot_ctrl">
-        <EditorTextButton white onClick={change}>
-          사진변경
-        </EditorTextButton>
-        <EditorTextButton white>편집</EditorTextButton>
-        <EditorTextButton white>삭제</EditorTextButton>
-      </div>
+      <div className="editor_bot_ctrl">{children}</div>
     </EditorBottomBlock>
   );
 };

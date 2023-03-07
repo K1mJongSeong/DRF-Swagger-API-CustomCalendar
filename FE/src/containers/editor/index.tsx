@@ -60,10 +60,11 @@ const EditorContainer = () => {
 
   const [imgArr, setImgArr] = useState<Array<number>>([]);
   useEffect(() => {
+    const newArr: Array<number> = [];
     imgs.forEach((i) => {
-      if (imgArr.includes(i.id)) return;
-      setImgArr([...imgArr, i.id]);
+      newArr.push(i.id);
     });
+    setImgArr(newArr);
   }, [imgs]);
 
   const handleClickImage = (cId: number) => {
@@ -117,7 +118,7 @@ const EditorContainer = () => {
         onSwiper={handleChangeSlidePage}
         onClickImage={handleClickImage}
       />
-      {selectedId !== null && <EditorBottomSection />}
+      {selectedId !== null && <EditorBottomSection setLoading={setLoading} />}
       {loading && <VisibleBackLoading />}
     </>
   );

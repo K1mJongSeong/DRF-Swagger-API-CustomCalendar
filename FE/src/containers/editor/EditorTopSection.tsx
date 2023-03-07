@@ -5,7 +5,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
+const EditorTopSection = ({ children }: { children?: React.ReactNode }) => {
   const nevigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
@@ -32,17 +32,28 @@ const EditorTopSection = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <EditorTop>
-      <EditorTextButton white onClick={handleClickBackBtn}>
-        <MdArrowBackIos />
-      </EditorTextButton>
-      <div className="right">
-        <EditorTextButton red onClick={handleTestClick}>
-          저장
-        </EditorTextButton>
-        <EditorTextButton white onClick={handleGotoOrder}>
-          <BsCartPlus />
-        </EditorTextButton>
-      </div>
+      {isEdit ? (
+        <>
+          <EditorTextButton white onClick={handleClickBackBtn}>
+            취소
+          </EditorTextButton>
+          <EditorTextButton red>적용</EditorTextButton>
+        </>
+      ) : (
+        <>
+          <EditorTextButton white onClick={handleClickBackBtn}>
+            <MdArrowBackIos />
+          </EditorTextButton>
+          <div className="right">
+            <EditorTextButton red onClick={handleTestClick}>
+              저장
+            </EditorTextButton>
+            <EditorTextButton white onClick={handleGotoOrder}>
+              <BsCartPlus />
+            </EditorTextButton>
+          </div>
+        </>
+      )}
       {children}
     </EditorTop>
   );

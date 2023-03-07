@@ -74,8 +74,11 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   }, [selectedId]);
 
   useEffect(() => {
+    setHadImg(false);
     imgs.forEach((el) => {
-      if (el.id === img.cId) setHadImg(true);
+      if (el.id === img.cId) {
+        setHadImg(true);
+      }
     });
   }, [imgs]);
 
@@ -101,20 +104,28 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
 };
 const ImgBlock = ({ img }: ImgBlockProps) => {
   const { imgs } = useAppSelector((state: RootState) => state.images);
+  const [hadImg, setHadImg] = useState<boolean>(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
+    ref.current.style.background = 'none';
+    setHadImg(false);
+
     imgs.forEach((el) => {
-      if (el.id === img.cId && ref.current)
+      if (!ref.current) return;
+      if (el.id === img.cId) {
         ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
+        setHadImg(true);
+      }
     });
   }, [imgs]);
 
   return (
     <div
       ref={ref}
-      className="img_viewer"
+      className={hadImg ? 'img_viewer noBorder' : 'img_viewer'}
       style={{
         width: img.w,
         height: img.h,
@@ -153,7 +164,6 @@ const EditorConWrapBlock = styled.div`
 
         .ctrl_handler {
           position: absolute;
-          border: 1px dashed #999;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -172,6 +182,11 @@ const EditorConWrapBlock = styled.div`
         .img_viewer {
           position: absolute;
           background: inherit;
+          border: 1px dashed #999;
+
+          &.noBorder {
+            border: none;
+          }
         }
       }
     }
