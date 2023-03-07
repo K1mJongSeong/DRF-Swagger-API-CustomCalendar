@@ -74,8 +74,11 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   }, [selectedId]);
 
   useEffect(() => {
+    setHadImg(false);
     imgs.forEach((el) => {
-      if (el.id === img.cId) setHadImg(true);
+      if (el.id === img.cId) {
+        setHadImg(true);
+      }
     });
   }, [imgs]);
 
@@ -106,12 +109,15 @@ const ImgBlock = ({ img }: ImgBlockProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
+    ref.current.style.background = 'none';
+    setHadImg(false);
+
     imgs.forEach((el) => {
-      if (el.id === img.cId && ref.current) {
+      if (!ref.current) return;
+      if (el.id === img.cId) {
         ref.current.style.background = `url(${el.imgUrl}) no-repeat 50% /cover`;
         setHadImg(true);
-      } else {
-        setHadImg(false);
       }
     });
   }, [imgs]);

@@ -27,11 +27,19 @@ export const imagesSlice = createSlice({
       });
       state.imgs.push(action.payload);
     },
+    deleteImg: (
+      state,
+      action: PayloadAction<{ selectedId: number | null }>,
+    ) => {
+      const Arr = state.imgs.filter((i) => i.id != action.payload.selectedId);
+      console.log('arr', Arr);
+      state.imgs = Arr;
+    },
     selectId: (state, action: PayloadAction<number | null>) => {
       state.selectedId = action.payload;
     },
   },
 });
 
-export const { updateImg, selectId } = imagesSlice.actions;
+export const { updateImg, deleteImg, selectId } = imagesSlice.actions;
 export default imagesSlice.reducer;

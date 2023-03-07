@@ -1,7 +1,7 @@
 import EditorBottom from 'components/editor/EditorBottom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
-import { updateImg } from 'reducer/images';
+import { deleteImg, selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 
 const EditorBottomSection = ({
@@ -30,13 +30,22 @@ const EditorBottomSection = ({
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      if (!selectedId) return;
+      console.log(selectedId);
+      if (selectedId === null) return;
       dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
       setLoading(false);
     };
   };
-  return <EditorBottom change={handleChangeImage} />;
+
+  const handleDeleteImage = () => {
+    console.log(selectedId);
+    dispatch(deleteImg({ selectedId }));
+    dispatch(selectId(null));
+  };
+
+  return (
+    <EditorBottom onChange={handleChangeImage} onDelete={handleDeleteImage} />
+  );
 };
 
 export default EditorBottomSection;

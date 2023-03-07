@@ -1,15 +1,23 @@
 import styled from 'styled-components';
 import { EditorTextButton } from './EditorButtons';
 
-const EditorBottom = ({ change }: { change: () => void }) => {
+const EditorBottom = ({
+  onChange,
+  onDelete,
+}: {
+  onChange: () => void;
+  onDelete: () => void;
+}) => {
   return (
     <EditorBottomBlock>
       <div className="editor_bot_ctrl">
-        <EditorTextButton white onClick={change}>
+        <EditorTextButton white onClick={onChange}>
           사진변경
         </EditorTextButton>
         <EditorTextButton white>편집</EditorTextButton>
-        <EditorTextButton white>삭제</EditorTextButton>
+        <EditorTextButton white onClick={onDelete}>
+          삭제
+        </EditorTextButton>
       </div>
     </EditorBottomBlock>
   );
