@@ -32,7 +32,7 @@ STATICFILES_DIRS = [
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*','121.254.171.155']
 #Git에서 clone 후 이 부분 IP를 본인 IP로 바꾸셔야합니다.
 
 # Application definition
