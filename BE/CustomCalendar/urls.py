@@ -42,7 +42,7 @@ urlpatterns = [
     path('NansuUrlDetail/<int:nansu>/', NansuUrlDetail.as_view()),
     path('CalendarUrlDetail/<int:calendar>/',CalendarUrlDetail.as_view()),
     path('Month/<str:month>/',MonthAPI.as_view()),
-    path('JanFront/<int:pk>',JanFront.as_view()),
+    path('JanFront/',JanFront.as_view()),
     path('JanBack/',JanBack.as_view()),
     path('FebFront/',FebFront.as_view()),
     path('FebBack/',FebBack.as_view()),

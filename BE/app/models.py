@@ -28,9 +28,9 @@ class Admin(models.Model):
 
 
 class AprilBack(models.Model):
-    april_seq = models.IntegerField(primary_key=True)
+    april_seq = models.CharField(max_length=100, blank=True, null=True)
     april_memo = models.CharField(max_length=200, blank=True, null=True)
-    april_pic = models.IntegerField(blank=True, null=True)
+    april_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -38,9 +38,9 @@ class AprilBack(models.Model):
 
 
 class AprilFront(models.Model):
-    april_seq = models.IntegerField(primary_key=True)
+    april_seq = models.CharField(max_length=100, blank=True, null=True)
     april_memo = models.CharField(max_length=200, blank=True, null=True)
-    april_pic = models.IntegerField(blank=True, null=True)
+    april_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -48,9 +48,9 @@ class AprilFront(models.Model):
 
 
 class AugBack(models.Model):
-    aug_seq = models.IntegerField(primary_key=True)
+    aug_seq = models.CharField(max_length=100, blank=True, null=True)
     aug_memo = models.CharField(max_length=200, blank=True, null=True)
-    aug_pic = models.IntegerField(blank=True, null=True)
+    aug_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -58,9 +58,9 @@ class AugBack(models.Model):
 
 
 class AugFront(models.Model):
-    aug_seq = models.IntegerField(primary_key=True)
+    aug_seq = models.CharField(max_length=100, blank=True, null=True)
     aug_memo = models.CharField(max_length=200, blank=True, null=True)
-    aug_pic = models.IntegerField(blank=True, null=True)
+    aug_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -80,8 +80,8 @@ class Calendar(models.Model):
 
 
 class Cover(models.Model):
-    cover_seq = models.IntegerField(primary_key=True)
-    cover_pic = models.IntegerField(blank=True, null=True)
+    cover_seq = models.CharField(max_length=100, blank=True, null=True)
+    cover_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -89,9 +89,9 @@ class Cover(models.Model):
 
 
 class DecBack(models.Model):
-    dec_seq = models.IntegerField(primary_key=True)
+    dec_seq = models.CharField(max_length=100, blank=True, null=True)
     dec_memo = models.CharField(max_length=200, blank=True, null=True)
-    dec_pic = models.IntegerField(blank=True, null=True)
+    dec_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -99,9 +99,9 @@ class DecBack(models.Model):
 
 
 class DecFront(models.Model):
-    dec_seq = models.IntegerField(primary_key=True)
+    dec_seq = models.CharField(max_length=100, blank=True, null=True)
     dec_memo = models.CharField(max_length=200, blank=True, null=True)
-    dec_pic = models.IntegerField(blank=True, null=True)
+    dec_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -109,9 +109,9 @@ class DecFront(models.Model):
 
 
 class FebBack(models.Model):
-    feb_seq = models.IntegerField(primary_key=True)
+    feb_seq = models.CharField(max_length=100, blank=True, null=True)
     feb_memo = models.CharField(max_length=200, blank=True, null=True)
-    feb_pic = models.IntegerField(blank=True, null=True)
+    feb_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -119,9 +119,9 @@ class FebBack(models.Model):
 
 
 class FebFront(models.Model):
-    feb_seq = models.IntegerField(primary_key=True)
+    feb_seq = models.CharField(max_length=100, blank=True, null=True)
     feb_memo = models.CharField(max_length=200, blank=True, null=True)
-    feb_pic = models.IntegerField(blank=True, null=True)
+    feb_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -129,18 +129,18 @@ class FebFront(models.Model):
 
 
 class JanBack(models.Model):
-    jan_seq = models.IntegerField(primary_key=True)
+    jan_seq = models.CharField(max_length=100, blank=True, null=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
-    jan_pic = models.IntegerField(blank=True, null=True)
+    jan_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'jan_back'
 
 class JanFront(models.Model):
-    jan_seq = models.IntegerField(primary_key=True)
+    jan_seq = models.CharField(max_length=100, blank=True, null=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
-    jan_pic = models.IntegerField(blank=True, null=True)
+    jan_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -148,9 +148,9 @@ class JanFront(models.Model):
 
 
 class JulyBack(models.Model):
-    july_seq = models.IntegerField(primary_key=True)
+    july_seq = models.CharField(max_length=100, blank=True, null=True)
     july_memo = models.CharField(max_length=200, blank=True, null=True)
-    july_pic = models.IntegerField(blank=True, null=True)
+    july_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -158,9 +158,9 @@ class JulyBack(models.Model):
 
 
 class JulyFront(models.Model):
-    july_seq = models.IntegerField(primary_key=True)
+    july_seq = models.CharField(max_length=100, blank=True, null=True)
     july_memo = models.CharField(max_length=200, blank=True, null=True)
-    july_pic = models.IntegerField(blank=True, null=True)
+    july_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -168,9 +168,9 @@ class JulyFront(models.Model):
 
 
 class JuneBack(models.Model):
-    june_seq = models.IntegerField(primary_key=True)
+    june_seq = models.CharField(max_length=100, blank=True, null=True)
     june_memo = models.CharField(max_length=200, blank=True, null=True)
-    june_picl = models.IntegerField(blank=True, null=True)
+    june_picl = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -178,9 +178,9 @@ class JuneBack(models.Model):
 
 
 class JuneFront(models.Model):
-    june_seq = models.IntegerField(primary_key=True)
+    june_seq = models.CharField(max_length=100, blank=True, null=True)
     june_memo = models.CharField(max_length=200, blank=True, null=True)
-    june_pic = models.IntegerField(blank=True, null=True)
+    june_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -188,9 +188,9 @@ class JuneFront(models.Model):
 
 
 class MarBack(models.Model):
-    mar_seq = models.IntegerField(primary_key=True)
+    mar_seq = models.CharField(max_length=100, blank=True, null=True)
     mar_memo = models.CharField(max_length=200, blank=True, null=True)
-    mar_pic = models.IntegerField(blank=True, null=True)
+    mar_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -198,9 +198,9 @@ class MarBack(models.Model):
 
 
 class MarFront(models.Model):
-    mar_seq = models.IntegerField(primary_key=True)
+    mar_seq = models.CharField(max_length=100, blank=True, null=True)
     mar_memo = models.CharField(max_length=200, blank=True, null=True)
-    mar_pic = models.IntegerField(blank=True, null=True)
+    mar_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -208,9 +208,9 @@ class MarFront(models.Model):
 
 
 class MayFront(models.Model):
-    may_seq = models.IntegerField(primary_key=True)
+    may_seq = models.CharField(max_length=100, blank=True, null=True)
     may_memo = models.CharField(max_length=200, blank=True, null=True)
-    may_pic = models.IntegerField(blank=True, null=True)
+    may_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -218,9 +218,9 @@ class MayFront(models.Model):
 
 
 class MayBack(models.Model):
-    may_seq = models.IntegerField(primary_key=True)
+    may_seq = models.CharField(max_length=100, blank=True, null=True)
     may_memo = models.CharField(max_length=200, blank=True, null=True)
-    may_pic = models.IntegerField(blank=True, null=True)
+    may_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -249,9 +249,9 @@ class Notice(models.Model):
 
 
 class NovBack(models.Model):
-    nov_seq = models.IntegerField(primary_key=True)
+    nov_seq = models.CharField(max_length=100, blank=True, null=True)
     nov_memo = models.CharField(max_length=200, blank=True, null=True)
-    nov_pic = models.IntegerField(blank=True, null=True)
+    nov_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -259,9 +259,9 @@ class NovBack(models.Model):
 
 
 class NovFront(models.Model):
-    nov_seq = models.IntegerField(primary_key=True)
+    nov_seq = models.CharField(max_length=100, blank=True, null=True)
     nov_memo = models.CharField(max_length=200, blank=True, null=True)
-    nov_pic = models.IntegerField(blank=True, null=True)
+    nov_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -269,9 +269,9 @@ class NovFront(models.Model):
 
 
 class OctBack(models.Model):
-    oct_seq = models.IntegerField(primary_key=True)
+    oct_seq = models.CharField(max_length=100, blank=True, null=True)
     oct_memo = models.CharField(max_length=200, blank=True, null=True)
-    oct_pic = models.IntegerField(blank=True, null=True)
+    oct_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -279,9 +279,9 @@ class OctBack(models.Model):
 
 
 class OctFront(models.Model):
-    oct_seq = models.IntegerField(primary_key=True)
+    oct_seq = models.CharField(max_length=100, blank=True, null=True)
     oct_memo = models.CharField(max_length=200, blank=True, null=True)
-    oct_pic = models.IntegerField(blank=True, null=True)
+    oct_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -316,9 +316,9 @@ class OrderInfo(models.Model):
 
 
 class SepBack(models.Model):
-    sep_seq = models.IntegerField(primary_key=True)
+    sep_seq = models.CharField(max_length=100, blank=True, null=True)
     sep_memo = models.CharField(max_length=200, blank=True, null=True)
-    sep_pic = models.IntegerField(blank=True, null=True)
+    sep_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
@@ -326,17 +326,17 @@ class SepBack(models.Model):
 
 
 class SepFront(models.Model):
-    sep_seq = models.IntegerField(primary_key=True)
+    sep_seq = models.CharField(max_length=100, blank=True, null=True)
     sep_memo = models.CharField(max_length=200, blank=True, null=True)
-    sep_pic = models.IntegerField(blank=True, null=True)
+    sep_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'sep_front'
 
 class Prolog(models.Model):
-    prolog_seq = models.IntegerField(primary_key=True)
-    prolog_pic = models.IntegerField(blank=True, null=True)
+    prolog_seq = models.CharField(max_length=100, blank=True, null=True)
+    prolog_pic = models.ImageField(max_length=200,blank=True, null=True)
 
     class Meta:
         managed = True
