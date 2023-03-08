@@ -19,6 +19,6 @@ class NansuAdmin(admin.ModelAdmin):
             obj.nansu = str(random.randint(10**(10-1), (10**10)-1))
             obj.save()
         self.message_user(request, f"{queryset.count()} items have been inserted.")
-    insert_random_nansu.short_description = "Insert random value to 'nansu' field"
+    insert_random_nansu.short_description = "난수 생성"
 
 admin.site.register(Nansu, NansuAdmin)
