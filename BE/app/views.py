@@ -225,12 +225,13 @@ class MonthAPI(APIView):
 
 
 class JanFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, FileUploadParser]
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
 
     @swagger_auto_schema(
-        operation_summary='1월 앞 API'
+        operation_summary='1월 앞 API',
+        #request_body=JanFrontSerializer(many=True)
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
