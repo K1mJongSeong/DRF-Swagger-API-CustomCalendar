@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Order, Nansu, OrderInfo, Calendar, Image
+from django.utils.timezone import now
 import random
 
 admin.site.register(Order)
@@ -11,8 +12,8 @@ admin.site.register(Image)
 #     list_display = ('user', 'product', 'quantity',)
 
 # admin.site.register(Order, OrderAdmin)
-class NansuAdmin(admin.ModelAdmin):
-    actions = ['insert_random_nansu']
+class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
+    actions = ['insert_random_nansu','update_date_field']
 
     def insert_random_nansu(self, request, queryset):
         for obj in queryset:
@@ -21,4 +22,10 @@ class NansuAdmin(admin.ModelAdmin):
         self.message_user(request, f"{queryset.count()} items have been inserted.")
     insert_random_nansu.short_description = "난수 생성"
 
+    def update_date_field(self, request, queryset):
+        updated_count = queryset.update(created_at=now().date())
+        self.message_user(request, f"{queryset.count} 가 등록 되었습니다.")
+    update_date_field.short_description="날짜 생성 액션(필수)"
+
 admin.site.register(Nansu, NansuAdmin)
+
