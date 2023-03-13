@@ -69,6 +69,7 @@ urlpatterns = [
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
     path('Image/',ImageView.as_view()),
+    path('images/',views.upload_images,name='images'),
     #path('Image/',include(router.urls)),
     #path('api/images/upload/',ImageView.as_view({'post':'create'})),
     #path('Imagesss/',include(router.urls)),
