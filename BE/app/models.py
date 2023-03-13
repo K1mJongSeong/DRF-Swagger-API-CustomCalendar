@@ -310,6 +310,7 @@ class Nansu(models.Model):
     nansu = models.CharField(max_length=100, blank=True, null=True)
     nansu_state = models.CharField(max_length=100, blank=True, null=True)
     permission = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = True
