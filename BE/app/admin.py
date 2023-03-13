@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, Nansu, OrderInfo, Calendar, Image
+from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover
 from django.utils.timezone import now
 import random
 
@@ -8,6 +8,34 @@ admin.site.register(OrderInfo)
 #admin.site.register(Nansu)
 admin.site.register(Calendar)
 admin.site.register(Image)
+admin.site.register(JanFront)
+admin.site.register(JanBack)
+admin.site.register(FebFront)
+admin.site.register(FebBack)
+admin.site.register(MarFront)
+admin.site.register(MarBack)
+admin.site.register(AprilFront)
+admin.site.register(AprilBack)
+admin.site.register(MayFront)
+admin.site.register(MayBack)
+admin.site.register(JuneFront)
+admin.site.register(JuneBack)
+admin.site.register(JulyFront)
+admin.site.register(JulyBack)
+admin.site.register(AugFront)
+admin.site.register(AugBack)
+admin.site.register(SepFront)
+admin.site.register(SepBack)
+admin.site.register(OctFront)
+admin.site.register(OctBack)
+admin.site.register(NovFront)
+admin.site.register(NovBack)
+admin.site.register(DecFront)
+admin.site.register(DecBack)
+admin.site.register(Prolog)
+admin.site.register(Cover)
+
+
 # class OrderAdmin(admin.ModelAdmin):
 #     list_display = ('user', 'product', 'quantity',)
 
