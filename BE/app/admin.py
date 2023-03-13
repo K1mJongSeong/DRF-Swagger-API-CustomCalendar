@@ -16,7 +16,7 @@ class NansuAdmin(admin.ModelAdmin):
 
     def insert_random_nansu(self, request, queryset):
         for obj in queryset:
-            obj.nansu = str(random.randint(10**(10-1), (10**10)-1))
+            obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
             obj.save()
         self.message_user(request, f"{queryset.count()} items have been inserted.")
     insert_random_nansu.short_description = "난수 생성"

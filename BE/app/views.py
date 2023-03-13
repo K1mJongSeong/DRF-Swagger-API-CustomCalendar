@@ -4,8 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_swagger.renderers import SwaggerUIRenderer
-from rest_framework.decorators import api_view, renderer_classes #api
-from rest_framework import status, generics, viewsets
+from rest_framework.decorators import api_view, renderer_classes, parser_classes #api
+from rest_framework import status, generics, viewsets, serializers
 from rest_framework.parsers import FileUploadParser,MultiPartParser, FormParser
 from drf_yasg.utils import swagger_auto_schema, force_serializer_instance
 from drf_yasg import openapi
@@ -14,6 +14,12 @@ from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, 
 
 def index(request):
     return HttpResponse("TEST PAGE")
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+def upload_images(request):
+    images = request.FILES.getlist('images')
+
 
 def nansu(request):
     nansuTest = Nansu.objects.filter(nansu_state='정상')
@@ -224,14 +230,17 @@ class MonthAPI(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+
 class JanFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser, FileUploadParser]
+    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
 
     @swagger_auto_schema(
         operation_summary='1월 앞 API',
-        #request_body=JanFrontSerializer(many=True)
+        consumes=['multipart/form-data'],
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
@@ -633,33 +642,18 @@ class SwaggerSchemaView(APIView):
             template_name="swagger-ui.html",
         )
 
-
-class ImageView(generics.CreateAPIView): #이미지 POST API
-
-    parser_classes = [MultiPartParser, FormParser]
+class ImageView(generics.ListCreateAPIView):
+    parser_classes = (MultiPartParser,)
     serializer_class = ImageSerializer
-    queryset = Image.objects.all()
 
-    # @swagger_auto_schema(
-    #     operation_summary="이미지 POST API",
-    #     operation_description="파일을 선택하고 업로드하세요.",
-    #     request_body=openapi.Schema(
-    #         type='object',
-    #         properties={
-    #             'file': openapi.Schema(type='string', format='binary'),
-    #         },
-    #         required=['file'],
-    #     ),
-    #     responses={
-    #         201: 'Created',
-    #         400: 'Bad Request',
-    #         401: 'Unauthorized',
-    #         403: 'Forbidden',
-    #         500: 'Internal Server Error'
-    #     },
-    # )
-    # def post(self, request, *args, **kwargs):
-    #     return super().post(request, *args, **kwargs)
+    def get_queryset(self):
+        return self.serializer_class.Meta.model.objects.all()
+
+# class ImageView(generics.CreateAPIView): #이미지 POST API
+
+#     parser_classes = [MultiPartParser, FormParser]
+#     serializer_class = ImageSerializer
+#     queryset = Image.objects.all()
 
 
 class OrderUrlDetail(generics.CreateAPIView):
