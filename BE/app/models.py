@@ -394,6 +394,13 @@ class Order(models.Model):
     postcode = models.CharField(max_length=20)
     detailAddress = models.CharField(max_length=30)
 
+    ORDER_STATE_CHOICES = [
+        ('미주문', '미주문'),
+        ('주문신청', '주문신청'),
+        ('주문완료', '주문완료'),
+    ]
+    orderState = models.CharField(max_length=20, choices=ORDER_STATE_CHOICES)
+
     class Meta:
         managed = False
         db_table = 'order'

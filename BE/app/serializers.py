@@ -17,7 +17,7 @@ class NansuSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('user_name','user_phone','address','nansu','postcode','detailAddress')
+        fields = ('user_name','user_phone','address','nansu','postcode','detailAddress','orderState')
 
 class OrderInfoSerializer(serializers.ModelSerializer):
     class Meta:
