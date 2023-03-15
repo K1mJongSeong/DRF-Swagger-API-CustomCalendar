@@ -37,7 +37,7 @@ urlpatterns = [
     path('NansuList/',NansuList.as_view()),
     path('OrderUrlDetail/<int:order>/', OrderUrlDetail.as_view(), name='OrderUrlDetail'), #url에 OrderList/1/ 식으로 접속하면 seq 1번으로 저장된 JSON 데이터 받아옴.
     path('OrderList/',OrderList.as_view()),
-    path('OrderInfoList/', OrderInfoList.as_view()),
+    #path('OrderInfoList/', OrderInfoList.as_view()),
     path('CalendarList/', CalendarList.as_view()),
     path('NansuUrlDetail/<int:nansu>/', NansuUrlDetail.as_view()),
     path('CalendarUrlDetail/<int:calendar>/',CalendarUrlDetail.as_view()),
@@ -69,7 +69,6 @@ urlpatterns = [
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
     path('Image/',ImageView.as_view()),
-    path('images/',views.upload_images,name='images'),
     #path('Image/',include(router.urls)),
     #path('api/images/upload/',ImageView.as_view({'post':'create'})),
     #path('Imagesss/',include(router.urls)),
