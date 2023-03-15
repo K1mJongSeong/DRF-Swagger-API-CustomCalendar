@@ -310,7 +310,16 @@ class Nansu(models.Model):
     nansu = models.CharField(max_length=100, blank=True, null=True)
     nansu_state = models.CharField(max_length=100, blank=True, null=True)
     permission = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
+    # def save(self, *args, **kwargs):
+    #     if not self.nansu_seq:
+    #         last_nansu = Nansu.objects.order_by('-nansu_seq').first()
+    #         if last_nansu:
+    #             self.nansu_seq = last_nansu.nansu_seq + 1
+    #         else:
+    #             self.nansu_seq = 1
+    #     super(Nansu, self).save(*args, **kwargs)
 
     class Meta:
         managed = True
@@ -387,7 +396,7 @@ class Order(models.Model):
     user_phone = models.CharField(max_length=20)
     address = models.CharField(max_length=45)
     nansu = models.IntegerField(blank=True, null=True)
-    create_date = models.DateTimeField(blank=True, null=True)
+    create_date = models.DateTimeField(blank=True, null=True,auto_now_add=True) 
     order_seq = models.IntegerField(primary_key=True)
     order_date = models.DateTimeField(blank=True, null=True)
     zipcode = models.IntegerField()
