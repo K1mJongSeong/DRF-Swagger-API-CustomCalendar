@@ -1,41 +1,148 @@
 from django.contrib import admin
-from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover
+from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
 from .forms import OrderForm
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
 import random
 
-#admin.site.register(Order)
 admin.site.register(OrderInfo)
 admin.site.register(Calendar)
 admin.site.register(Image)
-admin.site.register(JanFront)
-admin.site.register(JanBack)
-admin.site.register(FebFront)
-admin.site.register(FebBack)
-admin.site.register(MarFront)
-admin.site.register(MarBack)
-admin.site.register(AprilFront)
-admin.site.register(AprilBack)
-admin.site.register(MayFront)
-admin.site.register(MayBack)
-admin.site.register(JuneFront)
-admin.site.register(JuneBack)
-admin.site.register(JulyFront)
-admin.site.register(JulyBack)
-admin.site.register(AugFront)
-admin.site.register(AugBack)
-admin.site.register(SepFront)
-admin.site.register(SepBack)
-admin.site.register(OctFront)
-admin.site.register(OctBack)
-admin.site.register(NovFront)
-admin.site.register(NovBack)
-admin.site.register(DecFront)
-admin.site.register(DecBack)
 admin.site.register(Prolog)
 admin.site.register(Cover)
 
+class JanFrontAdmin(admin.ModelAdmin):
+    #actions = ['update_order_nansu','update_notice_memo']
+    list_display = ('jan_nansu','jan_memo','jan_pic','jan_seq')
+    # def update_order_nansu(self, request, queryset):
+    #     # Nansu 테이블과 연결된 JanFront 테이블의 jan_nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+    #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('jan_seq')).values('nansu')[:1]
+
+    #     # JanFront 테이블의 jan_nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
+    #     JanFront.objects.update(jan_nansu=Subquery(nansu_subquery))
+
+    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+    # update_order_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
+
+    # def update_notice_memo(self, request, queryset):
+    #     # JanFront 테이블과 연결된 Notice 테이블의 jan_memo 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+    #     notice_subquery = Notice.objects.filter(notice_idx=OuterRef('jan_idx')).values('notice')[:1]
+
+    #     # JanFront 테이블의 jan_memo 필드를 Notice 테이블의 notice 필드 값으로 업데이트합니다.
+    #     JanFront.objects.update(jan_memo=Subquery(notice_subquery))
+
+    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+    # update_notice_memo.short_description = "메모 필드를 가져옵니다."
+
+admin.site.register(JanFront, JanFrontAdmin)
+
+class JanBackAdmin(admin.ModelAdmin):
+    list_display = ('jan_nansu','jan_memo','jan_pic','jan_seq')
+admin.site.register(JanBack, JanBackAdmin)
+
+class FebFrontAdmin(admin.ModelAdmin):
+    list_display = ('feb_nansu','feb_memo','feb_pic','feb_seq')
+admin.site.register(FebFront, FebFrontAdmin)
+
+class FebBackAdmin(admin.ModelAdmin):
+    list_display = ('feb_nansu','feb_memo','feb_pic','feb_seq')
+admin.site.register(FebBack, FebBackAdmin)
+
+
+class MarFrontAdmin(admin.ModelAdmin):
+    list_display = ('mar_nansu','mar_memo','mar_pic','mar_seq')
+admin.site.register(MarFront, MarFrontAdmin)
+
+class MarBackAdmin(admin.ModelAdmin):
+    list_display = ('mar_nansu','mar_memo','mar_pic','mar_seq')
+admin.site.register(MarBack, MarBackAdmin)
+
+
+class AprilFrontAdmin(admin.ModelAdmin):
+    list_display = ('april_nansu','april_memo','april_pic','april_seq')
+admin.site.register(AprilFront, AprilFrontAdmin)
+
+class AprilBackAdmin(admin.ModelAdmin):
+    list_display = ('april_nansu','april_memo','april_pic','april_seq')
+admin.site.register(AprilBack, AprilBackAdmin)
+
+
+class MayFrontAdmin(admin.ModelAdmin):
+    list_display = ('may_nansu','may_memo','may_pic','may_seq')
+admin.site.register(MayFront, MayFrontAdmin)
+
+class MayBackAdmin(admin.ModelAdmin):
+    list_display = ('may_nansu','may_memo','may_pic','may_seq')
+admin.site.register(MayBack, MayBackAdmin)
+
+
+class JuneFrontAdmin(admin.ModelAdmin):
+    list_display = ('june_nansu','june_memo','june_pic','june_seq')
+admin.site.register(JuneFront, JuneFrontAdmin)
+
+class JuneBackAdmin(admin.ModelAdmin):
+    list_display = ('june_nansu','june_memo','june_pic','june_seq')
+admin.site.register(JuneBack, JuneBackAdmin)
+
+
+class JulyFrontAdmin(admin.ModelAdmin):
+    list_display = ('july_nansu','july_memo','july_pic','july_seq')
+admin.site.register(JulyFront, JulyFrontAdmin)
+
+class JulyBackAdmin(admin.ModelAdmin):
+    list_display = ('july_nansu','july_memo','july_pic','july_seq')
+admin.site.register(JulyBack, JulyBackAdmin)
+
+
+class AugFrontAdmin(admin.ModelAdmin):
+    list_display = ('aug_nansu','aug_memo','aug_pic','aug_seq')
+admin.site.register(AugFront, AugFrontAdmin)
+
+class AugBackAdmin(admin.ModelAdmin):
+    list_display = ('aug_nansu','aug_memo','aug_pic','aug_seq')
+admin.site.register(AugBack, AugBackAdmin)
+
+
+class SepFrontAdmin(admin.ModelAdmin):
+    list_display = ('sep_nansu','sep_memo','sep_pic','sep_seq')
+admin.site.register(SepFront, SepFrontAdmin)
+
+class SepBackAdmin(admin.ModelAdmin):
+    list_display = ('sep_nansu','sep_memo','sep_pic','sep_seq')
+admin.site.register(SepBack, SepBackAdmin)
+
+
+class OctFrontAdmin(admin.ModelAdmin):
+    list_display = ('oct_nansu','oct_memo','oct_pic','oct_seq')
+admin.site.register(OctFront, OctFrontAdmin)
+
+class OctBackAdmin(admin.ModelAdmin):
+    list_display = ('oct_nansu','oct_memo','oct_pic','oct_seq')
+admin.site.register(OctBack, OctBackAdmin)
+
+
+class DecFrontAdmin(admin.ModelAdmin):
+    list_display = ('dec_nansu','dec_memo','dec_pic','dec_seq')
+admin.site.register(DecFront, DecFrontAdmin)
+
+class DecBackAdmin(admin.ModelAdmin):
+    list_display = ('dec_nansu','dec_memo','dec_pic','dec_seq')
+admin.site.register(DecBack, DecBackAdmin)
+
+class NoticeAdmin(admin.ModelAdmin):
+    list_display =('nansu','monthdays','notice','notice_idx')
+    # actions = ['update_notice_nansu']
+    # def update_notice_nansu(self, request, queryset):
+    #     # Nansu 테이블과 연결된 Notice 테이블의 nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+    #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('notice_idx')).values('nansu')[:1]
+
+    #     # Order 테이블의 nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
+    #     Notice.objects.update(nansu=Subquery(nansu_subquery))
+
+    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+    # update_notice_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
+
+admin.site.register(Notice, NoticeAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']

@@ -32,11 +32,12 @@ class Admin(models.Model):
 
 
 class AprilBack(models.Model):
-    april_idx = models.AutoField(primary_key=True)
     april_nansu = models.CharField(max_length=100, blank=True, null=True)
     april_memo = models.CharField(max_length=200, blank=True, null=True)
-    april_pic = models.CharField(max_length=200,blank=True, null=True)
+    april_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    april_idx = models.IntegerField(blank=True, null=True)
+    april_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -44,11 +45,12 @@ class AprilBack(models.Model):
 
 
 class AprilFront(models.Model):
-    april_idx = models.AutoField(primary_key=True)
     april_nansu = models.CharField(max_length=100, blank=True, null=True)
     april_memo = models.CharField(max_length=200, blank=True, null=True)
-    april_pic = models.CharField(max_length=200,blank=True, null=True)
+    april_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    april_idx = models.IntegerField(blank=True, null=True)
+    april_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -56,11 +58,12 @@ class AprilFront(models.Model):
 
 
 class AugBack(models.Model):
-    aug_idx = models.AutoField(primary_key=True)
     aug_nansu = models.CharField(max_length=100, blank=True, null=True)
     aug_memo = models.CharField(max_length=200, blank=True, null=True)
-    aug_pic = models.CharField(max_length=200,blank=True, null=True)
+    aug_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    aug_idx = models.IntegerField(blank=True, null=True)
+    aug_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -68,11 +71,12 @@ class AugBack(models.Model):
 
 
 class AugFront(models.Model):
-    aug_idx = models.AutoField(primary_key=True)
     aug_nansu = models.CharField(max_length=100, blank=True, null=True)
     aug_memo = models.CharField(max_length=200, blank=True, null=True)
-    aug_pic = models.CharField(max_length=200,blank=True, null=True)
+    aug_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    aug_idx = models.IntegerField(blank=True, null=True)
+    aug_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -99,10 +103,11 @@ class Calendar(models.Model):
 
 
 class Cover(models.Model):
-    cover_idx = models.AutoField(primary_key=True)
     cover_nansu = models.CharField(max_length=100, blank=True, null=True)
-    cover_pic = models.CharField(max_length=200,blank=True, null=True)
+    cover_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    cover_idx = models.IntegerField(blank=True, null=True)
+    cover_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -110,11 +115,12 @@ class Cover(models.Model):
 
 
 class DecBack(models.Model):
-    dec_idx = models.AutoField(primary_key=True)
     dec_nansu = models.CharField(max_length=100, blank=True, null=True)
     dec_memo = models.CharField(max_length=200, blank=True, null=True)
-    dec_pic = models.CharField(max_length=200,blank=True, null=True)
+    dec_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    dec_idx = models.IntegerField(blank=True, null=True)
+    dec_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -122,11 +128,12 @@ class DecBack(models.Model):
 
 
 class DecFront(models.Model):
-    dec_idx = models.AutoField(primary_key=True)
     dec_nansu = models.CharField(max_length=100, blank=True, null=True)
     dec_memo = models.CharField(max_length=200, blank=True, null=True)
-    dec_pic = models.CharField(max_length=200,blank=True, null=True)
+    dec_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    dec_idx = models.IntegerField(blank=True, null=True)
+    dec_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -134,11 +141,12 @@ class DecFront(models.Model):
 
 
 class FebBack(models.Model):
-    feb_idx = models.AutoField(primary_key=True)
     feb_nansu = models.CharField(max_length=100, blank=True, null=True)
     feb_memo = models.CharField(max_length=200, blank=True, null=True)
-    feb_pic = models.CharField(max_length=200,blank=True, null=True)
+    feb_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    feb_idx = models.IntegerField(blank=True, null=True)
+    feb_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -146,11 +154,12 @@ class FebBack(models.Model):
 
 
 class FebFront(models.Model):
-    feb_idx = models.AutoField(primary_key=True)
     feb_nansu = models.CharField(max_length=100, blank=True, null=True)
     feb_memo = models.CharField(max_length=200, blank=True, null=True)
-    feb_pic = models.CharField(max_length=200,blank=True, null=True)
+    feb_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    feb_idx = models.IntegerField(blank=True, null=True)
+    feb_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -158,11 +167,12 @@ class FebFront(models.Model):
 
 
 class JanBack(models.Model):
-    jan_idx = models.AutoField(primary_key=True)
     jan_nansu = models.CharField(max_length=100, blank=True, null=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
-    jan_pic = models.CharField(max_length=200,blank=True, null=True)
+    jan_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    jan_idx = models.IntegerField(blank=True, null=True)
+    jan_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -170,11 +180,12 @@ class JanBack(models.Model):
 
 
 class JanFront(models.Model):
-    jan_idx = models.AutoField(primary_key=True, default=1)
     jan_nansu = models.CharField(max_length=100, blank=True, null=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
-    jan_pic = models.CharField(max_length=200,blank=True, null=True)
+    jan_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    jan_idx = models.IntegerField(blank=True, null=True)
+    jan_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -182,11 +193,12 @@ class JanFront(models.Model):
 
 
 class JulyBack(models.Model):
-    july_idx = models.AutoField(primary_key=True)
     july_nansu = models.CharField(max_length=100, blank=True, null=True)
     july_memo = models.CharField(max_length=200, blank=True, null=True)
-    july_pic = models.CharField(max_length=200,blank=True, null=True)
+    july_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    july_idx = models.IntegerField(blank=True, null=True)
+    july_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -194,11 +206,12 @@ class JulyBack(models.Model):
 
 
 class JulyFront(models.Model):
-    july_idx = models.AutoField(primary_key=True)
     july_nansu = models.CharField(max_length=100, blank=True, null=True)
     july_memo = models.CharField(max_length=200, blank=True, null=True)
-    july_pic = models.CharField(max_length=200,blank=True, null=True)
+    july_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    july_idx = models.IntegerField(blank=True, null=True)
+    july_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -206,11 +219,12 @@ class JulyFront(models.Model):
 
 
 class JuneBack(models.Model):
-    june_idx = models.AutoField(primary_key=True)
     june_nansu = models.CharField(max_length=100, blank=True, null=True)
     june_memo = models.CharField(max_length=200, blank=True, null=True)
-    june_pic = models.CharField(max_length=200,blank=True, null=True)
+    june_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    june_idx = models.IntegerField(blank=True, null=True)
+    june_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -218,11 +232,12 @@ class JuneBack(models.Model):
 
 
 class JuneFront(models.Model):
-    june_idx = models.AutoField(primary_key=True)
     june_nansu = models.CharField(max_length=100, blank=True, null=True)
     june_memo = models.CharField(max_length=200, blank=True, null=True)
-    june_pic = models.CharField(max_length=200,blank=True, null=True)
+    june_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    june_idx = models.IntegerField(blank=True, null=True)
+    june_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -230,11 +245,12 @@ class JuneFront(models.Model):
 
 
 class MarBack(models.Model):
-    mar_idx = models.AutoField(primary_key=True)
     mar_nansu = models.CharField(max_length=100, blank=True, null=True)
     mar_memo = models.CharField(max_length=200, blank=True, null=True)
-    mar_pic = models.CharField(max_length=200,blank=True, null=True)
+    mar_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    mar_idx = models.IntegerField(blank=True, null=True)
+    mar_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -242,11 +258,12 @@ class MarBack(models.Model):
 
 
 class MarFront(models.Model):
-    mar_idx = models.AutoField(primary_key=True)
     mar_nansu = models.CharField(max_length=100, blank=True, null=True)
     mar_memo = models.CharField(max_length=200, blank=True, null=True)
-    mar_pic = models.CharField(max_length=200,blank=True, null=True)
+    mar_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    mar_idx = models.IntegerField(blank=True, null=True)
+    mar_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -254,11 +271,12 @@ class MarFront(models.Model):
 
 
 class MayFront(models.Model):
-    may_idx = models.AutoField(primary_key=True)
     may_nansu = models.CharField(max_length=100, blank=True, null=True)
     may_memo = models.CharField(max_length=200, blank=True, null=True)
-    may_pic = models.CharField(max_length=200,blank=True, null=True)
+    may_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    may_idx = models.IntegerField(blank=True, null=True)
+    may_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -266,11 +284,12 @@ class MayFront(models.Model):
 
 
 class MayBack(models.Model):
-    may_idx = models.AutoField(primary_key=True)
     may_nansu = models.CharField(max_length=100, blank=True, null=True)
     may_memo = models.CharField(max_length=200, blank=True, null=True)
-    may_pic = models.CharField(max_length=200,blank=True, null=True)
+    may_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    may_idx = models.IntegerField(blank=True, null=True)
+    may_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -300,7 +319,9 @@ class Nansu(models.Model):
 
 class Notice(models.Model):
     notice = models.CharField(max_length=200, blank=True, null=True)
-    notice_seq = models.IntegerField(primary_key=True)
+    notice_idx = models.IntegerField(primary_key=True)
+    monthdays = models.DateTimeField(blank=True, null=True)
+    nansu = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -308,11 +329,12 @@ class Notice(models.Model):
 
 
 class NovBack(models.Model):
-    nov_idx = models.AutoField(primary_key=True)
     nov_nansu = models.CharField(max_length=100, blank=True, null=True)
     nov_memo = models.CharField(max_length=200, blank=True, null=True)
-    nov_pic = models.CharField(max_length=200,blank=True, null=True)
+    nov_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    nov_idx = models.IntegerField(blank=True, null=True)
+    nov_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -320,11 +342,12 @@ class NovBack(models.Model):
 
 
 class NovFront(models.Model):
-    nov_idx = models.AutoField(primary_key=True)
     nov_nansu = models.CharField(max_length=100, blank=True, null=True)
     nov_memo = models.CharField(max_length=200, blank=True, null=True)
-    nov_pic = models.CharField(max_length=200,blank=True, null=True)
+    nov_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    nov_idx = models.IntegerField(blank=True, null=True)
+    nov_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -332,11 +355,12 @@ class NovFront(models.Model):
 
 
 class OctBack(models.Model):
-    oct_idx = models.AutoField(primary_key=True)
     oct_nansu = models.CharField(max_length=100, blank=True, null=True)
     oct_memo = models.CharField(max_length=200, blank=True, null=True)
-    oct_pic = models.CharField(max_length=200,blank=True, null=True)
+    oct_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    oct_idx = models.IntegerField(blank=True, null=True)
+    oct_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -344,11 +368,12 @@ class OctBack(models.Model):
 
 
 class OctFront(models.Model):
-    oct_idx = models.AutoField(primary_key=True)
     oct_nansu = models.CharField(max_length=100, blank=True, null=True)
     oct_memo = models.CharField(max_length=200, blank=True, null=True)
-    oct_pic = models.CharField(max_length=200,blank=True, null=True)
+    oct_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    oct_idx = models.IntegerField(blank=True, null=True)
+    oct_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -390,11 +415,12 @@ class OrderInfo(models.Model):
 
 
 class SepBack(models.Model):
-    sep_idx = models.AutoField(primary_key=True)
     sep_nansu = models.CharField(max_length=100, blank=True, null=True)
     sep_memo = models.CharField(max_length=200, blank=True, null=True)
-    sep_pic = models.CharField(max_length=200,blank=True, null=True)
+    sep_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    sep_idx = models.IntegerField(blank=True, null=True)
+    sep_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -402,21 +428,23 @@ class SepBack(models.Model):
 
 
 class SepFront(models.Model):
-    sep_idx = models.AutoField(primary_key=True)
     sep_nansu = models.CharField(max_length=100, blank=True, null=True)
     sep_memo = models.CharField(max_length=200, blank=True, null=True)
-    sep_pic = models.CharField(max_length=200,blank=True, null=True)
+    sep_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    sep_idx = models.IntegerField(blank=True, null=True)
+    sep_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
         db_table = 'sep_front'
 
 class Prolog(models.Model):
-    prolog_idx = models.AutoField(primary_key=True)
     prolog_nansu = models.CharField(max_length=100, blank=True, null=True)
-    prolog_pic = models.CharField(max_length=200,blank=True, null=True)
+    prolog_pic = models.CharField(max_length=200, blank=True, null=True)
     page_num = models.IntegerField(blank=True, null=True)
+    prolog_idx = models.IntegerField(blank=True, null=True)
+    prolog_seq = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
