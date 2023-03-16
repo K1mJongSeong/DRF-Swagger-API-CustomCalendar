@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework_swagger.views import get_swagger_view
 from app import views
 from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView, SwaggerSchemaView
-from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, MonthAPI
+from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -41,7 +41,6 @@ urlpatterns = [
     path('CalendarList/', CalendarList.as_view()),
     path('NansuUrlDetail/<int:nansu>/', NansuUrlDetail.as_view()),
     path('CalendarUrlDetail/<int:calendar>/',CalendarUrlDetail.as_view()),
-    path('Month/<str:month>/',MonthAPI.as_view()),
     path('JanFront/',JanFront.as_view()),
     path('JanBack/',JanBack.as_view()),
     path('FebFront/',FebFront.as_view()),
@@ -69,9 +68,7 @@ urlpatterns = [
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
     path('Image/',ImageView.as_view()),
-    #path('Image/',include(router.urls)),
-    #path('api/images/upload/',ImageView.as_view({'post':'create'})),
-    #path('Imagesss/',include(router.urls)),
+    path('Notice/',Notice.as_view()),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
