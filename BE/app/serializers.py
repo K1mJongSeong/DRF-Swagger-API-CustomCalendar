@@ -31,11 +31,19 @@ class CalendarSerializer(serializers.ModelSerializer):
 
 
 class JanFrontSerializer(serializers.ModelSerializer):
+    jan_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JanFront
         fields = '__all__'
 
 class JanBackSerializer(serializers.ModelSerializer):
+    jan_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JanBack
         fields = '__all__'
@@ -43,11 +51,19 @@ class JanBackSerializer(serializers.ModelSerializer):
 
 
 class FebFrontSerializer(serializers.ModelSerializer):
+    feb_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = FebFront
         fields = '__all__'
 
 class FebBackSerializer(serializers.ModelSerializer):
+    feb_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = FebBack
         fields = '__all__'
@@ -56,11 +72,19 @@ class FebBackSerializer(serializers.ModelSerializer):
 
 
 class MarFrontSerializer(serializers.ModelSerializer):
+    mar_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = MarFront
         fields = '__all__'
 
 class MarBackSerializer(serializers.ModelSerializer):
+    mar_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = MarBack
         fields = '__all__'
@@ -68,11 +92,19 @@ class MarBackSerializer(serializers.ModelSerializer):
 
 
 class AprilFrontSerializer(serializers.ModelSerializer):
+    april_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = AprilFront
         fields = '__all__'
 
 class AprilBackSerializer(serializers.ModelSerializer):
+    april_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = AprilBack
         fields = '__all__'
@@ -80,11 +112,19 @@ class AprilBackSerializer(serializers.ModelSerializer):
 
 
 class MayFrontSerializer(serializers.ModelSerializer):
+    may_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = MayFront
         fields = '__all__'
 
 class MayBackSerializer(serializers.ModelSerializer):
+    may_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = MayBack
         fields = '__all__'
@@ -92,11 +132,19 @@ class MayBackSerializer(serializers.ModelSerializer):
 
 
 class JuneFrontSerializer(serializers.ModelSerializer):
+    june_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JuneFront
         fields = '__all__'
 
 class JuneBackSerializer(serializers.ModelSerializer):
+    june_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JuneBack
         fields = '__all__'
@@ -104,11 +152,19 @@ class JuneBackSerializer(serializers.ModelSerializer):
 
 
 class JulyFrontSerializer(serializers.ModelSerializer):
+    july_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JulyFront
         fields = '__all__'
 
 class JulyBackSerializer(serializers.ModelSerializer):
+    july_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = JulyBack
         fields = '__all__'
@@ -116,11 +172,19 @@ class JulyBackSerializer(serializers.ModelSerializer):
 
 
 class AugFrontSerializer(serializers.ModelSerializer):
+    aug_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = AugFront
         fields = '__all__'
 
 class AugBackSerializer(serializers.ModelSerializer):
+    aug_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = AugBack
         fields = '__all__'
@@ -128,11 +192,19 @@ class AugBackSerializer(serializers.ModelSerializer):
 
 
 class SepFrontSerializer(serializers.ModelSerializer):
+    sep_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = SepFront
         fields = '__all__'
 
 class SepBackSerializer(serializers.ModelSerializer):
+    sep_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = SepBack
         fields = '__all__'
@@ -140,11 +212,19 @@ class SepBackSerializer(serializers.ModelSerializer):
 
 
 class OctFrontSerializer(serializers.ModelSerializer):
+    oct_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = OctFront
         fields = '__all__'
 
 class OctBackSerializer(serializers.ModelSerializer):
+    oct_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = OctBack
         fields = '__all__'
@@ -152,11 +232,19 @@ class OctBackSerializer(serializers.ModelSerializer):
 
 
 class NovFrontSerializer(serializers.ModelSerializer):
+    nov_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = NovFront
         fields = '__all__'
 
 class NovBackSerializer(serializers.ModelSerializer):
+    nov_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = NovBack
         fields = '__all__'
@@ -164,11 +252,19 @@ class NovBackSerializer(serializers.ModelSerializer):
 
 
 class DecFrontSerializer(serializers.ModelSerializer):
+    dec_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = DecFront
         fields = '__all__'
 
 class DecBackSerializer(serializers.ModelSerializer):
+    dec_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = DecBack
         fields = '__all__'
@@ -176,6 +272,10 @@ class DecBackSerializer(serializers.ModelSerializer):
 
 
 class PrologSerializer(serializers.ModelSerializer):
+    prolog_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = Prolog
         fields = '__all__'
@@ -183,6 +283,10 @@ class PrologSerializer(serializers.ModelSerializer):
 
 
 class CoverSerializer(serializers.ModelSerializer):
+    cover_pic = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        required=False
+    )
     class Meta:
         model = Cover
         fields = '__all__'

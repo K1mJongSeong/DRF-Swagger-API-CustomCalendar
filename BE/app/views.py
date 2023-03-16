@@ -15,12 +15,6 @@ from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, 
 def index(request):
     return HttpResponse("TEST PAGE")
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser])
-def upload_images(request):
-    images = request.FILES.getlist('images')
-
-
 def nansu(request):
     nansuTest = Nansu.objects.filter(nansu_state='정상')
     print(nansuTest)
@@ -234,7 +228,6 @@ class MonthAPI(APIView):
 
 
 class JanFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
 
@@ -248,7 +241,6 @@ class JanFront(generics.CreateAPIView):
 
 
 class JanBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JanBackSerializer
     queryset = JanBack.objects.all()
 
@@ -260,7 +252,6 @@ class JanBack(generics.CreateAPIView):
 
 
 class FebFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = FebFrontSerializer
     queryset = FebFront.objects.all()
 
@@ -272,7 +263,6 @@ class FebFront(generics.CreateAPIView):
 
 
 class FebBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = FebBackSerializer
     queryset = FebBack.objects.all()
 
@@ -284,7 +274,6 @@ class FebBack(generics.CreateAPIView):
 
 
 class MarFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = MarFrontSerializer
     queryset = MarFront.objects.all()
 
@@ -296,7 +285,6 @@ class MarFront(generics.CreateAPIView):
 
 
 class MarBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = MarBackSerializer
     queryset = MarBack.objects.all()
 
@@ -308,7 +296,6 @@ class MarBack(generics.CreateAPIView):
 
 
 class AprilFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = AprilFrontSerializer
     queryset = AprilFront.objects.all()
 
@@ -317,14 +304,8 @@ class AprilFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    # def get_object(self):
-    #     aprilFront = AprilFront.objects.filter(april_seq=self.kwargs.get('april_front')).first()
-    #     if not aprilFront:
-    #         raise Http404
-    #     return aprilFront
 
 class AprilBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = AprilBackSerializer
     queryset = AprilBack.objects.all()
 
@@ -336,7 +317,6 @@ class AprilBack(generics.CreateAPIView):
 
 
 class MayFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = MayFrontSerializer
     queryset = MayFront.objects.all()
 
@@ -347,7 +327,6 @@ class MayFront(generics.CreateAPIView):
         return super().post(request, *args, **kwargs)
 
 class MayBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = MayBackSerializer
     queryset = MayBack.objects.all()
 
@@ -359,7 +338,6 @@ class MayBack(generics.CreateAPIView):
 
 
 class JuneFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JuneFrontSerializer
     queryset = JuneFront.objects.all()
 
@@ -371,7 +349,6 @@ class JuneFront(generics.CreateAPIView):
 
 
 class JuneBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JuneBackSerializer
     queryset = JuneBack.objects.all()
 
@@ -383,7 +360,6 @@ class JuneBack(generics.CreateAPIView):
 
 
 class JulyFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JulyFrontSerializer
     queryset = JulyFront.objects.all()
 
@@ -395,7 +371,6 @@ class JulyFront(generics.CreateAPIView):
 
 
 class JulyBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = JulyBackSerializer
     queryset = JulyBack.objects.all()
 
@@ -407,19 +382,17 @@ class JulyBack(generics.CreateAPIView):
 
 
 class AugFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = AugFrontSerializer
     queryset = AugFront.objects.all()
 
     @swagger_auto_schema(
-        operation_summary='8월 앞 API'
+        operation_summary='8월 뒤 API'
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
 
 class AugBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = AugBackSerializer
     queryset = AugBack.objects.all()
 
@@ -431,7 +404,6 @@ class AugBack(generics.CreateAPIView):
 
 
 class SepFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = SepFrontSerializer
     queryset = SepFront.objects.all()
 
@@ -443,7 +415,6 @@ class SepFront(generics.CreateAPIView):
 
 
 class SepBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = SepBackSerializer
     queryset = SepBack.objects.all()
 
@@ -455,7 +426,6 @@ class SepBack(generics.CreateAPIView):
 
 
 class OctFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = OctFrontSerializer
     queryset = OctFront.objects.all()
 
@@ -467,7 +437,6 @@ class OctFront(generics.CreateAPIView):
 
 
 class OctBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = OctBackSerializer
     queryset = OctBack.objects.all()
 
@@ -479,7 +448,6 @@ class OctBack(generics.CreateAPIView):
 
 
 class NovFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = NovFrontSerializer
     queryset = NovFront.objects.all()
 
@@ -488,14 +456,8 @@ class NovFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    # def get_object(self):
-    #     novFront = NovFront.objects.filter(nov_seq=self.kwargs.get('nov_front')).first()
-    #     if not novFront:
-    #         raise Http404
-    #     return aprilFrnovFrontont
 
 class NovBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = NovBackSerializer
     queryset = NovBack.objects.all()
 
@@ -504,14 +466,8 @@ class NovBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    # def get_object(self):
-    #     novBack = NovBack.objects.filter(nov_seq=self.kwargs.get('nov_back')).first()
-    #     if not novBack:
-    #         raise Http404
-    #     return novBack
 
 class DecFront(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = DecFrontSerializer
     queryset = DecFront.objects.all()
 
@@ -520,14 +476,8 @@ class DecFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    # def get_object(self):
-    #     decFront = DecFront.objects.filter(dec_seq=self.kwargs.get('dec_front')).first()
-    #     if not decFront:
-    #         raise Http404
-    #     return decFront
 
 class DecBack(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = DecBackSerializer
     queryset = DecBack.objects.all()
 
@@ -540,7 +490,6 @@ class DecBack(generics.CreateAPIView):
 
 
 class Prolog(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = PrologSerializer
     queryset = Prolog.objects.all()
 
@@ -552,7 +501,6 @@ class Prolog(generics.CreateAPIView):
 
 
 class Cover(generics.CreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = CoverSerializer
     queryset = Cover.objects.all()
 
