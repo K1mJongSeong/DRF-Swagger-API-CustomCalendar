@@ -145,7 +145,10 @@ admin.site.register(Notice, NoticeAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']
-    list_display = ('order_seq','user_name','user_phone','address','nansu','create_date','zipcode','postcode','detailAddress','order_date')
+    search_fields = ['nansu']
+    ordering = ['-order_date','-create_date']
+    list_filter = ['orderState']
+    list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date')
     
 
     def save_model(self, request, obj, form, change):
@@ -173,6 +176,7 @@ admin.site.register(Order, OrderAdmin)
 
 class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     actions = ['insert_random_nansu']
+    search_fields = ['nansu']
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_state','permission','created_at')
 

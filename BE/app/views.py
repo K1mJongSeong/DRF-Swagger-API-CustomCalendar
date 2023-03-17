@@ -49,7 +49,7 @@ class OrderInfoList(APIView):
 
 class CalendarList(APIView):
     @swagger_auto_schema(
-        operation_summary='달력 정보 전체 리스트 GET API(Nansu테이블 nansu컬럼 매핑 작업중입니다.메모필드도 추가 예정.)',
+        operation_summary='달력 정보 전체 리스트 GET API',
     )
     def get(self, request):
         calendarData = Calendar.objects.all()
@@ -556,25 +556,8 @@ class NansuUrlDetail(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class OrderUrlDetail(APIView): #body에 연락처,주소,이름,난수번호 보내야함.
-#     def get_object(self, order):
-#         try:
-#             return Order.objects.get(order_seq=self.kwargs.get('order')).first()
-#         except Order.DoesNotExist:
-#             raise Http404
 
-#     def get(self, request, order):
-#         orderUrl = self.get_object(order)
-#         serializer = OrderSerializer(orderUrl)
-#         return Response(serializer.data)
 
-#     def post(self, request, order):
-#         serializer = OrderSerializer(data=request.data)
-#         print(serializer)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 @renderer_classes([SwaggerUIRenderer])
 class SwaggerSchemaView(APIView):
     def get(self, request):
@@ -598,12 +581,17 @@ class SwaggerSchemaView(APIView):
             template_name="swagger-ui.html",
         )
 
-class ImageView(generics.ListCreateAPIView):
+class ImageView(generics.CreateAPIView):
     parser_classes = (MultiPartParser,)
     serializer_class = ImageSerializer
 
-    def get_queryset(self):
-        return self.serializer_class.Meta.model.objects.all()
+    @swagger_auto_schema(
+            operation_summary='이미지 POST API'
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+    # def get_queryset(self):
+    #     return self.serializer_class.Meta.model.objects.all()
 
 # class ImageView(generics.CreateAPIView): #이미지 POST API
 
@@ -618,7 +606,7 @@ class OrderUrlDetail(generics.CreateAPIView):
 
 class CalendarUrlDetail(APIView):
     @swagger_auto_schema( #Nansu POST API 성공.
-            operation_summary='달력 세부 정보 ex)192.168.0.158:8080/CalendarUrlDetail/1/',
+            operation_summary='달력 세부 정보',
         )
     def get_object(self, calendar):
         try:
