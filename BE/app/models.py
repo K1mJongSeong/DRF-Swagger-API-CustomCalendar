@@ -322,6 +322,7 @@ class Notice(models.Model):
     notice_idx = models.IntegerField(primary_key=True)
     monthdays = models.DateTimeField(blank=True, null=True)
     nansu = models.CharField(max_length=100, blank=True, null=True)
+    fk_nansu = models.ForeignKey(Nansu,on_delete = models.CASCADE)
 
     class Meta:
         managed = True
