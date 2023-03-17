@@ -5,7 +5,6 @@ from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
 import random
 
-admin.site.register(OrderInfo)
 admin.site.register(Calendar)
 admin.site.register(Image)
 admin.site.register(Prolog)
@@ -147,6 +146,8 @@ admin.site.register(Notice, NoticeAdmin)
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']
     list_display = ('order_seq','user_name','user_phone','address','nansu','create_date','zipcode','postcode','detailAddress','order_date')
+    
+
     def save_model(self, request, obj, form, change):
         if not change:  # 새로 생성되는 객체인 경우
             order_nansu = Order.objects.last()
