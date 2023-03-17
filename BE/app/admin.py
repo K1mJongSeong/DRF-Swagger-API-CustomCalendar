@@ -36,7 +36,7 @@ class JanFrontAdmin(admin.ModelAdmin):
 admin.site.register(JanFront, JanFrontAdmin)
 
 class JanBackAdmin(admin.ModelAdmin):
-    list_display = ('jan_nansu','jan_memo','jan_pic','jan_seq')
+    list_display = ('jan_nansu','jan_pic','jan_seq')
 admin.site.register(JanBack, JanBackAdmin)
 
 class FebFrontAdmin(admin.ModelAdmin):
@@ -44,7 +44,7 @@ class FebFrontAdmin(admin.ModelAdmin):
 admin.site.register(FebFront, FebFrontAdmin)
 
 class FebBackAdmin(admin.ModelAdmin):
-    list_display = ('feb_nansu','feb_memo','feb_pic','feb_seq')
+    list_display = ('feb_nansu','feb_pic','feb_seq')
 admin.site.register(FebBack, FebBackAdmin)
 
 
@@ -53,7 +53,7 @@ class MarFrontAdmin(admin.ModelAdmin):
 admin.site.register(MarFront, MarFrontAdmin)
 
 class MarBackAdmin(admin.ModelAdmin):
-    list_display = ('mar_nansu','mar_memo','mar_pic','mar_seq')
+    list_display = ('mar_nansu','mar_pic','mar_seq')
 admin.site.register(MarBack, MarBackAdmin)
 
 
@@ -62,7 +62,7 @@ class AprilFrontAdmin(admin.ModelAdmin):
 admin.site.register(AprilFront, AprilFrontAdmin)
 
 class AprilBackAdmin(admin.ModelAdmin):
-    list_display = ('april_nansu','april_memo','april_pic','april_seq')
+    list_display = ('april_nansu','april_pic','april_seq')
 admin.site.register(AprilBack, AprilBackAdmin)
 
 
@@ -71,7 +71,7 @@ class MayFrontAdmin(admin.ModelAdmin):
 admin.site.register(MayFront, MayFrontAdmin)
 
 class MayBackAdmin(admin.ModelAdmin):
-    list_display = ('may_nansu','may_memo','may_pic','may_seq')
+    list_display = ('may_nansu','may_pic','may_seq')
 admin.site.register(MayBack, MayBackAdmin)
 
 
@@ -80,7 +80,7 @@ class JuneFrontAdmin(admin.ModelAdmin):
 admin.site.register(JuneFront, JuneFrontAdmin)
 
 class JuneBackAdmin(admin.ModelAdmin):
-    list_display = ('june_nansu','june_memo','june_pic','june_seq')
+    list_display = ('june_nansu','june_pic','june_seq')
 admin.site.register(JuneBack, JuneBackAdmin)
 
 
@@ -89,7 +89,7 @@ class JulyFrontAdmin(admin.ModelAdmin):
 admin.site.register(JulyFront, JulyFrontAdmin)
 
 class JulyBackAdmin(admin.ModelAdmin):
-    list_display = ('july_nansu','july_memo','july_pic','july_seq')
+    list_display = ('july_nansu','july_pic','july_seq')
 admin.site.register(JulyBack, JulyBackAdmin)
 
 
@@ -98,7 +98,7 @@ class AugFrontAdmin(admin.ModelAdmin):
 admin.site.register(AugFront, AugFrontAdmin)
 
 class AugBackAdmin(admin.ModelAdmin):
-    list_display = ('aug_nansu','aug_memo','aug_pic','aug_seq')
+    list_display = ('aug_nansu','aug_pic','aug_seq')
 admin.site.register(AugBack, AugBackAdmin)
 
 
@@ -107,7 +107,7 @@ class SepFrontAdmin(admin.ModelAdmin):
 admin.site.register(SepFront, SepFrontAdmin)
 
 class SepBackAdmin(admin.ModelAdmin):
-    list_display = ('sep_nansu','sep_memo','sep_pic','sep_seq')
+    list_display = ('sep_nansu','sep_pic','sep_seq')
 admin.site.register(SepBack, SepBackAdmin)
 
 
@@ -116,7 +116,7 @@ class OctFrontAdmin(admin.ModelAdmin):
 admin.site.register(OctFront, OctFrontAdmin)
 
 class OctBackAdmin(admin.ModelAdmin):
-    list_display = ('oct_nansu','oct_memo','oct_pic','oct_seq')
+    list_display = ('oct_nansu','oct_pic','oct_seq')
 admin.site.register(OctBack, OctBackAdmin)
 
 
@@ -125,7 +125,7 @@ class DecFrontAdmin(admin.ModelAdmin):
 admin.site.register(DecFront, DecFrontAdmin)
 
 class DecBackAdmin(admin.ModelAdmin):
-    list_display = ('dec_nansu','dec_memo','dec_pic','dec_seq')
+    list_display = ('dec_nansu','dec_pic','dec_seq')
 admin.site.register(DecBack, DecBackAdmin)
 
 class NoticeAdmin(admin.ModelAdmin):
@@ -145,7 +145,10 @@ admin.site.register(Notice, NoticeAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']
-    list_display = ('order_seq','user_name','user_phone','address','nansu','create_date','zipcode','postcode','detailAddress','order_date')
+    search_fields = ['nansu']
+    ordering = ['-order_date','-create_date']
+    list_filter = ['orderState']
+    list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date')
     
 
     def save_model(self, request, obj, form, change):
@@ -168,13 +171,12 @@ class OrderAdmin(admin.ModelAdmin):
         self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
     update_order_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
 
-
-
 admin.site.register(Order, OrderAdmin)
 
-# admin.site.register(Order, OrderAdmin)
+
 class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     actions = ['insert_random_nansu']
+    search_fields = ['nansu']
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_state','permission','created_at')
 

@@ -33,9 +33,8 @@ class Admin(models.Model):
 
 class AprilBack(models.Model):
     april_nansu = models.CharField(max_length=100, blank=True, null=True)
-    april_memo = models.CharField(max_length=200, blank=True, null=True)
     april_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=10)
     april_idx = models.IntegerField(blank=True, null=True)
     april_seq = models.IntegerField(primary_key=True)
 
@@ -48,7 +47,7 @@ class AprilFront(models.Model):
     april_nansu = models.CharField(max_length=100, blank=True, null=True)
     april_memo = models.CharField(max_length=200, blank=True, null=True)
     april_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=9)
     april_idx = models.IntegerField(blank=True, null=True)
     april_seq = models.IntegerField(primary_key=True)
 
@@ -59,9 +58,8 @@ class AprilFront(models.Model):
 
 class AugBack(models.Model):
     aug_nansu = models.CharField(max_length=100, blank=True, null=True)
-    aug_memo = models.CharField(max_length=200, blank=True, null=True)
     aug_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=18)
     aug_idx = models.IntegerField(blank=True, null=True)
     aug_seq = models.IntegerField(primary_key=True)
 
@@ -74,7 +72,7 @@ class AugFront(models.Model):
     aug_nansu = models.CharField(max_length=100, blank=True, null=True)
     aug_memo = models.CharField(max_length=200, blank=True, null=True)
     aug_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=17)
     aug_idx = models.IntegerField(blank=True, null=True)
     aug_seq = models.IntegerField(primary_key=True)
 
@@ -105,7 +103,7 @@ class Calendar(models.Model):
 class Cover(models.Model):
     cover_nansu = models.CharField(max_length=100, blank=True, null=True)
     cover_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=1)
     cover_idx = models.IntegerField(blank=True, null=True)
     cover_seq = models.IntegerField(primary_key=True)
 
@@ -116,9 +114,8 @@ class Cover(models.Model):
 
 class DecBack(models.Model):
     dec_nansu = models.CharField(max_length=100, blank=True, null=True)
-    dec_memo = models.CharField(max_length=200, blank=True, null=True)
     dec_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=26)
     dec_idx = models.IntegerField(blank=True, null=True)
     dec_seq = models.IntegerField(primary_key=True)
 
@@ -131,7 +128,7 @@ class DecFront(models.Model):
     dec_nansu = models.CharField(max_length=100, blank=True, null=True)
     dec_memo = models.CharField(max_length=200, blank=True, null=True)
     dec_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=25)
     dec_idx = models.IntegerField(blank=True, null=True)
     dec_seq = models.IntegerField(primary_key=True)
 
@@ -142,9 +139,8 @@ class DecFront(models.Model):
 
 class FebBack(models.Model):
     feb_nansu = models.CharField(max_length=100, blank=True, null=True)
-    feb_memo = models.CharField(max_length=200, blank=True, null=True)
     feb_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=6)
     feb_idx = models.IntegerField(blank=True, null=True)
     feb_seq = models.IntegerField(primary_key=True)
 
@@ -157,7 +153,7 @@ class FebFront(models.Model):
     feb_nansu = models.CharField(max_length=100, blank=True, null=True)
     feb_memo = models.CharField(max_length=200, blank=True, null=True)
     feb_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=5)
     feb_idx = models.IntegerField(blank=True, null=True)
     feb_seq = models.IntegerField(primary_key=True)
 
@@ -168,9 +164,8 @@ class FebFront(models.Model):
 
 class JanBack(models.Model):
     jan_nansu = models.CharField(max_length=100, blank=True, null=True)
-    jan_memo = models.CharField(max_length=200, blank=True, null=True)
     jan_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=4)
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.IntegerField(primary_key=True)
 
@@ -183,7 +178,7 @@ class JanFront(models.Model):
     jan_nansu = models.CharField(max_length=100, blank=True, null=True)
     jan_memo = models.CharField(max_length=200, blank=True, null=True)
     jan_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True, default=3)
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.IntegerField(primary_key=True)
 
@@ -194,9 +189,8 @@ class JanFront(models.Model):
 
 class JulyBack(models.Model):
     july_nansu = models.CharField(max_length=100, blank=True, null=True)
-    july_memo = models.CharField(max_length=200, blank=True, null=True)
     july_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=16)
     july_idx = models.IntegerField(blank=True, null=True)
     july_seq = models.IntegerField(primary_key=True)
 
@@ -209,7 +203,7 @@ class JulyFront(models.Model):
     july_nansu = models.CharField(max_length=100, blank=True, null=True)
     july_memo = models.CharField(max_length=200, blank=True, null=True)
     july_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=15)
     july_idx = models.IntegerField(blank=True, null=True)
     july_seq = models.IntegerField(primary_key=True)
 
@@ -220,9 +214,8 @@ class JulyFront(models.Model):
 
 class JuneBack(models.Model):
     june_nansu = models.CharField(max_length=100, blank=True, null=True)
-    june_memo = models.CharField(max_length=200, blank=True, null=True)
     june_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=14)
     june_idx = models.IntegerField(blank=True, null=True)
     june_seq = models.IntegerField(primary_key=True)
 
@@ -235,7 +228,7 @@ class JuneFront(models.Model):
     june_nansu = models.CharField(max_length=100, blank=True, null=True)
     june_memo = models.CharField(max_length=200, blank=True, null=True)
     june_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=13)
     june_idx = models.IntegerField(blank=True, null=True)
     june_seq = models.IntegerField(primary_key=True)
 
@@ -246,9 +239,8 @@ class JuneFront(models.Model):
 
 class MarBack(models.Model):
     mar_nansu = models.CharField(max_length=100, blank=True, null=True)
-    mar_memo = models.CharField(max_length=200, blank=True, null=True)
     mar_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=8)
     mar_idx = models.IntegerField(blank=True, null=True)
     mar_seq = models.IntegerField(primary_key=True)
 
@@ -261,7 +253,7 @@ class MarFront(models.Model):
     mar_nansu = models.CharField(max_length=100, blank=True, null=True)
     mar_memo = models.CharField(max_length=200, blank=True, null=True)
     mar_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=7)
     mar_idx = models.IntegerField(blank=True, null=True)
     mar_seq = models.IntegerField(primary_key=True)
 
@@ -274,7 +266,7 @@ class MayFront(models.Model):
     may_nansu = models.CharField(max_length=100, blank=True, null=True)
     may_memo = models.CharField(max_length=200, blank=True, null=True)
     may_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=11)
     may_idx = models.IntegerField(blank=True, null=True)
     may_seq = models.IntegerField(primary_key=True)
 
@@ -285,9 +277,8 @@ class MayFront(models.Model):
 
 class MayBack(models.Model):
     may_nansu = models.CharField(max_length=100, blank=True, null=True)
-    may_memo = models.CharField(max_length=200, blank=True, null=True)
     may_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=12)
     may_idx = models.IntegerField(blank=True, null=True)
     may_seq = models.IntegerField(primary_key=True)
 
@@ -297,7 +288,7 @@ class MayBack(models.Model):
 
 
 class Nansu(models.Model):
-    nansu_seq = models.IntegerField(primary_key=True)
+    nansu_seq = models.AutoField(primary_key=True)
     nansu = models.CharField(max_length=100, blank=True, null=True)
     nansu_state = models.CharField(max_length=100, blank=True, null=True)
     permission = models.IntegerField(blank=True, null=True)
@@ -331,9 +322,8 @@ class Notice(models.Model):
 
 class NovBack(models.Model):
     nov_nansu = models.CharField(max_length=100, blank=True, null=True)
-    nov_memo = models.CharField(max_length=200, blank=True, null=True)
     nov_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=24)
     nov_idx = models.IntegerField(blank=True, null=True)
     nov_seq = models.IntegerField(primary_key=True)
 
@@ -346,7 +336,7 @@ class NovFront(models.Model):
     nov_nansu = models.CharField(max_length=100, blank=True, null=True)
     nov_memo = models.CharField(max_length=200, blank=True, null=True)
     nov_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=23)
     nov_idx = models.IntegerField(blank=True, null=True)
     nov_seq = models.IntegerField(primary_key=True)
 
@@ -357,9 +347,8 @@ class NovFront(models.Model):
 
 class OctBack(models.Model):
     oct_nansu = models.CharField(max_length=100, blank=True, null=True)
-    oct_memo = models.CharField(max_length=200, blank=True, null=True)
     oct_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=22)
     oct_idx = models.IntegerField(blank=True, null=True)
     oct_seq = models.IntegerField(primary_key=True)
 
@@ -372,7 +361,7 @@ class OctFront(models.Model):
     oct_nansu = models.CharField(max_length=100, blank=True, null=True)
     oct_memo = models.CharField(max_length=200, blank=True, null=True)
     oct_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=21)
     oct_idx = models.IntegerField(blank=True, null=True)
     oct_seq = models.IntegerField(primary_key=True)
 
@@ -417,9 +406,8 @@ class OrderInfo(models.Model):
 
 class SepBack(models.Model):
     sep_nansu = models.CharField(max_length=100, blank=True, null=True)
-    sep_memo = models.CharField(max_length=200, blank=True, null=True)
     sep_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=20)
     sep_idx = models.IntegerField(blank=True, null=True)
     sep_seq = models.IntegerField(primary_key=True)
 
@@ -432,7 +420,7 @@ class SepFront(models.Model):
     sep_nansu = models.CharField(max_length=100, blank=True, null=True)
     sep_memo = models.CharField(max_length=200, blank=True, null=True)
     sep_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=19)
     sep_idx = models.IntegerField(blank=True, null=True)
     sep_seq = models.IntegerField(primary_key=True)
 
@@ -443,7 +431,7 @@ class SepFront(models.Model):
 class Prolog(models.Model):
     prolog_nansu = models.CharField(max_length=100, blank=True, null=True)
     prolog_pic = models.CharField(max_length=200, blank=True, null=True)
-    page_num = models.IntegerField(blank=True, null=True)
+    page_num = models.IntegerField(blank=True, null=True,default=2)
     prolog_idx = models.IntegerField(blank=True, null=True)
     prolog_seq = models.IntegerField(primary_key=True)
 
