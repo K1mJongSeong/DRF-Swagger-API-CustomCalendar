@@ -6,7 +6,6 @@ from django.utils.timezone import now
 import random
 
 admin.site.register(Calendar)
-admin.site.register(Image)
 admin.site.register(Prolog)
 admin.site.register(Cover)
 
