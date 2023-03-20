@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ColorPicker from 'components/editor/ColorPicker';
 import { EditorIconButton } from 'components/editor/EditorButtons';
-import TextEditor from 'components/editor/TextEditor';
+import TextEditor, { CustomColorBtn } from 'components/editor/TextEditor';
+import { useEffect, useRef, useState } from 'react';
 import { BsTypeBold, BsTypeItalic, BsTypeUnderline } from 'react-icons/bs';
+import colorPicker from 'tui-color-picker';
+import 'tui-color-picker/dist/tui-color-picker.css';
 
 const TextEditContainer = ({
   editorIns,
@@ -32,17 +36,31 @@ const TextEditContainer = ({
     });
   };
 
+  /** color picker */
+  const [cpVisible, setCpVisible] = useState(false);
+
+  const handleToggleColPicker = () => {
+    setCpVisible(!cpVisible);
+  };
+
   return (
     <TextEditor>
-      <EditorIconButton white fs="24" onClick={handleTxtBold}>
-        <BsTypeBold />
-      </EditorIconButton>
-      <EditorIconButton white fs="24" onClick={handleTxtItaric}>
-        <BsTypeItalic />
-      </EditorIconButton>
-      <EditorIconButton white fs="24" onClick={handleTxtDeco}>
-        <BsTypeUnderline />
-      </EditorIconButton>
+      <div className="txtStyleBtn_wrap">
+        <EditorIconButton white fs="24" onClick={handleTxtBold}>
+          <BsTypeBold />
+        </EditorIconButton>
+        <EditorIconButton white fs="24" onClick={handleTxtItaric}>
+          <BsTypeItalic />
+        </EditorIconButton>
+        <EditorIconButton white fs="24" onClick={handleTxtDeco}>
+          <BsTypeUnderline />
+        </EditorIconButton>
+      </div>
+
+      <div className="colorBtn_wrap">
+        <CustomColorBtn onClick={handleToggleColPicker} />
+        {cpVisible && <ColorPicker />}
+      </div>
     </TextEditor>
   );
 };
