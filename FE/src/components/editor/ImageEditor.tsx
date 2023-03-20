@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from 'styled-components';
 import 'tui-image-editor/dist/tui-image-editor.css';
 import ImageEditor from '@toast-ui/react-image-editor';
 
 const editorOption = {
+  useDefaultUI: false,
   cssMaxWidth: 700,
   cssMaxHeight: 500,
   selectionStyle: {
-    cornerSize: 20,
+    cornerStyle: 'circle',
+    cornerSize: 15,
+    cornerColor: 'white',
     rotatingPointOffset: 70,
+    borderColor: 'white',
   },
 };
 const ImageEditorCom = ({

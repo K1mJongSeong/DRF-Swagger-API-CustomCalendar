@@ -6,6 +6,7 @@ interface EditorButtonProps {
   red?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   fs?: string;
+  checked?: boolean;
 }
 export const EditorIconButton = (props: EditorButtonProps) => {
   return <EditorButtonBlock {...props} />;
@@ -49,6 +50,13 @@ const buttonStyle = css`
     props.fs &&
     css`
       font-size: ${props.fs}px;
+    `}
+  ${(props: EditorButtonProps) =>
+    props.checked &&
+    css`
+      background-color: white;
+      color: black;
+      border-radius: 3px;
     `}
 `;
 

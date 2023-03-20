@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
 import ImageEditorCom from 'components/editor/ImageEditor';
-import TextEditor from 'components/editor/TextEditor';
 import { useAppSelector } from 'hooks';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { RootState } from 'store';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
+import TextEditContainer from './TextEditContainer';
 
 interface propsType {
   type: string;
@@ -13,19 +15,32 @@ interface propsType {
 }
 
 const ImageEditorContainer = () => {
+  const navigate = useNavigate();
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
-  const editRef = useRef<any>(null);
+  /** 작업 이미지 */
   const [img, setImg] = useState('');
+
+  /** editor Ref */
+  const editRef = useRef<any>(null);
+  /** editor instance */
   const [editorIns, setEditorIns] = useState<any>(null);
 
+  /** selected object */
+  /** id */
   const [selectedObjId, setSelectedObjId] = useState<number>(0);
+  /** text object */
+  const [selectedTxt, setSelectedTxt] = useState<any>(null);
 
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);
 
   useEffect(() => {
+    if (imgs.length <= 0) {
+      alert('이미지가 존재하지 않습니다.');
+      return navigate(-1);
+    }
     if (!editRef.current && !img) return;
     const editor = editRef.current?.getInstance();
     setEditorIns(editor);
@@ -50,13 +65,14 @@ const ImageEditorContainer = () => {
     if (!editorIns) return;
     /** selected object */
     editorIns.on('objectActivated', function (props: propsType) {
-      console.log(props);
-      setSelectedObjId(selectedObjId);
+      setSelectedObjId(props.id);
+      if (props.type === 'i-text') {
+        setSelectedTxt(props);
+      }
     });
 
     /** text editing */
     editorIns.on('textEditing', function () {
-      console.log('텍스트 시작!');
       setTxtEdit(true);
     });
   }, [editorIns]);
@@ -73,6 +89,9 @@ const ImageEditorContainer = () => {
       .addText('더블 클릭')
       .then((props: { id: number }) => {
         console.log(props);
+        setSelectedObjId(props.id);
+        setTxtEdit(true);
+        setSelectedTxt(props);
       })
       .catch((err: Error) => console.error(err));
   };
@@ -81,7 +100,12 @@ const ImageEditorContainer = () => {
     <>
       <EditorTopSection />
       <ImageEditorCom editRef={editRef} />
-      <TextEditor />
+      {txtEdit && (
+        <TextEditContainer
+          editorIns={editorIns}
+          selectedObjId={selectedObjId}
+        />
+      )}
       <EditorBottomSection onCrop={handleCrop} addTxt={handleAddTxt} />
     </>
   );
