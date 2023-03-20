@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
-from .forms import OrderForm
+from .forms import OrderForm, NoticeForm
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
 import random
@@ -129,6 +129,7 @@ admin.site.register(DecBack, DecBackAdmin)
 
 class NoticeAdmin(admin.ModelAdmin):
     list_display =('nansu','monthdays','notice','notice_idx')
+    form = NoticeForm
     # actions = ['update_notice_nansu']
     # def update_notice_nansu(self, request, queryset):
     #     # Nansu 테이블과 연결된 Notice 테이블의 nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.

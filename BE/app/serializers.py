@@ -7,7 +7,7 @@ from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFro
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
-        fields = '__all__'
+        fields = ('notice','monthdays','nansu')
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
