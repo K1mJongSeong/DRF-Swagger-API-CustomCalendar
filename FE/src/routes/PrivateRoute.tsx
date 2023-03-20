@@ -19,25 +19,25 @@ export default function PrivateRoute({
   // const isAuthenticated = sessionStorage.getItem('isAuthenticated');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
-  useEffect(() => {
-    dispatch(getVerifyNansu(nansu as string));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getVerifyNansu(nansu as string));
+  // }, []);
 
-  useEffect(() => {
-    if (error) {
-      console.error(error);
-      setIsAuthenticated(false);
-      return;
-    }
+  // useEffect(() => {
+  //   if (error) {
+  //     console.error(error);
+  //     setIsAuthenticated(false);
+  //     return;
+  //   }
 
-    if (result) {
-      if (result?.nansu_state === '정상') {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    }
-  }, [result, error]);
+  //   if (result) {
+  //     if (result?.nansu_state === '정상') {
+  //       setIsAuthenticated(true);
+  //     } else {
+  //       setIsAuthenticated(false);
+  //     }
+  //   }
+  // }, [result, error]);
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지

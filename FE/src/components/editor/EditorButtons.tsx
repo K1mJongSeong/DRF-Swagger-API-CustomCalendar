@@ -5,6 +5,7 @@ interface EditorButtonProps {
   white?: boolean;
   red?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  fs?: string;
 }
 export const EditorIconButton = (props: EditorButtonProps) => {
   return <EditorButtonBlock {...props} />;
@@ -43,6 +44,11 @@ const buttonStyle = css`
       &:hover {
         color: #ff5370;
       }
+    `}
+  ${(props: EditorButtonProps) =>
+    props.fs &&
+    css`
+      font-size: ${props.fs}px;
     `}
 `;
 

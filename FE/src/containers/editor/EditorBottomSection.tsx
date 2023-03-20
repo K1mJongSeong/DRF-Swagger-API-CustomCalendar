@@ -1,16 +1,26 @@
 import EditorBottom from 'components/editor/EditorBottom';
-import { EditorTextButton } from 'components/editor/EditorButtons';
+import {
+  EditorIconButton,
+  EditorTextButton,
+} from 'components/editor/EditorButtons';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { deleteImg, selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
+import { IoCropSharp } from 'react-icons/io5';
+import { RxText } from 'react-icons/rx';
+import { SlLayers } from 'react-icons/sl';
 
 const EditorBottomSection = ({
   setLoading,
+  onCrop,
+  addTxt,
 }: {
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
+  onCrop?: () => void;
+  addTxt?: () => void;
 }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -63,7 +73,15 @@ const EditorBottomSection = ({
     <EditorBottom>
       {isEdit ? (
         <>
-          <EditorTextButton white>이미지</EditorTextButton>
+          <EditorIconButton white fs="20" onClick={onCrop}>
+            <IoCropSharp />
+          </EditorIconButton>
+          <EditorIconButton white fs="22" onClick={addTxt}>
+            <RxText />
+          </EditorIconButton>
+          <EditorIconButton white fs="20">
+            <SlLayers />
+          </EditorIconButton>
         </>
       ) : (
         <>
