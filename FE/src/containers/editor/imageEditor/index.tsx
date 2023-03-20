@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import ImageEditorCom from 'components/editor/ImageEditor';
+import TextEditor from 'components/editor/TextEditor';
 import { useAppSelector } from 'hooks';
 import { useEffect, useRef, useState } from 'react';
 import { RootState } from 'store';
@@ -43,19 +44,22 @@ const ImageEditorContainer = () => {
           console.error(err);
         });
     }, 1000);
+  }, [editRef, img]);
 
+  useEffect(() => {
+    if (!editorIns) return;
     /** selected object */
-    editor.on('objectActivated', function (props: propsType) {
+    editorIns.on('objectActivated', function (props: propsType) {
       console.log(props);
       setSelectedObjId(selectedObjId);
     });
 
     /** text editing */
-    editor.on('textEditing', function () {
+    editorIns.on('textEditing', function () {
       console.log('텍스트 시작!');
       setTxtEdit(true);
     });
-  }, [editRef, img]);
+  }, [editorIns]);
 
   /** crop */
   const handleCrop = () => {
@@ -77,6 +81,7 @@ const ImageEditorContainer = () => {
     <>
       <EditorTopSection />
       <ImageEditorCom editRef={editRef} />
+      <TextEditor />
       <EditorBottomSection onCrop={handleCrop} addTxt={handleAddTxt} />
     </>
   );
