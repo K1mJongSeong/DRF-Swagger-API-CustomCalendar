@@ -5,7 +5,13 @@ import { BsCartPlus } from 'react-icons/bs';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-const EditorTopSection = ({ children }: { children?: React.ReactNode }) => {
+const EditorTopSection = ({
+  children,
+  onSubmit,
+}: {
+  children?: React.ReactNode;
+  onSubmit?: () => void;
+}) => {
   const nevigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
@@ -37,7 +43,9 @@ const EditorTopSection = ({ children }: { children?: React.ReactNode }) => {
           <EditorTextButton white onClick={handleClickBackBtn}>
             취소
           </EditorTextButton>
-          <EditorTextButton red>적용</EditorTextButton>
+          <EditorTextButton red onClick={onSubmit}>
+            적용
+          </EditorTextButton>
         </>
       ) : (
         <>

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
 import VisibleBackLoading from 'components/common/loading/VisibleBack';
@@ -18,6 +19,8 @@ interface propsType {
   type: string;
   id: number;
 }
+
+type dataURLType = string[];
 
 const ImageEditorContainer = () => {
   const navigate = useNavigate();
@@ -40,6 +43,7 @@ const ImageEditorContainer = () => {
   const [undoSt, setUndoSt] = useState<boolean>(true);
   const [redoSt, setRedoSt] = useState<boolean>(true);
   const [undoStack, setUndoStack] = useState<number>(0);
+  const [redoStack, setRedoStack] = useState<number>(0);
 
   /** selected object */
   /** isActive */
@@ -93,6 +97,7 @@ const ImageEditorContainer = () => {
     /** selected object */
     editorIns.on('objectActivated', function (props: propsType) {
       setSelectedObjId(props.id);
+      setIsActive(false);
       if (props.type === 'i-text') {
         setIsActive(true);
         setSelectedTxt(props);
@@ -118,13 +123,15 @@ const ImageEditorContainer = () => {
     editorIns.on('undoStackChanged', function (length: number) {
       setUndoStack(length);
     });
+    editorIns.on('redoStackChanged', function (length: number) {
+      setRedoStack(length);
+    });
   }, [editorIns]);
 
   /** undo, redo */
   const handleUndo = () => {
     if (!editorIns) return;
     editorIns.undo();
-    setUndoStack((prev) => prev - 1);
   };
   const handleRedo = () => {
     if (!editorIns) return;
@@ -132,16 +139,18 @@ const ImageEditorContainer = () => {
   };
 
   useEffect(() => {
-    if (!editorIns) return;
-    console.log(undoStack);
-    if (undoStack === 1) {
+    console.log(undoStack, redoStack);
+    if (undoStack <= 1) {
       setUndoSt(true);
-      setRedoSt(editorIns.isEmptyRedoStack());
-      return;
+    } else {
+      setUndoSt(false);
     }
-    setUndoSt(editorIns.isEmptyUndoStack());
-    setRedoSt(editorIns.isEmptyRedoStack());
-  }, [undoStack]);
+    if (redoStack) {
+      setRedoSt(false);
+    } else {
+      setRedoSt(true);
+    }
+  }, [undoStack, redoStack]);
 
   /** remove object */
   const handleRemoveObject = () => {
@@ -231,10 +240,34 @@ const ImageEditorContainer = () => {
     setAddLayer(!addLayer);
   };
 
+  /** submit custom Image with Editor */
+  const handleSubmitEditor = () => {
+    if (!editorIns) return;
+    console.log(editorIns.toDataURL());
+    const dataUrl = editorIns.toDataURL();
+    const file = dataURLtoFile(dataUrl, 'customImage.png');
+    console.log(file);
+  };
+  // dataURL to file
+  const dataURLtoFile = (dataurl: any, fileName: string) => {
+    if (!dataurl) return;
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+  };
+
   return (
     <>
       {loading && <VisibleBackLoading />}
-      <EditorTopSection />
+      <EditorTopSection onSubmit={handleSubmitEditor} />
       <ImageEditorCom editRef={editRef} />
       <EditorCtrlBtnsContainer
         undoSt={undoSt}
