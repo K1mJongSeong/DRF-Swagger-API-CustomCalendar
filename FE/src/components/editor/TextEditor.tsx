@@ -4,11 +4,17 @@ const TextEditor = ({ children }: { children: React.ReactNode }) => {
   return <TextEditorBlock>{children}</TextEditorBlock>;
 };
 
-export const CustomColorBtn = ({ onClick }: { onClick: () => void }) => {
+export const CustomColorBtn = ({
+  onClick,
+  color,
+}: {
+  onClick: () => void;
+  color: string;
+}) => {
   return (
     <>
       <StyledButton onClick={onClick}>
-        <span />
+        <span style={{ background: color }} />
       </StyledButton>
     </>
   );
@@ -16,6 +22,7 @@ export const CustomColorBtn = ({ onClick }: { onClick: () => void }) => {
 
 const TextEditorBlock = styled.div`
   width: 100%;
+  height: 47px;
   position: fixed;
   padding: 0.7rem 1rem;
   bottom: 56px;
@@ -29,9 +36,19 @@ const TextEditorBlock = styled.div`
   & > div {
     display: flex;
     align-items: center;
+    position: relative;
   }
   & > div + div {
-    margin-left: 24px;
+    margin-left: 2.2rem;
+  }
+
+  & > div:last-child::before {
+    content: '';
+    width: 1px;
+    height: 15px;
+    background-color: white;
+    position: absolute;
+    left: -1.1rem;
   }
   .colorBtn_wrap {
     position: relative;
@@ -56,6 +73,36 @@ const TextEditorBlock = styled.div`
         right: 0;
         bottom: 0;
         transform: translateY(100%);
+      }
+
+      .tui-colorpicker-clearfix {
+        position: relative;
+        margin-top: 3px;
+
+        .tui-colorpicker-palette-toggle-slider {
+          display: none;
+        }
+        input[type='text'] {
+          height: 30px;
+          padding: 0 4px 0 1.7rem;
+          width: 100%;
+          border: 1px solid #ccc;
+          background-color: #eee;
+          border-radius: 3px;
+          &:focus {
+            outline: none;
+          }
+        }
+        span.tui-colorpicker-palette-preview {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          position: absolute;
+          z-index: 9;
+          top: 50%;
+          left: 3px;
+          transform: translateY(-50%);
+        }
       }
     }
   }
@@ -82,7 +129,7 @@ const StyledButton = styled.button`
     min-height: 20px;
     max-height: 20px;
     border-radius: 50%;
-    background-color: white;
+    border: 1px solid white;
   }
 `;
 
