@@ -22,7 +22,7 @@ const initialState: AuthState = {
 export const getVerifyNansu = createAsyncThunk(
   'auth/getVerifyNansu',
   async (nansu: string) => {
-    const res = await client.get(`/NansuUrlDetail/${nansu}`, {
+    const res = await client.get(`/NansuUrlDetail/${nansu}/`, {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.data;
