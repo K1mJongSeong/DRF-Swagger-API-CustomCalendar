@@ -25,6 +25,7 @@ const ImageEditorContainer = () => {
   );
   /** 작업 배경 이미지 */
   const [img, setImg] = useState('');
+  const [imgWidth, setImgWidth] = useState<number>(0);
 
   /** loading */
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,6 +73,7 @@ const ImageEditorContainer = () => {
         .loadImageFromURL(img, 'basic')
         .then((props: any) => {
           console.log(props);
+          setImgWidth(props.newWidth);
           setLoading(false);
         })
         .catch((err: Error) => {
@@ -182,12 +184,16 @@ const ImageEditorContainer = () => {
     editorIns.stopDrawingMode();
     setCropEdit(false);
     setImgEdit(false);
+
     editorIns
       .addText('더블 클릭')
       .then((props: { id: number }) => {
         setSelectedObjId(props.id);
         setTxtEdit(true);
         setSelectedTxt(props);
+        editorIns.changeTextStyle(props.id, {
+          fontSize: imgWidth / 10,
+        });
       })
       .catch((err: Error) => console.error(err));
   };
