@@ -9,6 +9,7 @@ interface EditorButtonProps {
   checked?: boolean;
   isOpacity?: boolean;
   disabled?: boolean;
+  p?: string;
 }
 export const EditorIconButton = (props: EditorButtonProps) => {
   return <EditorButtonBlock {...props} />;
@@ -70,6 +71,11 @@ const buttonStyle = css`
     css`
       opacity: 0.7;
       pointer-events: none;
+    `}
+  ${(props: EditorButtonProps) =>
+    props.p &&
+    css`
+      padding: ${props.p}px;
     `}
 `;
 

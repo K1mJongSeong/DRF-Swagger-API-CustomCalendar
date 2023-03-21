@@ -93,6 +93,8 @@ const ImageEditorContainer = () => {
 
     /** text editing */
     editorIns.on('textEditing', function () {
+      setCropEdit(false);
+      setImgEdit(false);
       setTxtEdit(true);
     });
     /** undo, redo */
@@ -122,8 +124,6 @@ const ImageEditorContainer = () => {
     }
     setUndoSt(editorIns.isEmptyUndoStack());
     setRedoSt(editorIns.isEmptyRedoStack());
-    console.log(undoSt);
-    console.log(redoSt);
   }, [undoStack]);
 
   /** crop */
@@ -210,7 +210,7 @@ const ImageEditorContainer = () => {
           onCancle={handlecancleCrop}
         />
       )}
-      {imgEdit && <ImageEditContainer />}
+      {imgEdit && <ImageEditContainer editorIns={editorIns} />}
       {txtEdit && (
         <TextEditContainer
           editorIns={editorIns}
