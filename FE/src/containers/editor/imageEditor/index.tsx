@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
+import CropZone from 'components/editor/CropZone';
 import ImageEditorCom from 'components/editor/ImageEditor';
 import { useAppSelector } from 'hooks';
 import { useEffect, useRef, useState } from 'react';
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { RootState } from 'store';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
+import CropEditContainer from './CropEditContainer';
 import TextEditContainer from './TextEditContainer';
 
 interface propsType {
@@ -35,6 +37,8 @@ const ImageEditorContainer = () => {
 
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);
+  /** crop edit */
+  const [cropEdit, setCropEdit] = useState<boolean>(false);
 
   useEffect(() => {
     if (imgs.length <= 0) {
@@ -80,11 +84,49 @@ const ImageEditorContainer = () => {
   /** crop */
   const handleCrop = () => {
     if (!editorIns) return;
+    editorIns.startDrawingMode('CROPPER');
+    setTxtEdit(false);
+    setCropEdit(true);
+  };
+
+  const handleSetCropZone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!editorIns) return;
+    const { value } = e.target;
+
+    if (value === 'none') {
+      editorIns.setCropzoneRect(0);
+    } else if (value === '1') {
+      editorIns.setCropzoneRect(1);
+    } else if (value === '2') {
+      editorIns.setCropzoneRect(1.7777777777777777);
+    } else if (value === '3') {
+      editorIns.setCropzoneRect(1.5);
+    } else if (value === '4') {
+      editorIns.setCropzoneRect(1.25);
+    }
+  };
+
+  const handleApplyCrop = () => {
+    if (!editorIns) return;
+    const cropZone = editorIns.getCropzoneRect();
+
+    if (!cropZone) return;
+    if (cropZone.width <= 1 || cropZone.height <= 1) {
+      return;
+    }
+    editorIns.crop(cropZone);
+  };
+  const handlecancleCrop = () => {
+    if (!editorIns) return;
+    editorIns.stopDrawingMode();
+    setCropEdit(false);
   };
 
   /** add text */
   const handleAddTxt = () => {
     if (!editorIns) return;
+    editorIns.stopDrawingMode();
+    setCropEdit(false);
     editorIns
       .addText('더블 클릭')
       .then((props: { id: number }) => {
@@ -99,6 +141,13 @@ const ImageEditorContainer = () => {
     <>
       <EditorTopSection />
       <ImageEditorCom editRef={editRef} />
+      {cropEdit && (
+        <CropEditContainer
+          onChange={handleSetCropZone}
+          onApply={handleApplyCrop}
+          onCancle={handlecancleCrop}
+        />
+      )}
       {txtEdit && (
         <TextEditContainer
           editorIns={editorIns}

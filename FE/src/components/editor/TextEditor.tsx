@@ -22,6 +22,7 @@ export const CustomColorBtn = ({
 
 const TextEditorBlock = styled.div`
   width: 100%;
+  height: 47px;
   position: fixed;
   padding: 0.7rem 1rem;
   bottom: 56px;
