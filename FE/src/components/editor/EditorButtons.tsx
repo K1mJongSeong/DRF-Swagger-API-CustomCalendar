@@ -8,6 +8,7 @@ interface EditorButtonProps {
   fs?: string;
   checked?: boolean;
   isOpacity?: boolean;
+  disabled?: boolean;
 }
 export const EditorIconButton = (props: EditorButtonProps) => {
   return <EditorButtonBlock {...props} />;
@@ -63,6 +64,12 @@ const buttonStyle = css`
     props.isOpacity &&
     css`
       opacity: 0.7;
+    `}
+  ${(props: EditorButtonProps) =>
+    props.disabled &&
+    css`
+      opacity: 0.7;
+      pointer-events: none;
     `}
 `;
 
