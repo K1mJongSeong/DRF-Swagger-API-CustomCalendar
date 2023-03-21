@@ -28,6 +28,7 @@ const CropZoneBlock = styled.div`
       }
       span.txt {
         color: #919191;
+        font-size: 0.875rem;
       }
 
       & > input:checked ~ span.txt {
