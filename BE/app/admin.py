@@ -155,6 +155,7 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ['-order_date','-create_date']
     list_filter = ['orderState']
     list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date')
+    list_per_page = 20
     
 
     def save_model(self, request, obj, form, change):
@@ -182,17 +183,18 @@ admin.site.register(Order, OrderAdmin)
 
 class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     actions = ['insert_random_nansu']
-    search_fields = ['nansu']
+    search_fields = ['nansu','nansu_type']
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_type','created_at')
     change_form_template = "admin/button.html"
+    list_per_page = 50
     print(change_form_template)
 
     def nansu_view(self, request, object_id=None, extra_context=None):
         print('nansu_view 실행')
         if "_insert-random" in request.POST:
             nansu_option = request.POST.get('nansu')
-            nansu_type = request.POST.get('nansu_type','')
+            nansu_type = request.POST.get('nansu_type')
             for _ in range(int(nansu_option)):
                 new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)), nansu_type=nansu_type)
                 new_nansu.save()
