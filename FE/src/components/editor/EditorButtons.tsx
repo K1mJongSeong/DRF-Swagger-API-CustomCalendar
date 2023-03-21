@@ -7,6 +7,7 @@ interface EditorButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   fs?: string;
   checked?: boolean;
+  isOpacity?: boolean;
 }
 export const EditorIconButton = (props: EditorButtonProps) => {
   return <EditorButtonBlock {...props} />;
@@ -57,6 +58,11 @@ const buttonStyle = css`
       background-color: white;
       color: black;
       border-radius: 3px;
+    `}
+  ${(props: EditorButtonProps) =>
+    props.isOpacity &&
+    css`
+      opacity: 0.7;
     `}
 `;
 

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
-import CropZone from 'components/editor/CropZone';
 import ImageEditorCom from 'components/editor/ImageEditor';
 import { useAppSelector } from 'hooks';
 import { useEffect, useRef, useState } from 'react';
@@ -9,6 +8,7 @@ import { RootState } from 'store';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
 import CropEditContainer from './CropEditContainer';
+import EditorCtrlBtnsContainer from './EditorCtrlBtnsContainer';
 import TextEditContainer from './TextEditContainer';
 
 interface propsType {
@@ -21,7 +21,7 @@ const ImageEditorContainer = () => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
-  /** 작업 이미지 */
+  /** 작업 배경 이미지 */
   const [img, setImg] = useState('');
 
   /** editor Ref */
@@ -35,10 +35,10 @@ const ImageEditorContainer = () => {
   /** text object */
   const [selectedTxt, setSelectedTxt] = useState<any>(null);
 
-  /** text edit */
-  const [txtEdit, setTxtEdit] = useState<boolean>(false);
   /** crop edit */
   const [cropEdit, setCropEdit] = useState<boolean>(false);
+  /** text edit */
+  const [txtEdit, setTxtEdit] = useState<boolean>(false);
 
   useEffect(() => {
     if (imgs.length <= 0) {
@@ -141,6 +141,7 @@ const ImageEditorContainer = () => {
     <>
       <EditorTopSection />
       <ImageEditorCom editRef={editRef} />
+      <EditorCtrlBtnsContainer editorIns={editorIns} />
       {cropEdit && (
         <CropEditContainer
           onChange={handleSetCropZone}
