@@ -19,11 +19,13 @@ const EditorBottomSection = ({
   onCrop,
   onImg,
   addTxt,
+  addLayer,
 }: {
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   onCrop?: () => void;
   onImg?: () => void;
   addTxt?: () => void;
+  addLayer?: () => void;
 }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ const EditorBottomSection = ({
           <EditorIconButton white fs="22" onClick={addTxt}>
             <RxText />
           </EditorIconButton>
-          <EditorIconButton white fs="20">
+          <EditorIconButton white fs="20" onClick={addLayer}>
             <SlLayers />
           </EditorIconButton>
         </>

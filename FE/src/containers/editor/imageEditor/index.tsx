@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { RootState } from 'store';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
+import AddLayerContainer from './AddLayerContainer';
 import CropEditContainer from './CropEditContainer';
 import EditorCtrlBtnsContainer from './EditorCtrlBtnsContainer';
 import ImageEditContainer from './ImageEditContainer';
@@ -35,6 +36,11 @@ const ImageEditorContainer = () => {
   /** editor instance */
   const [editorIns, setEditorIns] = useState<any>(null);
 
+  /** undo, redo */
+  const [undoSt, setUndoSt] = useState<boolean>(true);
+  const [redoSt, setRedoSt] = useState<boolean>(true);
+  const [undoStack, setUndoStack] = useState<number>(0);
+
   /** selected object */
   /** id */
   const [selectedObjId, setSelectedObjId] = useState<number>(0);
@@ -47,11 +53,8 @@ const ImageEditorContainer = () => {
   const [imgEdit, setImgEdit] = useState<boolean>(false);
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);
-
-  /** undo, redo */
-  const [undoSt, setUndoSt] = useState<boolean>(true);
-  const [redoSt, setRedoSt] = useState<boolean>(true);
-  const [undoStack, setUndoStack] = useState<number>(0);
+  /** add image layer */
+  const [addLayer, setAddLayer] = useState<boolean>(false);
 
   /** instance 생성 및 배경이미지 */
   useEffect(() => {
@@ -98,6 +101,7 @@ const ImageEditorContainer = () => {
       setCropEdit(false);
       setImgEdit(false);
       setTxtEdit(true);
+      setAddLayer(false);
     });
     /** undo, redo */
     editorIns.on('undoStackChanged', function (length: number) {
@@ -135,6 +139,7 @@ const ImageEditorContainer = () => {
     setCropEdit(true);
     setImgEdit(false);
     setTxtEdit(false);
+    setAddLayer(false);
   };
 
   const handleSetCropZone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,6 +181,7 @@ const ImageEditorContainer = () => {
     setCropEdit(false);
     setImgEdit(true);
     setTxtEdit(false);
+    setAddLayer(false);
   };
 
   /** add text */
@@ -184,6 +190,7 @@ const ImageEditorContainer = () => {
     editorIns.stopDrawingMode();
     setCropEdit(false);
     setImgEdit(false);
+    setAddLayer(false);
 
     editorIns
       .addText('더블 클릭')
@@ -196,6 +203,14 @@ const ImageEditorContainer = () => {
         });
       })
       .catch((err: Error) => console.error(err));
+  };
+
+  /** add iamge layer */
+  const handleOpenAddLayer = () => {
+    setCropEdit(false);
+    setImgEdit(false);
+    setTxtEdit(false);
+    setAddLayer(!addLayer);
   };
 
   return (
@@ -225,10 +240,12 @@ const ImageEditorContainer = () => {
           setSelectedTxt={setSelectedTxt}
         />
       )}
+      {addLayer && <AddLayerContainer editorIns={editorIns} />}
       <EditorBottomSection
         onCrop={handleCrop}
         onImg={handleImageEdit}
         addTxt={handleAddTxt}
+        addLayer={handleOpenAddLayer}
       />
     </>
   );
