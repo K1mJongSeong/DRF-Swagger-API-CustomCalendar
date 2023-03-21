@@ -8,7 +8,7 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = '__all__'
         widgets = {
-            'orderState': forms.Select(choices=Order.ORDER_STATE_CHOICES),
+            'orderState': forms.Select(choices=Order.ORDER_STATE_CHOICES),#드롭다운 메뉴
             # 'order_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M:%S'),
         }
 

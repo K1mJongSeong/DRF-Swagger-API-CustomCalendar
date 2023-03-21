@@ -3,8 +3,14 @@ from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack,
 from .forms import OrderForm, NoticeForm
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
+from django.http import HttpResponseRedirect
+from django.utils.html import format_html
+from django.db import connection
+from django.shortcuts import render
 import random
 
+admin.site.site_header = '모바일 달력커스텀 인쇄주문'
+admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 admin.site.register(Calendar)
 admin.site.register(Prolog)
 admin.site.register(Cover)
@@ -178,9 +184,128 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     actions = ['insert_random_nansu']
     search_fields = ['nansu']
     ordering = ['-nansu_seq']
-    list_display = ('nansu_seq','nansu','nansu_state','permission','created_at')
+    list_display = ('nansu_seq','nansu','created_at')
+    change_form_template = "admin/button.html"
+    print(change_form_template)
+
+    # def nansu_view(self, request, queryset, object_id=None, extra_context=None):
+    #     print('b')
+    #     if "_insert-random" in request.POST:
+    #         nansu = request.POST.get('nansu')
+    #         if nansu == '1':
+    #             for obj in queryset:
+    #                 obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
+    #                 obj.save()
+    #         elif nansu == '10':
+    #             for i in range(10):
+    #                 for obj in queryset:
+    #                     obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
+    #                     obj.save()
+    #         elif nansu == '100':
+    #             for i in range(100):
+    #                 for obj in queryset:
+    #                     obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
+    #                     obj.save()
+    #         return super().change_view(request, object_id, form_url=form_url, extra_context=extra_context)
+
+    # def change_view(self, request, object_id=None, form_url='', extra_context=None):
+    #     extra_context = extra_context or {}
+    #     extra_context['show_save_and_add_another'] = False
+    #     extra_context['show_save_and_continue'] = False
+    #     extra_context['show_save'] = False
+    #     return self.nansu_view(request, object_id, form_url, extra_context)
+
+    # def change_view(self, request, extra_context=None):
+    #     print('cc')
+    #     if '_insert-random' in request.POST:
+    #         print('cccs')
+    #         return self.nansu_view(request, self.get_queryset(request), extra_context=extra_context)
+    #     return super().changelist_view(request, extra_context=extra_context)
+
+    # def change_view(self, request, object_id, form_url='', extra_context=None):
+    #     print('asdasd')
+    #     if "nansu" in request.POST:
+    #         print("asd")
+    #         nansu = request.POST.get('nansu')
+    #         if nansu == '1':
+    #             with connection.cursor() as cursor:
+    #                 query = """
+    #                     INSERT INTO nansu (nansu)
+    #                     SELECT FLOOR(RAND() * 99999999)
+    #                     FROM information_schema.tables
+    #                     LIMIT 1;
+    #                 """
+    #                 print(query)
+    #                 cursor.execute(query)
+    #         elif nansu == '10':
+    #             with connection.cursor() as cursor:
+    #                 query = """
+    #                     INSERT INTO nansu (nansu)
+    #                     SELECT FLOOR(RAND() * 99999999)
+    #                     FROM information_schema.tables
+    #                     LIMIT 10;
+    #                 """
+    #                 print(query)
+    #                 cursor.execute(query)
+    #         elif nansu == '100':
+    #             with connection.cursor() as cursor:
+    #                 query = """
+    #                     INSERT INTO nansu (nansu)
+    #                     SELECT FLOOR(RAND() * 99999999)
+    #                     FROM information_schema.tables
+    #                     LIMIT 100;
+    #                 """
+    #                 print(query)
+    #                 cursor.execute(query)
+
+
+    #         return HttpResponseRedirect(request.get_full_path())
+            
+    #     response = super().change_view(request, object_id, form_url=form_url, extra_context=extra_context)
+    #     return response
+
+    # def change_view(self, request, object_id, form_url='', extra_context=None):
+    #     if request.method == 'POST' and '_insert-random' in request.POST:
+    #         with connection.cursor() as cursor:
+    #             cursor.execute("""
+    #                 INSERT INTO nansu (nansu) 
+    #                 SELECT FLOOR(RAND() * 99999999) 
+    #                 FROM information_schema.tables 
+    #                 LIMIT 10;
+    #             """)
+    #         self.message_user(request, f"Random numbers inserted successfully.")
+    #         return HttpResponseRedirect(request.get_full_path())
+        
+    #     # `else` 부분에 추가
+    #     response = super().change_view(request, object_id, form_url=form_url, extra_context=extra_context)
+    #     return response
+
+
+    def nansu_view(self, request, object_id=None, extra_context=None):
+        print('nansu_view 실행')
+        if "_insert-random" in request.POST:
+            nansu_option = request.POST.get('nansu')
+            for _ in range(int(nansu_option)):
+                new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)))
+                new_nansu.save()
+            self.message_user(request, f"{nansu_option} 개의 난수가 생성 되었습니다.")
+            return HttpResponseRedirect(request.path)
+
+        return super().changeform_view(request, object_id, extra_context=extra_context)
+
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        print('changeform_view 실행')
+        extra_context = extra_context or {}
+        extra_context['show_save_and_add_another'] = False
+        extra_context['show_save_and_continue'] = False
+        extra_context['show_save'] = False
+        return self.nansu_view(request, object_id=object_id, extra_context=extra_context)
+
+
 
     def insert_random_nansu(self, request, queryset):
+        print('c')
         for obj in queryset:
             obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
             obj.save()
@@ -201,6 +326,5 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             else:
                 obj.nansu_seq = 1
         obj.save()
-
 admin.site.register(Nansu, NansuAdmin)
 
