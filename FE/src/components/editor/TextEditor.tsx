@@ -8,7 +8,7 @@ export const CustomColorBtn = ({ onClick }: { onClick: () => void }) => {
   return (
     <>
       <StyledButton onClick={onClick}>
-        <span />
+        <span style={{ background: 'white' }} />
       </StyledButton>
     </>
   );
@@ -57,6 +57,24 @@ const TextEditorBlock = styled.div`
         bottom: 0;
         transform: translateY(100%);
       }
+
+      input[type='text'] {
+        height: 24px;
+        padding: 0 4px;
+        width: 77px;
+        border: 1px solid #ccc;
+        &:focus {
+          outline: none;
+        }
+      }
+      .tui-colorpicker-palette-toggle-slider {
+        display: flex;
+        background-color: #312b2b;
+        color: white;
+        border: none;
+        padding: 2px 6px;
+        cursor: pointer;
+      }
     }
   }
 `;
@@ -82,7 +100,7 @@ const StyledButton = styled.button`
     min-height: 20px;
     max-height: 20px;
     border-radius: 50%;
-    background-color: white;
+    border: 1px solid white;
   }
 `;
 

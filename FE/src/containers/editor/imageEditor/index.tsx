@@ -32,6 +32,7 @@ const ImageEditorContainer = () => {
   const [selectedObjId, setSelectedObjId] = useState<number>(0);
   /** text object */
   const [selectedTxt, setSelectedTxt] = useState<any>(null);
+  console.log(selectedTxt);
 
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);

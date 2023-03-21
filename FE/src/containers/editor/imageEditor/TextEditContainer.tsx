@@ -2,10 +2,8 @@
 import ColorPicker from 'components/editor/ColorPicker';
 import { EditorIconButton } from 'components/editor/EditorButtons';
 import TextEditor, { CustomColorBtn } from 'components/editor/TextEditor';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsTypeBold, BsTypeItalic, BsTypeUnderline } from 'react-icons/bs';
-import colorPicker from 'tui-color-picker';
-import 'tui-color-picker/dist/tui-color-picker.css';
 
 const TextEditContainer = ({
   editorIns,
@@ -38,10 +36,16 @@ const TextEditContainer = ({
 
   /** color picker */
   const [cpVisible, setCpVisible] = useState(false);
+  const [colPickInstance, setColPickInstance] = useState<any>(null);
 
   const handleToggleColPicker = () => {
     setCpVisible(!cpVisible);
   };
+
+  useEffect(() => {
+    if (!colPickInstance) return;
+    console.log(colPickInstance.getColor());
+  }, [colPickInstance]);
 
   return (
     <TextEditor>
@@ -59,7 +63,7 @@ const TextEditContainer = ({
 
       <div className="colorBtn_wrap">
         <CustomColorBtn onClick={handleToggleColPicker} />
-        {cpVisible && <ColorPicker />}
+        {cpVisible && <ColorPicker setColPick={setColPickInstance} />}
       </div>
     </TextEditor>
   );
