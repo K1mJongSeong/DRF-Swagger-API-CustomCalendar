@@ -42,6 +42,8 @@ const ImageEditorContainer = () => {
   const [undoStack, setUndoStack] = useState<number>(0);
 
   /** selected object */
+  /** isActive */
+  const [isActive, setIsActive] = useState<boolean>(false);
   /** id */
   const [selectedObjId, setSelectedObjId] = useState<number>(0);
   /** text object */
@@ -92,7 +94,16 @@ const ImageEditorContainer = () => {
     editorIns.on('objectActivated', function (props: propsType) {
       setSelectedObjId(props.id);
       if (props.type === 'i-text') {
+        setIsActive(true);
         setSelectedTxt(props);
+      } else if (props.type === 'image') {
+        setIsActive(true);
+        setCropEdit(false);
+        setImgEdit(false);
+        setTxtEdit(false);
+        setAddLayer(true);
+      } else {
+        setIsActive(false);
       }
     });
 
@@ -131,6 +142,13 @@ const ImageEditorContainer = () => {
     setUndoSt(editorIns.isEmptyUndoStack());
     setRedoSt(editorIns.isEmptyRedoStack());
   }, [undoStack]);
+
+  /** remove object */
+  const handleRemoveObject = () => {
+    if (!editorIns) return;
+    editorIns.removeActiveObject();
+    setIsActive(false);
+  };
 
   /** crop */
   const handleCrop = () => {
@@ -223,6 +241,8 @@ const ImageEditorContainer = () => {
         redoSt={redoSt}
         onUndo={handleUndo}
         onRedo={handleRedo}
+        isActive={isActive}
+        onRemove={handleRemoveObject}
       />
       {cropEdit && (
         <CropEditContainer
