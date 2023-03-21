@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
-import Loading from 'components/common/loading';
 import VisibleBackLoading from 'components/common/loading/VisibleBack';
 import ImageEditorCom from 'components/editor/ImageEditor';
 import { useAppSelector } from 'hooks';
@@ -11,6 +10,7 @@ import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
 import CropEditContainer from './CropEditContainer';
 import EditorCtrlBtnsContainer from './EditorCtrlBtnsContainer';
+import ImageEditContainer from './ImageEditContainer';
 import TextEditContainer from './TextEditContainer';
 
 interface propsType {
@@ -42,6 +42,8 @@ const ImageEditorContainer = () => {
 
   /** crop edit */
   const [cropEdit, setCropEdit] = useState<boolean>(false);
+  /** image edit */
+  const [imgEdit, setImgEdit] = useState<boolean>(false);
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);
 
@@ -50,6 +52,7 @@ const ImageEditorContainer = () => {
   const [redoSt, setRedoSt] = useState<boolean>(true);
   const [undoStack, setUndoStack] = useState<number>(0);
 
+  /** instance 생성 및 배경이미지 */
   useEffect(() => {
     if (imgs.length <= 0) {
       alert('이미지가 존재하지 않습니다.');
@@ -77,6 +80,7 @@ const ImageEditorContainer = () => {
     }, 1000);
   }, [editRef, img]);
 
+  /** instance 이벤트 */
   useEffect(() => {
     if (!editorIns) return;
     /** selected object */
@@ -118,7 +122,6 @@ const ImageEditorContainer = () => {
     }
     setUndoSt(editorIns.isEmptyUndoStack());
     setRedoSt(editorIns.isEmptyRedoStack());
-    setRedoSt(editorIns.isEmptyRedoStack());
     console.log(undoSt);
     console.log(redoSt);
   }, [undoStack]);
@@ -127,8 +130,9 @@ const ImageEditorContainer = () => {
   const handleCrop = () => {
     if (!editorIns) return;
     editorIns.startDrawingMode('CROPPER');
-    setTxtEdit(false);
     setCropEdit(true);
+    setImgEdit(false);
+    setTxtEdit(false);
   };
 
   const handleSetCropZone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,11 +168,20 @@ const ImageEditorContainer = () => {
     setCropEdit(false);
   };
 
+  /** img */
+  const handleImageEdit = () => {
+    editorIns.stopDrawingMode();
+    setCropEdit(false);
+    setImgEdit(true);
+    setTxtEdit(false);
+  };
+
   /** add text */
   const handleAddTxt = () => {
     if (!editorIns) return;
     editorIns.stopDrawingMode();
     setCropEdit(false);
+    setImgEdit(false);
     editorIns
       .addText('더블 클릭')
       .then((props: { id: number }) => {
@@ -197,6 +210,7 @@ const ImageEditorContainer = () => {
           onCancle={handlecancleCrop}
         />
       )}
+      {imgEdit && <ImageEditContainer />}
       {txtEdit && (
         <TextEditContainer
           editorIns={editorIns}
@@ -205,7 +219,11 @@ const ImageEditorContainer = () => {
           setSelectedTxt={setSelectedTxt}
         />
       )}
-      <EditorBottomSection onCrop={handleCrop} addTxt={handleAddTxt} />
+      <EditorBottomSection
+        onCrop={handleCrop}
+        onImg={handleImageEdit}
+        addTxt={handleAddTxt}
+      />
     </>
   );
 };

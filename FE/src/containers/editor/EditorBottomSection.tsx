@@ -12,14 +12,17 @@ import { RootState } from 'store';
 import { IoCropSharp } from 'react-icons/io5';
 import { RxText } from 'react-icons/rx';
 import { SlLayers } from 'react-icons/sl';
+import { MdFlip } from 'react-icons/md';
 
 const EditorBottomSection = ({
   setLoading,
   onCrop,
+  onImg,
   addTxt,
 }: {
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   onCrop?: () => void;
+  onImg?: () => void;
   addTxt?: () => void;
 }) => {
   const params = useParams();
@@ -75,6 +78,9 @@ const EditorBottomSection = ({
         <>
           <EditorIconButton white fs="20" onClick={onCrop}>
             <IoCropSharp />
+          </EditorIconButton>
+          <EditorIconButton white fs="20" onClick={onImg}>
+            <MdFlip />
           </EditorIconButton>
           <EditorIconButton white fs="22" onClick={addTxt}>
             <RxText />
