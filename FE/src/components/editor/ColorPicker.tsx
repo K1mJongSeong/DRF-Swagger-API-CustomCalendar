@@ -3,7 +3,13 @@ import { useRef, useEffect } from 'react';
 import colorPicker from 'tui-color-picker';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
-const ColorPicker = ({ setColPick }: { setColPick: React.Dispatch<any> }) => {
+const ColorPicker = ({
+  setColPick,
+  color,
+}: {
+  setColPick: React.Dispatch<any>;
+  color: string;
+}) => {
   /** color picker */
   const colorPickerRef = useRef<HTMLDivElement>(null);
 
@@ -11,7 +17,8 @@ const ColorPicker = ({ setColPick }: { setColPick: React.Dispatch<any> }) => {
     if (!colorPickerRef.current) return;
     const instance = colorPicker.create({
       container: colorPickerRef.current,
-      color: '#000000',
+      color: color,
+      usageStatistics: false,
     });
     setColPick(instance);
   }, []);

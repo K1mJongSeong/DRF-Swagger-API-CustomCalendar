@@ -32,7 +32,6 @@ const ImageEditorContainer = () => {
   const [selectedObjId, setSelectedObjId] = useState<number>(0);
   /** text object */
   const [selectedTxt, setSelectedTxt] = useState<any>(null);
-  console.log(selectedTxt);
 
   /** text edit */
   const [txtEdit, setTxtEdit] = useState<boolean>(false);
@@ -96,7 +95,6 @@ const ImageEditorContainer = () => {
       })
       .catch((err: Error) => console.error(err));
   };
-
   return (
     <>
       <EditorTopSection />
@@ -105,6 +103,8 @@ const ImageEditorContainer = () => {
         <TextEditContainer
           editorIns={editorIns}
           selectedObjId={selectedObjId}
+          selectedTxt={selectedTxt}
+          setSelectedTxt={setSelectedTxt}
         />
       )}
       <EditorBottomSection onCrop={handleCrop} addTxt={handleAddTxt} />

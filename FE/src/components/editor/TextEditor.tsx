@@ -4,11 +4,17 @@ const TextEditor = ({ children }: { children: React.ReactNode }) => {
   return <TextEditorBlock>{children}</TextEditorBlock>;
 };
 
-export const CustomColorBtn = ({ onClick }: { onClick: () => void }) => {
+export const CustomColorBtn = ({
+  onClick,
+  color,
+}: {
+  onClick: () => void;
+  color: string;
+}) => {
   return (
     <>
       <StyledButton onClick={onClick}>
-        <span style={{ background: 'white' }} />
+        <span style={{ background: color }} />
       </StyledButton>
     </>
   );
@@ -29,9 +35,19 @@ const TextEditorBlock = styled.div`
   & > div {
     display: flex;
     align-items: center;
+    position: relative;
   }
   & > div + div {
-    margin-left: 24px;
+    margin-left: 2.2rem;
+  }
+
+  & > div:last-child::before {
+    content: '';
+    width: 1px;
+    height: 15px;
+    background-color: white;
+    position: absolute;
+    left: -1.1rem;
   }
   .colorBtn_wrap {
     position: relative;
@@ -58,22 +74,34 @@ const TextEditorBlock = styled.div`
         transform: translateY(100%);
       }
 
-      input[type='text'] {
-        height: 24px;
-        padding: 0 4px;
-        width: 77px;
-        border: 1px solid #ccc;
-        &:focus {
-          outline: none;
+      .tui-colorpicker-clearfix {
+        position: relative;
+        margin-top: 3px;
+
+        .tui-colorpicker-palette-toggle-slider {
+          display: none;
         }
-      }
-      .tui-colorpicker-palette-toggle-slider {
-        display: flex;
-        background-color: #312b2b;
-        color: white;
-        border: none;
-        padding: 2px 6px;
-        cursor: pointer;
+        input[type='text'] {
+          height: 30px;
+          padding: 0 4px 0 1.7rem;
+          width: 100%;
+          border: 1px solid #ccc;
+          background-color: #eee;
+          border-radius: 3px;
+          &:focus {
+            outline: none;
+          }
+        }
+        span.tui-colorpicker-palette-preview {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          position: absolute;
+          z-index: 9;
+          top: 50%;
+          left: 3px;
+          transform: translateY(-50%);
+        }
       }
     }
   }
