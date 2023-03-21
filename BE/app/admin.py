@@ -8,6 +8,7 @@ from django.utils.html import format_html
 from django.db import connection
 from django.shortcuts import render
 import random
+import string
 
 admin.site.site_header = '모바일 달력커스텀 인쇄주문'
 admin.site.index_title = '모바일 달력커스텀 인쇄주문'
@@ -196,7 +197,9 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             nansu_option = request.POST.get('nansu')
             nansu_type = request.POST.get('nansu_type')
             for _ in range(int(nansu_option)):
-                new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)), nansu_type=nansu_type)
+                random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+                new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type)
+                #new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)), nansu_type=nansu_type)
                 new_nansu.save()
             self.message_user(request, f"{nansu_option} 개의 난수가 생성 되었습니다.")
             return HttpResponseRedirect(request.path)
