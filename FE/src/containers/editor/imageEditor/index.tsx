@@ -3,10 +3,11 @@
 /* eslint-disable react/prop-types */
 import VisibleBackLoading from 'components/common/loading/VisibleBack';
 import ImageEditorCom from 'components/editor/ImageEditor';
-import { useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBottomSection from '../EditorBottomSection';
 import EditorTopSection from '../EditorTopSection';
@@ -21,10 +22,9 @@ interface propsType {
   id: number;
 }
 
-type dataURLType = string[];
-
 const ImageEditorContainer = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
@@ -260,6 +260,9 @@ const ImageEditorContainer = () => {
       },
     });
     console.log(res.data.image);
+    if (selectedId === null) return;
+    dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
+    navigate(-1);
     setLoading(false);
   };
   // dataURL to file
