@@ -4,6 +4,7 @@
 import VisibleBackLoading from 'components/common/loading/VisibleBack';
 import ImageEditorCom from 'components/editor/ImageEditor';
 import { useAppSelector } from 'hooks';
+import client from 'lib/api/client';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { RootState } from 'store';
@@ -241,12 +242,25 @@ const ImageEditorContainer = () => {
   };
 
   /** submit custom Image with Editor */
-  const handleSubmitEditor = () => {
+  const handleSubmitEditor = async () => {
     if (!editorIns) return;
+    setLoading(true);
     console.log(editorIns.toDataURL());
-    const dataUrl = editorIns.toDataURL();
+    const dataUrl = await editorIns.toDataURL();
     const file = dataURLtoFile(dataUrl, 'customImage.png');
     console.log(file);
+
+    if (!file) return setLoading(false);
+    const formData = new FormData();
+
+    formData.append('image', file);
+    const res = await client.post('/Image/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(res.data.image);
+    setLoading(false);
   };
   // dataURL to file
   const dataURLtoFile = (dataurl: any, fileName: string) => {
