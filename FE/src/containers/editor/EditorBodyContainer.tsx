@@ -1,6 +1,7 @@
-import EditorConWrap, { EditorItem } from 'components/editor/EditorConWrap';
+import EditorConWrap from 'components/editor/EditorConWrap';
 import { Renault } from 'data/template/renault';
 import { EditorConProps } from 'interface/editor';
+import EditorItemContainer from './EditorItemContainer';
 
 const EditorBodyContainer = (props: EditorConProps) => {
   const {
@@ -28,7 +29,7 @@ const EditorBodyContainer = (props: EditorConProps) => {
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>
-            <EditorItem item={item} onClick={onClickImage} />
+            <EditorItemContainer item={item} onClick={onClickImage} />
           </SwiperSlide>
         ))}
       </Swiper>

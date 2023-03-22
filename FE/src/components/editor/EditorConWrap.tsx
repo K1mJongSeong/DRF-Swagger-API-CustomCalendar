@@ -1,35 +1,15 @@
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { ImgBlockProps, ItemProps } from 'interface/editor';
+import { ImgBlockProps } from 'interface/editor';
 import { useRef, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import CalendarWrap from './calendar/CalendarWrap';
 
 const EditorConWrap = ({ children }: { children: React.ReactNode }) => {
   return <EditorConWrapBlock>{children}</EditorConWrapBlock>;
 };
 
-export const EditorItem = ({ item, onClick }: ItemProps) => {
-  return (
-    <div className="item">
-      <div className="ctrl_wrap">
-        {item.ctrlItems?.map((ci, idx) => (
-          <CtrlBlock onClick={onClick} img={ci} key={idx} />
-        ))}
-      </div>
-      <div className="page_wrap">
-        {item.ctrlItems?.map((ci, idx) => (
-          <ImgBlock key={idx} img={ci} />
-        ))}
-        <img src={item?.tempSrc} />
-      </div>
-      {item.isCalendar && <CalendarWrap />}
-    </div>
-  );
-};
-
-const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+export const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
@@ -74,7 +54,7 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   );
 };
 
-const ImgBlock = ({ img }: ImgBlockProps) => {
+export const ImgBlock = ({ img }: ImgBlockProps) => {
   const { imgs } = useAppSelector((state: RootState) => state.images);
   const [hadImg, setHadImg] = useState<boolean>(false);
 
