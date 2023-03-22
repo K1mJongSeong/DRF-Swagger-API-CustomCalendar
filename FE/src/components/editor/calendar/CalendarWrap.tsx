@@ -32,6 +32,11 @@ const CalendarWrapBlock = styled.div`
         opacity: 0;
         pointer-events: none;
       }
+      &.red {
+        span {
+          color: #e64c66;
+        }
+      }
     }
   }
 `;

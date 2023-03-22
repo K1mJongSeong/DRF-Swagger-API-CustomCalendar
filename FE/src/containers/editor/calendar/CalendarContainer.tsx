@@ -8,6 +8,7 @@ import {
   isSameMonth,
   startOfMonth,
   endOfMonth,
+  getDay,
 } from 'date-fns';
 import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
@@ -34,6 +35,7 @@ const CalendarContainer = ({
   let formattedDate = '';
 
   while (day <= endDate) {
+    console.log(day);
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
       days.push(
@@ -41,8 +43,8 @@ const CalendarContainer = ({
           className={`col cell ${
             !isSameMonth(day, monthStart)
               ? 'disabled'
-              : isSameDay(day, selectedDate)
-              ? 'selected'
+              : getDay(day) === 0
+              ? 'red'
               : 'not-valid'
           }`}
           key={uuid()}
@@ -70,9 +72,6 @@ const CalendarContainer = ({
     days = [];
   }
 
-  useEffect(() => {
-    console.log(months);
-  }, [months]);
   return <CalendarWrap>{rows}</CalendarWrap>;
 };
 
