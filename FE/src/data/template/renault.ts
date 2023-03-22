@@ -24,6 +24,8 @@ export const Renault = [
     tempSrc: '/assets/images/template/renault/0004.jpg',
     name: '1월앞',
     ctrlItems: [{ cId: 5, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
+    isCalendar: true,
+    month: 1,
   },
   {
     id: 5,
@@ -36,6 +38,8 @@ export const Renault = [
     tempSrc: '/assets/images/template/renault/0006.jpg',
     name: '2월앞',
     ctrlItems: [{ cId: 7, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
+    isCalendar: true,
+    month: 2,
   },
   {
     id: 7,
@@ -48,6 +52,8 @@ export const Renault = [
     tempSrc: '/assets/images/template/renault/0008.jpg',
     name: '3월앞',
     ctrlItems: [{ cId: 9, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
+    isCalendar: true,
+    month: 3,
   },
   {
     id: 9,
@@ -62,6 +68,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 11, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 4,
   },
   {
     id: 11,
@@ -76,6 +84,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 13, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 5,
   },
   {
     id: 13,
@@ -90,6 +100,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 15, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 6,
   },
   {
     id: 15,
@@ -104,6 +116,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 17, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 7,
   },
   {
     id: 17,
@@ -118,6 +132,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 19, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 8,
   },
   {
     id: 19,
@@ -132,6 +148,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 21, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 9,
   },
   {
     id: 21,
@@ -146,6 +164,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 23, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 10,
   },
   {
     id: 23,
@@ -160,6 +180,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 25, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 11,
   },
   {
     id: 25,
@@ -174,6 +196,8 @@ export const Renault = [
     ctrlItems: [
       { cId: 27, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
+    isCalendar: true,
+    month: 12,
   },
   {
     id: 27,

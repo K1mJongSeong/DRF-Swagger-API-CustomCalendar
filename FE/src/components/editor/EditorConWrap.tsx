@@ -1,64 +1,15 @@
-import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { EditorConProps, ImgBlockProps, ItemProps } from 'interface/editor';
+import { ImgBlockProps } from 'interface/editor';
 import { useRef, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks';
 import { RootState } from 'store';
 
-const EditorConWrap = (props: EditorConProps) => {
-  const {
-    Swiper,
-    SwiperSlide,
-    thumbsSwiper,
-    FreeMode,
-    Navigation,
-    Thumbs,
-    swiperRef,
-    onSwiper,
-    onClickImage,
-  } = props;
-
-  return (
-    <EditorConWrapBlock>
-      <Swiper
-        ref={swiperRef}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2"
-        onSlideChange={(i) => onSwiper(i.activeIndex)}
-      >
-        {Renault?.map((item) => (
-          <SwiperSlide key={item?.id}>
-            <EditorItem item={item} onClick={onClickImage} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </EditorConWrapBlock>
-  );
+const EditorConWrap = ({ children }: { children: React.ReactNode }) => {
+  return <EditorConWrapBlock>{children}</EditorConWrapBlock>;
 };
 
-const EditorItem = ({ item, onClick }: ItemProps) => {
-  return (
-    <div className="item">
-      <div className="ctrl_wrap">
-        {item.ctrlItems?.map((ci, idx) => (
-          <CtrlBlock onClick={onClick} img={ci} key={idx} />
-        ))}
-      </div>
-      <div className="page_wrap">
-        {item.ctrlItems?.map((ci, idx) => (
-          <ImgBlock key={idx} img={ci} />
-        ))}
-        <img src={item?.tempSrc} />
-      </div>
-    </div>
-  );
-};
-
-const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+export const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
@@ -102,7 +53,8 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
     </div>
   );
 };
-const ImgBlock = ({ img }: ImgBlockProps) => {
+
+export const ImgBlock = ({ img }: ImgBlockProps) => {
   const { imgs } = useAppSelector((state: RootState) => state.images);
   const [hadImg, setHadImg] = useState<boolean>(false);
 

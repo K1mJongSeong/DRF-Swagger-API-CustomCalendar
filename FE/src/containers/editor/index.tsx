@@ -1,4 +1,3 @@
-import EditorConWrap from 'components/editor/EditorConWrap';
 import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
@@ -26,6 +25,7 @@ import client from 'lib/api/client';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
+import EditorBodyContainer from './EditorBodyContainer';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -107,7 +107,7 @@ const EditorContainer = () => {
           Thumbs={Thumbs}
         />
       </EditorTopSection>
-      <EditorConWrap
+      <EditorBodyContainer
         thumbsSwiper={thumbsSwiper}
         Swiper={Swiper}
         SwiperSlide={SwiperSlide}
