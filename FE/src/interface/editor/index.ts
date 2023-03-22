@@ -34,6 +34,7 @@ export interface ItemProps {
       l: string;
       t?: string;
     }>;
+    isCalendar?: boolean;
   };
   onClick?: (cId: number, hadImg?: boolean) => void;
 }

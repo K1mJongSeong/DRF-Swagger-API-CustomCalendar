@@ -1,46 +1,16 @@
-import { Renault } from 'data/template/renault';
 import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
-import { EditorConProps, ImgBlockProps, ItemProps } from 'interface/editor';
+import { ImgBlockProps, ItemProps } from 'interface/editor';
 import { useRef, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks';
 import { RootState } from 'store';
+import CalendarWrap from './calendar/CalendarWrap';
 
-const EditorConWrap = (props: EditorConProps) => {
-  const {
-    Swiper,
-    SwiperSlide,
-    thumbsSwiper,
-    FreeMode,
-    Navigation,
-    Thumbs,
-    swiperRef,
-    onSwiper,
-    onClickImage,
-  } = props;
-
-  return (
-    <EditorConWrapBlock>
-      <Swiper
-        ref={swiperRef}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2"
-        onSlideChange={(i) => onSwiper(i.activeIndex)}
-      >
-        {Renault?.map((item) => (
-          <SwiperSlide key={item?.id}>
-            <EditorItem item={item} onClick={onClickImage} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </EditorConWrapBlock>
-  );
+const EditorConWrap = ({ children }: { children: React.ReactNode }) => {
+  return <EditorConWrapBlock>{children}</EditorConWrapBlock>;
 };
 
-const EditorItem = ({ item, onClick }: ItemProps) => {
+export const EditorItem = ({ item, onClick }: ItemProps) => {
   return (
     <div className="item">
       <div className="ctrl_wrap">
@@ -54,6 +24,7 @@ const EditorItem = ({ item, onClick }: ItemProps) => {
         ))}
         <img src={item?.tempSrc} />
       </div>
+      {item.isCalendar && <CalendarWrap />}
     </div>
   );
 };
@@ -102,6 +73,7 @@ const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
     </div>
   );
 };
+
 const ImgBlock = ({ img }: ImgBlockProps) => {
   const { imgs } = useAppSelector((state: RootState) => state.images);
   const [hadImg, setHadImg] = useState<boolean>(false);
