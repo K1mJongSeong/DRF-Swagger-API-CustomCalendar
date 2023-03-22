@@ -9,6 +9,7 @@ from rest_framework import routers
 from rest_framework.decorators import api_view
 from rest_framework_swagger.views import get_swagger_view
 from app import views
+#from app.admin import NansuInfoDetail
 from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView, SwaggerSchemaView
 from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
 
@@ -71,5 +72,5 @@ urlpatterns = [
     path('Notice/',Notice.as_view()),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#_media에 이미지 저장.
 

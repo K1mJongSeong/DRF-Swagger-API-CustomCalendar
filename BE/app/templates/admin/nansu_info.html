@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <h1>{{ nansu_info.template_name }} 난수 목록</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>난수</th>
+                <th>난수 유형</th>
+                <th>생성 일자</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nansu in nansu_list %}
+                <tr>
+                    <td>{{ nansu.nansu }}</td>
+                    <td>{{ nansu.nansu_type }}</td>
+                    <td>{{ nansu.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

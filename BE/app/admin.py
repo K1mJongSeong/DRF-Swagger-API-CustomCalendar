@@ -1,12 +1,18 @@
 from django.contrib import admin
-from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
+from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, NansuInfo
 from .forms import OrderForm, NoticeForm
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
 from django.http import HttpResponseRedirect
 from django.utils.html import format_html
+from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.db import connection
+from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.urls import reverse
+from datetime import datetime
 import random
 import string
 
@@ -188,7 +194,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_type','created_at')
     change_form_template = "admin/button.html"
-    list_per_page = 50
+    list_per_page = 20
     print(change_form_template)
 
     def nansu_view(self, request, object_id=None, extra_context=None):
@@ -196,13 +202,30 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         if "_insert-random" in request.POST:
             nansu_option = request.POST.get('nansu')
             nansu_type = request.POST.get('nansu_type')
+            nansu_list = []
             for _ in range(int(nansu_option)):
                 random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
                 new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type)
-                #new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)), nansu_type=nansu_type)
                 new_nansu.save()
+                nansu_list.append(new_nansu)
+            
+            new_nansu_info = NansuInfo(nansu_count=int(nansu_option), nansu_date=datetime.now(), template_name=nansu_type)
+            new_nansu_info.save()
+            print(nansu_list)
+            # 세션에 nansu_seq 값 저장
+            nansu_seq_list = [nansu.nansu_seq for nansu in nansu_list]
+            request.session['nansu_seq'] =  nansu_option#new_nansu.nansu_seq
+            request.session['nansu'] = nansu_seq_list
+            request.session['nansu_type'] = nansu_type
+            print(nansu_option)
+            print(nansu_seq_list)
+            # print(nansu_nansu_type_list)
+
+
             self.message_user(request, f"{nansu_option} 개의 난수가 생성 되었습니다.")
             return HttpResponseRedirect(request.path)
+        nansu_seq = request.session.get('nansu_seq', None) # 저장된 nansu_seq 값을 가져오기
+        
 
         return super().changeform_view(request, object_id, extra_context=extra_context)
 
@@ -214,7 +237,6 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         extra_context['show_save_and_continue'] = False
         extra_context['show_save'] = False
         return self.nansu_view(request, object_id=object_id, extra_context=extra_context)
-
 
 
     def insert_random_nansu(self, request, queryset):
@@ -241,3 +263,40 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         obj.save()
 admin.site.register(Nansu, NansuAdmin)
 
+
+class NansuInfoAdmin(admin.ModelAdmin):
+    list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        nansu_info = NansuInfo.objects.get(pk=object_id)
+        nansu_list = request.session.get('nansu', []) # 수정된 부분
+        nansu_type = request.session.get('nansu_type', None)
+        nansu_option = request.session.get('nansu_seq', None)
+        print(nansu_list)
+        # if nansu_seq
+        #     nansu_list = Nansu.objects.filter(nansu_type=nansu_info.template_name, nansu=nansu).order_by('-created_at')
+        # else:
+        #     nansu_list = Nansu.objects.filter(nansu_type=nansu_info.template_name).order_by('-created_at')
+        print(nansu_option)
+        if nansu_option == "1":
+            nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+            print('성공1')
+        elif nansu_option == "10":
+            nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+            print('성공10')
+        elif nansu_option == "100":
+            nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+            print('성공100')
+        else:
+            nansu_list = Nansu.objects.filter(nansu_type=nansu_info.template_name).order_by('-created_at')
+            print('실패')
+        print(nansu_list.count())
+        print(nansu_type)
+
+        context = {
+            'nansu_info':nansu_info,
+            'nansu_list':nansu_list,
+        }
+
+        return render(request,'admin/nansu_info.html',context)
+admin.site.register(NansuInfo, NansuInfoAdmin)
