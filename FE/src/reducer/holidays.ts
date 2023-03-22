@@ -22,7 +22,7 @@ export const getHolidays = createAsyncThunk(
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=2023&solMonth=${month}&_type=json&ServiceKey=${process.env.REACT_APP_GET_HOLIDAY_KEY}`,
       {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 5000,
+        timeout: 7000,
       },
     );
     return res.data.response.body.items.item;
@@ -32,11 +32,7 @@ export const getHolidays = createAsyncThunk(
 const holidaysSlice = createSlice({
   name: 'holidays',
   initialState,
-  reducers: {
-    addHoliday: (state, action) => {
-      state.holidays.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getHolidays.pending, (state) => {
       state.result = null;
@@ -47,6 +43,12 @@ const holidaysSlice = createSlice({
       state.error = null;
       state.loading = false;
       state.result = action.payload;
+      if (!action.payload) return;
+      if (Array.isArray(action.payload)) {
+        action.payload.forEach((el) => state.holidays.push(el));
+      } else {
+        state.holidays.push(action.payload);
+      }
     });
     builder.addCase(getHolidays.rejected, (state, action) => {
       state.loading = false;
