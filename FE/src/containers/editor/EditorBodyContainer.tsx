@@ -3,16 +3,14 @@
 import EditorConWrap from 'components/editor/EditorConWrap';
 import { Renault } from 'data/template/renault';
 import { addMonths, format } from 'date-fns';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch } from 'hooks';
 import { EditorConProps } from 'interface/editor';
 import { useEffect } from 'react';
 import { getHolidays } from 'reducer/holidays';
-import { RootState } from 'store';
 import EditorItemContainer from './EditorItemContainer';
 
 const EditorBodyContainer = (props: EditorConProps) => {
   const dispatch = useAppDispatch();
-  const { result } = useAppSelector((state: RootState) => state.holidays);
   const {
     Swiper,
     SwiperSlide,
@@ -35,7 +33,6 @@ const EditorBodyContainer = (props: EditorConProps) => {
     currentMonth = addMonths(currentMonth, 1);
     months.push(currentMonth);
   }
-
   useEffect(() => {
     return () => {
       for (let i = 1; i < 13; i++) {

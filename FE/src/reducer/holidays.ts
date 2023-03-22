@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -22,7 +23,7 @@ export const getHolidays = createAsyncThunk(
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=2023&solMonth=${month}&_type=json&ServiceKey=${process.env.REACT_APP_GET_HOLIDAY_KEY}`,
       {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 7000,
+        timeout: 5000,
       },
     );
     return res.data.response.body.items.item;
@@ -45,8 +46,18 @@ const holidaysSlice = createSlice({
       state.result = action.payload;
       if (!action.payload) return;
       if (Array.isArray(action.payload)) {
-        action.payload.forEach((el) => state.holidays.push(el));
+        action.payload.forEach((el) => {
+          let find = state.holidays.some((hd) => hd.locdate === el.locdate);
+          console.log(find);
+          if (find) return;
+          state.holidays.push(el);
+        });
       } else {
+        let find = state.holidays.some(
+          (hd) => hd.locdate === action.payload.locdate,
+        );
+        console.log(find);
+        if (find) return;
         state.holidays.push(action.payload);
       }
     });
