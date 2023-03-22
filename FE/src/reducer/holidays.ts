@@ -48,7 +48,6 @@ const holidaysSlice = createSlice({
       if (Array.isArray(action.payload)) {
         action.payload.forEach((el) => {
           let find = state.holidays.some((hd) => hd.locdate === el.locdate);
-          console.log(find);
           if (find) return;
           state.holidays.push(el);
         });
@@ -56,7 +55,6 @@ const holidaysSlice = createSlice({
         let find = state.holidays.some(
           (hd) => hd.locdate === action.payload.locdate,
         );
-        console.log(find);
         if (find) return;
         state.holidays.push(action.payload);
       }

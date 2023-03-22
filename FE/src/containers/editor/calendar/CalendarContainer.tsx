@@ -12,6 +12,10 @@ import {
 } from 'date-fns';
 import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
+import { useAppSelector } from 'hooks';
+import { RootState } from 'store';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 
 const CalendarContainer = ({
   month,
@@ -22,6 +26,7 @@ const CalendarContainer = ({
   months: Array<Date>;
   selectedDate: Date;
 }) => {
+  const { holidays } = useAppSelector((state: RootState) => state.holidays);
   const currentMonth = months.filter((el, idx) => idx === month - 1)[0];
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -32,6 +37,8 @@ const CalendarContainer = ({
   let days: any[] = [];
   let day = startDate;
   let formattedDate = '';
+
+  const [isHoli, setIsHoli] = useState(false);
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
