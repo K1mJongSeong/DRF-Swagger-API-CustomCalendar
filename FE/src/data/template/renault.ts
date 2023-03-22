@@ -25,6 +25,7 @@ export const Renault = [
     name: '1월앞',
     ctrlItems: [{ cId: 5, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
+    month: 1,
   },
   {
     id: 5,
@@ -38,6 +39,7 @@ export const Renault = [
     name: '2월앞',
     ctrlItems: [{ cId: 7, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
+    month: 2,
   },
   {
     id: 7,
@@ -51,6 +53,7 @@ export const Renault = [
     name: '3월앞',
     ctrlItems: [{ cId: 9, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
+    month: 3,
   },
   {
     id: 9,
@@ -66,6 +69,7 @@ export const Renault = [
       { cId: 11, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 4,
   },
   {
     id: 11,
@@ -81,6 +85,7 @@ export const Renault = [
       { cId: 13, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 5,
   },
   {
     id: 13,
@@ -96,6 +101,7 @@ export const Renault = [
       { cId: 15, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 6,
   },
   {
     id: 15,
@@ -111,6 +117,7 @@ export const Renault = [
       { cId: 17, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 7,
   },
   {
     id: 17,
@@ -126,6 +133,7 @@ export const Renault = [
       { cId: 19, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 8,
   },
   {
     id: 19,
@@ -141,6 +149,7 @@ export const Renault = [
       { cId: 21, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 9,
   },
   {
     id: 21,
@@ -156,6 +165,7 @@ export const Renault = [
       { cId: 23, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 10,
   },
   {
     id: 23,
@@ -171,6 +181,7 @@ export const Renault = [
       { cId: 25, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 11,
   },
   {
     id: 25,
@@ -186,6 +197,7 @@ export const Renault = [
       { cId: 27, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' },
     ],
     isCalendar: true,
+    month: 12,
   },
   {
     id: 27,

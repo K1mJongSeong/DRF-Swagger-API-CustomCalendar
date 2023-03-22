@@ -22,6 +22,23 @@ export interface EditorConProps {
   onClickImage: (cId: number) => void;
 }
 
+interface basicItemTypes {
+  item: {
+    id: number;
+    tempSrc: string;
+    name: string;
+    ctrlItems?: Array<{
+      cId: number;
+      w: string;
+      h: string;
+      l: string;
+      t?: string;
+    }>;
+    isCalendar?: boolean;
+    month?: number | Date;
+  };
+  onClick?: (cId: number, hadImg?: boolean) => void;
+}
 export interface ItemProps {
   item: {
     id: number;
@@ -35,8 +52,14 @@ export interface ItemProps {
       t?: string;
     }>;
     isCalendar?: boolean;
+    month?: number | Date;
   };
   onClick?: (cId: number, hadImg?: boolean) => void;
+}
+
+export interface ItemInBodyProps extends basicItemTypes {
+  selectedDate: Date;
+  months: Array<Date>;
 }
 
 export interface ImgBlockProps {

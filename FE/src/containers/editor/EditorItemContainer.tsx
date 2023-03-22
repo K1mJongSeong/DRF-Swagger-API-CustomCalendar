@@ -1,8 +1,15 @@
-import CalendarWrap from 'components/editor/calendar/CalendarWrap';
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CtrlBlock, ImgBlock } from 'components/editor/EditorConWrap';
-import { ItemProps } from 'interface/editor';
+import { ItemInBodyProps } from 'interface/editor';
+import CalendarContainer from './calendar/CalendarContainer';
 
-const EditorItemContainer = ({ item, onClick }: ItemProps) => {
+const EditorItemContainer = ({
+  item,
+  onClick,
+  selectedDate,
+  months,
+}: ItemInBodyProps) => {
   return (
     <div className="item">
       <div className="ctrl_wrap">
@@ -16,7 +23,13 @@ const EditorItemContainer = ({ item, onClick }: ItemProps) => {
         ))}
         <img src={item?.tempSrc} />
       </div>
-      {item.isCalendar && <CalendarWrap />}
+      {item.isCalendar && item.month && (
+        <CalendarContainer
+          month={item.month}
+          months={months}
+          selectedDate={selectedDate}
+        />
+      )}
     </div>
   );
 };
