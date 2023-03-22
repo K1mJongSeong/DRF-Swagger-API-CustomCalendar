@@ -301,6 +301,8 @@ class Nansu(models.Model):
     created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     nansu = models.CharField(max_length=100, blank=True, null=True)
     nansu_type = models.CharField(max_length=20, blank=True, null=True)
+    nansu_state = models.CharField(max_length=10)
+
 
     class Meta:
         managed = True

@@ -195,6 +195,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     list_display = ('nansu_seq','nansu','nansu_type','created_at')
     change_form_template = "admin/button.html"
     list_per_page = 20
+    fields = ['nansu_type']
     print(change_form_template)
 
     def nansu_view(self, request, object_id=None, extra_context=None):
@@ -205,7 +206,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             nansu_list = []
             for _ in range(int(nansu_option)):
                 random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-                new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type)
+                new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type,nansu_state='정상')
                 new_nansu.save()
                 nansu_list.append(new_nansu)
             
@@ -260,6 +261,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
                 obj.nansu_seq = last_nansu.nansu_seq + 1
             else:
                 obj.nansu_seq = 1
+                
         obj.save()
 admin.site.register(Nansu, NansuAdmin)
 
@@ -280,10 +282,10 @@ class NansuInfoAdmin(admin.ModelAdmin):
         print(nansu_option)
         if nansu_option == "1":
             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-            print('성공1')
+            print('성공10')
         elif nansu_option == "10":
             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-            print('성공10')
+            print('성공1')
         elif nansu_option == "100":
             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
             print('성공100')
