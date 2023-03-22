@@ -26,6 +26,7 @@ const CalendarWrapBlock = styled.div`
       width: 14.2857%;
       /* border: 1px solid yellow; */
       padding: 0.3em;
+      font-size: 0.7em;
 
       &.disabled {
         opacity: 0;
