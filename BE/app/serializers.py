@@ -42,7 +42,7 @@ class JanFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JanFront
-        fields = ('jan_seq','jan_pic','jan_nansu','jan_memo')
+        fields = ('jan_pic','jan_nansu','jan_memo')
 
 class JanBackSerializer(serializers.ModelSerializer):
     jan_pic = serializers.ListField(
@@ -51,7 +51,7 @@ class JanBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JanBack
-        fields = ('jan_seq','jan_pic','jan_nansu')
+        fields = ('jan_pic','jan_nansu')
 
 
 
@@ -62,7 +62,7 @@ class FebFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = FebFront
-        fields = ('feb_seq','feb_pic','feb_nansu','feb_memo')
+        fields = ('feb_pic','feb_nansu','feb_memo')
 
 class FebBackSerializer(serializers.ModelSerializer):
     feb_pic = serializers.ListField(
@@ -71,7 +71,7 @@ class FebBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = FebBack
-        fields = ('feb_seq','feb_pic','feb_nansu')
+        fields = ('feb_pic','feb_nansu')
 
 
 
@@ -83,7 +83,7 @@ class MarFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = MarFront
-        fields = ('mar_seq','mar_pic','mar_nansu','mar_memo')
+        fields = ('mar_pic','mar_nansu','mar_memo')
 
 class MarBackSerializer(serializers.ModelSerializer):
     mar_pic = serializers.ListField(
@@ -92,7 +92,7 @@ class MarBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = MarBack
-        fields = ('mar_seq','mar_pic','mar_nansu')
+        fields = ('mar_pic','mar_nansu')
 
 
 
@@ -103,7 +103,7 @@ class AprilFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = AprilFront
-        fields = ('april_seq','april_pic','april_nansu','april_memo')
+        fields = ('april_pic','april_nansu','april_memo')
 
 class AprilBackSerializer(serializers.ModelSerializer):
     april_pic = serializers.ListField(
@@ -112,7 +112,7 @@ class AprilBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = AprilBack
-        fields = ('april_seq','april_pic','april_nansu')
+        fields = ('april_pic','april_nansu')
 
 
 
@@ -123,7 +123,7 @@ class MayFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = MayFront
-        fields = ('may_seq','may_pic','may_nansu','may_memo')
+        fields = ('may_pic','may_nansu','may_memo')
 
 class MayBackSerializer(serializers.ModelSerializer):
     may_pic = serializers.ListField(
@@ -132,7 +132,7 @@ class MayBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = MayBack
-        fields = ('may_seq','may_pic','may_nansu')
+        fields = ('may_pic','may_nansu')
 
 
 
@@ -143,7 +143,7 @@ class JuneFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JuneFront
-        fields = ('june_seq','june_pic','june_nansu','june_memo')
+        fields = ('june_pic','june_nansu','june_memo')
 
 class JuneBackSerializer(serializers.ModelSerializer):
     june_pic = serializers.ListField(
@@ -152,7 +152,7 @@ class JuneBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JuneBack
-        fields = ('june_seq','june_pic','june_nansu')
+        fields = ('june_pic','june_nansu')
 
 
 
@@ -163,7 +163,7 @@ class JulyFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JulyFront
-        fields = ('july_seq','july_pic','july_nansu','july_memo')
+        fields = ('july_pic','july_nansu','july_memo')
 
 class JulyBackSerializer(serializers.ModelSerializer):
     july_pic = serializers.ListField(
@@ -172,7 +172,7 @@ class JulyBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = JulyBack
-        fields = ('july_seq','july_pic','july_nansu')
+        fields = ('july_pic','july_nansu')
 
 
 
@@ -183,7 +183,7 @@ class AugFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = AugFront
-        fields = ('aug_seq','aug_pic','aug_nansu','aug_memo')
+        fields = ('aug_pic','aug_nansu','aug_memo')
 
 class AugBackSerializer(serializers.ModelSerializer):
     aug_pic = serializers.ListField(
@@ -192,7 +192,7 @@ class AugBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = AugBack
-        fields = ('aug_seq','aug_pic','aug_nansu')
+        fields = ('aug_pic','aug_nansu')
 
 
 
@@ -203,7 +203,7 @@ class SepFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = SepFront
-        fields = ('sep_seq','sep_pic','sep_nansu','sep_memo')
+        fields = ('sep_pic','sep_nansu','sep_memo')
 
 class SepBackSerializer(serializers.ModelSerializer):
     sep_pic = serializers.ListField(
@@ -212,7 +212,7 @@ class SepBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = SepBack
-        fields = ('sep_seq','sep_pic','sep_nansu')
+        fields = ('sep_pic','sep_nansu')
 
 
 
@@ -223,7 +223,7 @@ class OctFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = OctFront
-        fields = ('oct_seq','oct_pic','oct_nansu','oct_memo')
+        fields = ('oct_pic','oct_nansu','oct_memo')
 
 class OctBackSerializer(serializers.ModelSerializer):
     oct_pic = serializers.ListField(
@@ -232,7 +232,7 @@ class OctBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = OctBack
-        fields = ('oct_seq','oct_pic','oct_nansu')
+        fields = ('oct_pic','oct_nansu')
 
 
 
@@ -243,7 +243,7 @@ class NovFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = NovFront
-        fields = ('nov_seq','nov_pic','nov_nansu','nov_memo')
+        fields = ('nov_pic','nov_nansu','nov_memo')
 
 class NovBackSerializer(serializers.ModelSerializer):
     nov_pic = serializers.ListField(
@@ -252,7 +252,7 @@ class NovBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = NovBack
-        fields = ('nov_seq','nov_pic','nov_nansu')
+        fields = ('nov_pic','nov_nansu')
 
 
 
@@ -263,7 +263,7 @@ class DecFrontSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = DecFront
-        fields = ('dec_seq','dec_pic','dec_nansu','dec_memo')
+        fields = ('dec_pic','dec_nansu','dec_memo')
 
 class DecBackSerializer(serializers.ModelSerializer):
     dec_pic = serializers.ListField(
@@ -272,7 +272,7 @@ class DecBackSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = DecBack
-        fields = ('dec_seq','dec_pic','dec_nansu')
+        fields = ('dec_pic','dec_nansu')
 
 
 
@@ -283,7 +283,7 @@ class PrologSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Prolog
-        fields = ('prolog_seq','prolog_pic','prolog_nansu')
+        fields = ('prolog_pic','prolog_nansu')
 
 
 
@@ -294,4 +294,4 @@ class CoverSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Cover
-        fields = ('cover_seq','cover_pic','cover_nansu')
+        fields = ('cover_pic','cover_nansu')

@@ -3,8 +3,15 @@ from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack,
 from .forms import OrderForm, NoticeForm
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
+from django.http import HttpResponseRedirect
+from django.utils.html import format_html
+from django.db import connection
+from django.shortcuts import render
 import random
+import string
 
+admin.site.site_header = '모바일 달력커스텀 인쇄주문'
+admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 admin.site.register(Calendar)
 admin.site.register(Prolog)
 admin.site.register(Cover)
@@ -149,6 +156,7 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ['-order_date','-create_date']
     list_filter = ['orderState']
     list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date')
+    list_per_page = 20
     
 
     def save_model(self, request, obj, form, change):
@@ -176,11 +184,41 @@ admin.site.register(Order, OrderAdmin)
 
 class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     actions = ['insert_random_nansu']
-    search_fields = ['nansu']
+    search_fields = ['nansu','nansu_type']
     ordering = ['-nansu_seq']
-    list_display = ('nansu_seq','nansu','nansu_state','permission','created_at')
+    list_display = ('nansu_seq','nansu','nansu_type','created_at')
+    change_form_template = "admin/button.html"
+    list_per_page = 50
+    print(change_form_template)
+
+    def nansu_view(self, request, object_id=None, extra_context=None):
+        print('nansu_view 실행')
+        if "_insert-random" in request.POST:
+            nansu_option = request.POST.get('nansu')
+            nansu_type = request.POST.get('nansu_type')
+            for _ in range(int(nansu_option)):
+                random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+                new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type)
+                #new_nansu = Nansu(nansu=str(random.randint(10**(8-1), (10**8)-1)), nansu_type=nansu_type)
+                new_nansu.save()
+            self.message_user(request, f"{nansu_option} 개의 난수가 생성 되었습니다.")
+            return HttpResponseRedirect(request.path)
+
+        return super().changeform_view(request, object_id, extra_context=extra_context)
+
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        print('changeform_view 실행')
+        extra_context = extra_context or {}
+        extra_context['show_save_and_add_another'] = False
+        extra_context['show_save_and_continue'] = False
+        extra_context['show_save'] = False
+        return self.nansu_view(request, object_id=object_id, extra_context=extra_context)
+
+
 
     def insert_random_nansu(self, request, queryset):
+        print('c')
         for obj in queryset:
             obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
             obj.save()
@@ -201,6 +239,5 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             else:
                 obj.nansu_seq = 1
         obj.save()
-
 admin.site.register(Nansu, NansuAdmin)
 

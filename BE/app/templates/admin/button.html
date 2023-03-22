@@ -1,0 +1,15 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    {{ block.super }}
+    {% if not object_id %}
+        <div class="submit-row">
+            <select name="nansu">
+                <option value="1">1개</option>
+                <option value="10">10개</option>
+                <option value="100">100개</option>
+            </select>
+            <input type="submit" name="_insert-random" value="난수 생성">
+        </div>
+    {% endif %}
+{% endblock %}
