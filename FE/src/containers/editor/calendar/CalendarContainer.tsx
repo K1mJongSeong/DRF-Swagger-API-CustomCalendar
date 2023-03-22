@@ -12,7 +12,6 @@ import {
 } from 'date-fns';
 import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
-import { useEffect } from 'react';
 
 const CalendarContainer = ({
   month,
@@ -35,7 +34,6 @@ const CalendarContainer = ({
   let formattedDate = '';
 
   while (day <= endDate) {
-    console.log(day);
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
       days.push(
