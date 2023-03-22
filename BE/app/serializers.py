@@ -2,7 +2,12 @@ from rest_framework import serializers
 from rest_framework.parsers import MultiPartParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
-from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice
+from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice, NansuInfo
+
+class NansuInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NansuInfo
+        fields = '__all__'
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:

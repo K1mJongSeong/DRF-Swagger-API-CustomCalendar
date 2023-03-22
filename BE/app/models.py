@@ -18,6 +18,15 @@ class Image(models.Model):
         managed = False
         db_table = 'image'
 
+class NansuInfo(models.Model):
+    info_seq = models.AutoField(primary_key=True)
+    nansu_count = models.IntegerField(blank=True, null=True)
+    nansu_date = models.DateTimeField(blank=True, null=True)
+    template_name = models.CharField(max_length=15, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nansu_info'
 
 class Admin(models.Model):
     admin_seq = models.IntegerField(primary_key=True)

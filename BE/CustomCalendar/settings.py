@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import my_settings
 import os
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
@@ -36,7 +35,7 @@ ALLOWED_HOSTS = ['*','121.254.171.155']
 #Git에서 clone 후 이 부분 IP를 본인 IP로 바꾸셔야합니다.
 
 # Application definition
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 CSRF_COOKIE_SECURE = False
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,6 +49,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'app.apps.AppConfig',
+    'admin_black.apps.AdminBlackConfig',
+
 ]
 
 MIDDLEWARE = [
