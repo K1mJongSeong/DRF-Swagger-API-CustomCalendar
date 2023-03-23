@@ -3,17 +3,24 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.views.generic import ListView, DetailView
 from rest_framework_swagger.renderers import SwaggerUIRenderer
 from rest_framework.decorators import api_view, renderer_classes, parser_classes #api
 from rest_framework import status, generics, viewsets, serializers
 from rest_framework.parsers import FileUploadParser,MultiPartParser, FormParser
 from drf_yasg.utils import swagger_auto_schema, force_serializer_instance
 from drf_yasg import openapi
-from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice
-from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer, NoticeSerializer
+from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice, NansuInfo
+from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer, NoticeSerializer, NansuInfoSerializer
 
 def index(request):
     return HttpResponse("TEST PAGE")
+
+def nansu_info_detail(request, info_seq, nansu_count):
+    nansu_list = Nansu.objects.all()[:nansu_count]
+    context = {'nansu_list': nansu_list}
+    return render(request, 'app/nansu_info_detail.html', context)
+
 
 def nansu(request):
     nansuTest = Nansu.objects.filter(nansu_state='정상')
