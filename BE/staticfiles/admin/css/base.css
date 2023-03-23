@@ -961,6 +961,7 @@ a.deletelink:focus, a.deletelink:hover {
 
 #content-related .module {
     background: none;
+    display: none;
 }
 
 #content-related h3 {
