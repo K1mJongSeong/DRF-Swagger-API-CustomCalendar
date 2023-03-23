@@ -232,7 +232,7 @@ class MonthAPI(APIView):
 
 
 
-class Notice(generics.CreateAPIView):
+class Notice(generics.ListCreateAPIView):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.all()
 
@@ -242,20 +242,52 @@ class Notice(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_summary='메모 GET API',
+        query_serializer=NoticeSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = NoticeSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('nansu')
 
-class JanFront(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+
+class JanFront(generics.ListCreateAPIView):
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
 
     @swagger_auto_schema(
-        operation_summary='1월 앞 API',
+        operation_summary='1월 앞 POST API',
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_summary='1월 앞 GET API',
+        query_serializer=JanFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JanFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('jan_nansu')
 
+        filtered_queryset = self.queryset.filter(jan_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class JanBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class JanBack(generics.ListCreateAPIView):
     serializer_class = JanBackSerializer
     queryset = JanBack.objects.all()
 
@@ -264,9 +296,25 @@ class JanBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='1월 뒤 GET API',
+        query_serializer=JanBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JanBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('jan_nansu')
+
+        filtered_queryset = self.queryset.filter(jan_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
 
 
-class FebFront(generics.CreateAPIView):
+class FebFront(generics.ListCreateAPIView):
     serializer_class = FebFrontSerializer
     queryset = FebFront.objects.all()
 
@@ -275,9 +323,24 @@ class FebFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='2월 앞 GET API',
+        query_serializer=FebBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = FebBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('feb_nansu')
 
+        filtered_queryset = self.queryset.filter(feb_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class FebBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class FebBack(generics.ListCreateAPIView):
     serializer_class = FebBackSerializer
     queryset = FebBack.objects.all()
 
@@ -286,9 +349,25 @@ class FebBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='2월 뒤 GET API',
+        query_serializer=FebBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = FebBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('feb_nansu')
+
+        filtered_queryset = self.queryset.filter(feb_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
 
 
-class MarFront(generics.CreateAPIView):
+class MarFront(generics.ListCreateAPIView):
     serializer_class = MarFrontSerializer
     queryset = MarFront.objects.all()
 
@@ -297,9 +376,24 @@ class MarFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='3월 앞 GET API',
+        query_serializer=MarFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = MarFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('mar_nansu')
 
+        filtered_queryset = self.queryset.filter(mar_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class MarBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class MarBack(generics.ListCreateAPIView):
     serializer_class = MarBackSerializer
     queryset = MarBack.objects.all()
 
@@ -308,9 +402,24 @@ class MarBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='3월 뒤 GET API',
+        query_serializer=MarBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = MarBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('mar_nansu')
 
+        filtered_queryset = self.queryset.filter(mar_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class AprilFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class AprilFront(generics.ListCreateAPIView):
     serializer_class = AprilFrontSerializer
     queryset = AprilFront.objects.all()
 
@@ -319,8 +428,24 @@ class AprilFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='4월 앞 GET API',
+        query_serializer=AprilFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = AprilFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('april_nansu')
 
-class AprilBack(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(april_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class AprilBack(generics.ListCreateAPIView):
     serializer_class = AprilBackSerializer
     queryset = AprilBack.objects.all()
 
@@ -329,9 +454,24 @@ class AprilBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='4월 뒤 GET API',
+        query_serializer=AprilBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = AprilBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('april_nansu')
 
+        filtered_queryset = self.queryset.filter(april_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class MayFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class MayFront(generics.ListCreateAPIView):
     serializer_class = MayFrontSerializer
     queryset = MayFront.objects.all()
 
@@ -340,8 +480,24 @@ class MayFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='5월 앞 GET API',
+        query_serializer=MayFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = MayFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('may_nansu')
 
-class MayBack(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(may_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class MayBack(generics.ListCreateAPIView):
     serializer_class = MayBackSerializer
     queryset = MayBack.objects.all()
 
@@ -350,9 +506,24 @@ class MayBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='5월 뒤 GET API',
+        query_serializer=MayBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = MayBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('may_nansu')
 
+        filtered_queryset = self.queryset.filter(may_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class JuneFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class JuneFront(generics.ListCreateAPIView):
     serializer_class = JuneFrontSerializer
     queryset = JuneFront.objects.all()
 
@@ -361,9 +532,24 @@ class JuneFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='6월 앞 GET API',
+        query_serializer=JuneFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JuneFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('june_nansu')
 
+        filtered_queryset = self.queryset.filter(june_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class JuneBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class JuneBack(generics.ListCreateAPIView):
     serializer_class = JuneBackSerializer
     queryset = JuneBack.objects.all()
 
@@ -372,9 +558,24 @@ class JuneBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='6월 뒤 GET API',
+        query_serializer=JuneBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JuneBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('june_nansu')
 
+        filtered_queryset = self.queryset.filter(june_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class JulyFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class JulyFront(generics.ListCreateAPIView):
     serializer_class = JulyFrontSerializer
     queryset = JulyFront.objects.all()
 
@@ -383,9 +584,24 @@ class JulyFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='7월 앞 GET API',
+        query_serializer=JulyFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JulyFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('july_nansu')
 
+        filtered_queryset = self.queryset.filter(july_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class JulyBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class JulyBack(generics.ListCreateAPIView):
     serializer_class = JulyBackSerializer
     queryset = JulyBack.objects.all()
 
@@ -394,20 +610,50 @@ class JulyBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='7월 뒤 GET API',
+        query_serializer=JulyBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = JulyBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('july_nansu')
 
+        filtered_queryset = self.queryset.filter(july_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class AugFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class AugFront(generics.ListCreateAPIView):
     serializer_class = AugFrontSerializer
     queryset = AugFront.objects.all()
 
     @swagger_auto_schema(
-        operation_summary='8월 뒤 API'
+        operation_summary='8월 앞 POST API'
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='8월 앞 GET API',
+        query_serializer=AugFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = AugFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('aug_nansu')
 
+        filtered_queryset = self.queryset.filter(aug_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class AugBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class AugBack(generics.ListCreateAPIView):
     serializer_class = AugBackSerializer
     queryset = AugBack.objects.all()
 
@@ -416,9 +662,24 @@ class AugBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='8월 뒤 GET API',
+        query_serializer=AugBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = AugBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('aug_nansu')
 
+        filtered_queryset = self.queryset.filter(aug_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class SepFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class SepFront(generics.ListCreateAPIView):
     serializer_class = SepFrontSerializer
     queryset = SepFront.objects.all()
 
@@ -427,9 +688,24 @@ class SepFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='9월 앞 GET API',
+        query_serializer=SepFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = SepFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('sep_nansu')
 
+        filtered_queryset = self.queryset.filter(sep_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class SepBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class SepBack(generics.ListCreateAPIView):
     serializer_class = SepBackSerializer
     queryset = SepBack.objects.all()
 
@@ -438,9 +714,24 @@ class SepBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='9월 뒤 GET API',
+        query_serializer=SepBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = SepBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('sep_nansu')
 
+        filtered_queryset = self.queryset.filter(sep_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class OctFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class OctFront(generics.ListCreateAPIView):
     serializer_class = OctFrontSerializer
     queryset = OctFront.objects.all()
 
@@ -449,9 +740,24 @@ class OctFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='10월 뒤 GET API',
+        query_serializer=OctFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = OctFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('oct_nansu')
 
+        filtered_queryset = self.queryset.filter(oct_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class OctBack(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class OctBack(generics.ListCreateAPIView):
     serializer_class = OctBackSerializer
     queryset = OctBack.objects.all()
 
@@ -460,9 +766,24 @@ class OctBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='10월 뒤 GET API',
+        query_serializer=OctBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = OctBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('oct_nansu')
 
+        filtered_queryset = self.queryset.filter(oct_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class NovFront(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class NovFront(generics.ListCreateAPIView):
     serializer_class = NovFrontSerializer
     queryset = NovFront.objects.all()
 
@@ -471,8 +792,24 @@ class NovFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='11월 앞 GET API',
+        query_serializer=NovFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = NovFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('nov_nansu')
 
-class NovBack(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(nov_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class NovBack(generics.ListCreateAPIView):
     serializer_class = NovBackSerializer
     queryset = NovBack.objects.all()
 
@@ -481,8 +818,25 @@ class NovBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='11월 뒤 GET API',
+        query_serializer=NovBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = NovBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('nov_nansu')
 
-class DecFront(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(nov_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+
+class DecFront(generics.ListCreateAPIView):
     serializer_class = DecFrontSerializer
     queryset = DecFront.objects.all()
 
@@ -491,8 +845,24 @@ class DecFront(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='12월 앞 GET API',
+        query_serializer=DecFrontSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = DecFrontSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('dec_nansu')
 
-class DecBack(generics.CreateAPIView):
+        filtered_queryset = self.queryset.filter(dec_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class DecBack(generics.ListCreateAPIView):
     serializer_class = DecBackSerializer
     queryset = DecBack.objects.all()
 
@@ -501,10 +871,26 @@ class DecBack(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='12월 뒤 GET API',
+        query_serializer=DecBackSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = DecBackSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('dec_nansu')
+
+        filtered_queryset = self.queryset.filter(dec_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
 
 
 
-class Prolog(generics.CreateAPIView):
+class Prolog(generics.ListCreateAPIView):
     serializer_class = PrologSerializer
     queryset = Prolog.objects.all()
 
@@ -513,9 +899,24 @@ class Prolog(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='프롤로그2 GET API',
+        query_serializer=PrologSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = PrologSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('prolog_nansu')
 
+        filtered_queryset = self.queryset.filter(prolog_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-class Cover(generics.CreateAPIView):
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+class Cover(generics.ListCreateAPIView):
     serializer_class = CoverSerializer
     queryset = Cover.objects.all()
 
@@ -524,6 +925,22 @@ class Cover(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+    @swagger_auto_schema(
+        operation_summary='프롤로그2 GET API',
+        query_serializer=CoverSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = CoverSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('cover_nansu')
+
+        filtered_queryset = self.queryset.filter(cover_nansu=nansu)
+        
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
 
 
 #@csrf_exempt
