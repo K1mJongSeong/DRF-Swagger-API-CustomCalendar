@@ -57,6 +57,9 @@ const CalendarWrapBlock = styled.div`
           zoom: 0.7;
         }
       }
+      .on {
+        border: 1px soldi red;
+      }
       .cell_top {
         display: flex;
         justify-content: space-between;

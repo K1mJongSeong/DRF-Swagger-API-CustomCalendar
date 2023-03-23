@@ -36,7 +36,8 @@ const EditorBodyContainer = (props: EditorConProps) => {
         spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Thumbs]}
-        zoom={{ maxRatio: 10 }}
+        zoom={{ maxRatio: 5 }}
+        touchRatio={0}
         className="mySwiper2"
         onSlideChange={(i) => onSwiper(i.activeIndex)}
       >
