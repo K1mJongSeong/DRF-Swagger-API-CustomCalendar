@@ -38,29 +38,17 @@ const EditorBodyContainer = (props: EditorConProps) => {
     months.push(currentMonth);
   }
 
-  useEffect(() => {
-    return () => {
-      for (let i = 1; i < 13; i++) {
-        const str = i.toString();
-        if (str.length === 1) {
-          dispatch(getHolidays(`0${str}`));
-        } else {
-          dispatch(getHolidays(str));
-        }
-      }
-    };
-  }, []);
-
   return (
     <EditorConWrap>
       <Swiper
         ref={swiperRef}
         spaceBetween={10}
-        navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Thumbs]}
+        touchRatio={0}
         className="mySwiper2"
         onSlideChange={(i) => onSwiper(i.activeIndex)}
+        zoom={{ maxRatio: 5 }}
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>

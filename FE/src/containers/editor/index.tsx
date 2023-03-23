@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
+import { getHolidays } from 'reducer/holidays';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -46,6 +47,26 @@ const EditorContainer = () => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
+  useEffect(() => {
+    for (let i = 1; i < 13; i++) {
+      const str = i.toString();
+      if (str.length === 1) {
+        dispatch(getHolidays(`0${str}`));
+      } else {
+        dispatch(getHolidays(str));
+      }
+    }
+    return () => {
+      for (let i = 1; i < 13; i++) {
+        const str = i.toString();
+        if (str.length === 1) {
+          dispatch(getHolidays(`0${str}`));
+        } else {
+          dispatch(getHolidays(str));
+        }
+      }
+    };
+  }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 

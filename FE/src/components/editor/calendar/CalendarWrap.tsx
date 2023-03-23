@@ -26,7 +26,7 @@ const CalendarWrapBlock = styled.div`
       width: 14.2857%;
       /* border: 1px solid yellow; */
       padding: 0.3em;
-      font-size: 0.75em;
+      font-size: 35%;
 
       &.disabled {
         opacity: 0;
@@ -37,13 +37,13 @@ const CalendarWrapBlock = styled.div`
           color: #e64c66;
         }
         .red.txt {
-          font-size: 0.3em;
-          text-align: right;
+          zoom: 0.7;
         }
       }
       .cell_top {
         display: flex;
         justify-content: space-between;
+        flex-direction: column;
       }
     }
   }
