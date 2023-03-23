@@ -44,8 +44,6 @@ const CalendarContainer = ({
             return el;
           }
         });
-        console.log(holiday);
-        console.log(holiday.length);
         formattedDate = format(day, 'd');
         days.push(
           <div
@@ -87,7 +85,7 @@ const CalendarContainer = ({
       days = [];
     }
 
-    return <CalendarWrap>{rows}</CalendarWrap>;
+    return <CalendarWrap rowLength={rows.length}>{rows}</CalendarWrap>;
   } else {
     return null;
   }

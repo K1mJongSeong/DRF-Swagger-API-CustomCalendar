@@ -1,7 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const CalendarWrap = ({ children }: { children: React.ReactNode }) => {
-  return <CalendarWrapBlock>{children}</CalendarWrapBlock>;
+interface CalendarProps {
+  rowLength: number;
+}
+
+const CalendarWrap = ({
+  children,
+  rowLength,
+}: {
+  children: React.ReactNode;
+  rowLength: number;
+}) => {
+  return (
+    <CalendarWrapBlock rowLength={rowLength}>{children}</CalendarWrapBlock>
+  );
 };
 
 const CalendarWrapBlock = styled.div`
@@ -18,14 +30,19 @@ const CalendarWrapBlock = styled.div`
   flex-direction: column;
   .row {
     width: 100%;
-    height: 20%;
+
+    ${(props: CalendarProps) =>
+      props.rowLength &&
+      css`
+        height: ${100 / props.rowLength}%;
+      `}
     /* border: 1px solid green; */
     display: flex;
 
     .cell {
       width: 14.2857%;
       /* border: 1px solid yellow; */
-      padding: 0.3em;
+      padding: 1%;
       font-size: 35%;
 
       &.disabled {
