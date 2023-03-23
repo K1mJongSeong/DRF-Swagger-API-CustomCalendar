@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import moment from 'moment';
 
 export interface HolidaysState {
   loading: boolean;
@@ -58,6 +59,11 @@ const holidaysSlice = createSlice({
         if (find) return;
         state.holidays.push(action.payload);
       }
+      state.holidays.forEach((el) => {
+        const date = moment(el.locdate.toString()).toDate().toString();
+        el['date'] = date;
+        return el;
+      });
     });
     builder.addCase(getHolidays.rejected, (state, action) => {
       state.loading = false;

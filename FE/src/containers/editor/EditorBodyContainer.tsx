@@ -37,13 +37,7 @@ const EditorBodyContainer = (props: EditorConProps) => {
     currentMonth = addMonths(currentMonth, 1);
     months.push(currentMonth);
   }
-  useEffect(() => {
-    if (holidays.length <= 0) return;
-    holidays.forEach((el) => {
-      const holi = moment(el.locdate.toString()).toDate();
-      console.log(holi);
-    });
-  }, [holidays]);
+
   useEffect(() => {
     return () => {
       for (let i = 1; i < 13; i++) {

@@ -38,46 +38,61 @@ const CalendarContainer = ({
   let day = startDate;
   let formattedDate = '';
 
-  const [isHoli, setIsHoli] = useState(false);
-
-  while (day <= endDate) {
-    for (let i = 0; i < 7; i++) {
-      formattedDate = format(day, 'd');
-      days.push(
-        <div
-          className={`col cell ${
-            !isSameMonth(day, monthStart)
-              ? 'disabled'
-              : getDay(day) === 0
-              ? 'red'
-              : 'not-valid'
-          }`}
-          key={uuid()}
-        >
-          <span
-            className={
-              format(currentMonth, 'M') !== format(day, 'M')
-                ? 'text not-valid'
-                : isSameMonth(day, monthStart) && isSameDay(day, selectedDate)
-                ? 'text today'
-                : ''
-            }
+  if (holidays.length !== 0) {
+    while (day <= endDate && holidays) {
+      for (let i = 0; i < 7; i++) {
+        const holiday: Array<{ dateName: string }> = holidays.filter((el) => {
+          if (isSameDay(day, new Date(el.date))) {
+            return el;
+          }
+        });
+        console.log(holiday);
+        console.log(holiday.length);
+        formattedDate = format(day, 'd');
+        days.push(
+          <div
+            className={`col cell ${
+              !isSameMonth(day, monthStart)
+                ? 'disabled'
+                : getDay(day) === 0 || holiday[0]
+                ? 'red'
+                : 'not-valid'
+            }`}
+            key={uuid()}
           >
-            {formattedDate}
-          </span>
+            <div className="cell_top">
+              <span
+                className={
+                  format(currentMonth, 'M') !== format(day, 'M')
+                    ? 'text not-valid'
+                    : isSameMonth(day, monthStart) &&
+                      isSameDay(day, selectedDate)
+                    ? 'text today'
+                    : ''
+                }
+              >
+                {formattedDate}
+              </span>
+              {holiday[0] && (
+                <span className="red txt">{holiday[0].dateName}</span>
+              )}
+            </div>
+          </div>,
+        );
+        day = addDays(day, 1);
+      }
+      rows.push(
+        <div className="row" key={uuid()}>
+          {days}
         </div>,
       );
-      day = addDays(day, 1);
+      days = [];
     }
-    rows.push(
-      <div className="row" key={uuid()}>
-        {days}
-      </div>,
-    );
-    days = [];
-  }
 
-  return <CalendarWrap>{rows}</CalendarWrap>;
+    return <CalendarWrap>{rows}</CalendarWrap>;
+  } else {
+    return null;
+  }
 };
 
 export default CalendarContainer;
