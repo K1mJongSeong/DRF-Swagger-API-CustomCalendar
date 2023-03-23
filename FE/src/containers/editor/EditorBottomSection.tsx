@@ -52,14 +52,20 @@ const EditorBottomSection = ({
 
       if (!files) return;
       formData.append('image', files[0]);
-      const res = await client.post('/Image/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(selectedId);
-      if (selectedId === null) return;
-      dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
+      await client
+        .post('/Image/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((resp) => {
+          if (selectedId === null) return;
+          dispatch(updateImg({ id: selectedId, imgUrl: resp.data.image }));
+        })
+        .catch((err: Error) => {
+          alert(err.message);
+          return navigate('/');
+        });
       setLoading(false);
     };
   };

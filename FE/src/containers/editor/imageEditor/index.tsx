@@ -254,15 +254,22 @@ const ImageEditorContainer = () => {
     const formData = new FormData();
 
     formData.append('image', file);
-    const res = await client.post('/Image/', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log(res.data.image);
-    if (selectedId === null) return;
-    dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
-    navigate(-1);
+    await client
+      .post('/Image/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        console.log(res.data.image);
+        if (selectedId === null) return;
+        dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
+        navigate(-1);
+      })
+      .catch((err: Error) => {
+        alert(err.message);
+        return navigate('/');
+      });
     setLoading(false);
   };
   // dataURL to file

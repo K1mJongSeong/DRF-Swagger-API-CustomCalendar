@@ -101,7 +101,7 @@ const EditorConWrapBlock = styled.div`
 
     .item {
       width: calc(100% - 32px);
-      max-width: 500px;
+      max-width: 700px;
       position: relative;
 
       .ctrl_wrap {
