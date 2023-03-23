@@ -3,24 +3,15 @@
 import EditorConWrap from 'components/editor/EditorConWrap';
 import { Renault } from 'data/template/renault';
 import { addMonths, format } from 'date-fns';
-import { useAppDispatch, useAppSelector } from 'hooks';
 import { EditorConProps } from 'interface/editor';
-import moment from 'moment';
-import { useEffect } from 'react';
-import { getHolidays } from 'reducer/holidays';
-import { RootState } from 'store';
 import EditorItemContainer from './EditorItemContainer';
 
 const EditorBodyContainer = (props: EditorConProps) => {
-  const dispatch = useAppDispatch();
-  const { holidays } = useAppSelector((state: RootState) => state.holidays);
-
   const {
     Swiper,
     SwiperSlide,
     thumbsSwiper,
     FreeMode,
-    Navigation,
     Thumbs,
     swiperRef,
     onSwiper,
@@ -45,10 +36,9 @@ const EditorBodyContainer = (props: EditorConProps) => {
         spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Thumbs]}
-        touchRatio={0}
+        zoom={{ maxRatio: 10 }}
         className="mySwiper2"
         onSlideChange={(i) => onSwiper(i.activeIndex)}
-        zoom={{ maxRatio: 5 }}
       >
         {Renault?.map((item) => (
           <SwiperSlide key={item?.id}>

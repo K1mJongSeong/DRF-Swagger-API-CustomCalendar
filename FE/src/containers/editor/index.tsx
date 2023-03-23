@@ -104,13 +104,22 @@ const EditorContainer = () => {
         setLoading(true);
         if (!files) return;
         formData.append('image', files[0]);
-        const res = await client.post('/Image/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        await client
+          .post('/Image/', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((resp) => {
+            console.log(resp);
+            dispatch(updateImg({ id: cId, imgUrl: resp.data.image }));
+          })
+          .catch((err: Error) => {
+            console.log(err);
+            alert(err.message);
+            return navigate('/');
+          });
 
-        dispatch(updateImg({ id: cId, imgUrl: res.data.image }));
         setLoading(false);
       };
     }
