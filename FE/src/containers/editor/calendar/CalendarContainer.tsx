@@ -12,9 +12,9 @@ import {
 } from 'date-fns';
 import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
-import { useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import { useEffect, useState } from 'react';
+import { updateDate } from 'reducer/memo';
 
 interface DayCellProps {
   day: Date;
@@ -67,7 +67,6 @@ const CalendarContainer = ({
       }
       rows.push(days);
       days = [];
-      console.log(rows);
     }
 
     return (
@@ -109,25 +108,33 @@ const DayCell = (props: DayCellProps) => {
     holiday,
     formattedDate,
   } = props;
-  const [selectDate, setSelectDate] = useState<Date | null>(null);
-  const handleClickDateCell = (day: Date) => {
-    console.log(day);
-    setSelectDate(day);
+  const dispatch = useAppDispatch();
+  const { selectDate } = useAppSelector((state: RootState) => state.memo);
+
+  const handleClickCell = (day: Date) => {
+    dispatch(updateDate(day));
   };
 
   return (
     <div
-      className={`col cell ${
-        !isSameMonth(day, monthStart)
-          ? 'disabled'
-          : getDay(day) === 0 || holiday
-          ? 'red'
-          : selectDate === day
-          ? 'on'
-          : 'not-valid'
-      }`}
-      key={uuid()}
-      onClick={() => handleClickDateCell(day)}
+      className={
+        selectDate === day
+          ? `col cell on ${
+              !isSameMonth(day, monthStart)
+                ? 'disabled'
+                : getDay(day) === 0 || holiday
+                ? 'red'
+                : 'not-valid'
+            }`
+          : `col cell ${
+              !isSameMonth(day, monthStart)
+                ? 'disabled'
+                : getDay(day) === 0 || holiday
+                ? 'red'
+                : 'not-valid'
+            }`
+      }
+      onClick={() => handleClickCell(day)}
     >
       <div className="cell_top">
         <span

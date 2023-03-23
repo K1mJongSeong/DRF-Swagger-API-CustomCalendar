@@ -19,7 +19,8 @@ const EditorBodyContainer = (props: EditorConProps) => {
   } = props;
 
   let currentDate = new Date();
-  let selectedDate = new Date();
+  // 2023년 달력 1월 기준
+  let selectedDate = new Date('2023-01-01');
 
   let currentMonth = new Date(format(currentDate, 'yyyy'));
   let months: any[] = [];
