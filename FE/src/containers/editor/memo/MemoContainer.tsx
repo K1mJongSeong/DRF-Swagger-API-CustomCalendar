@@ -15,7 +15,7 @@ import { RootState } from 'store';
 const MemoContainer = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { loading, selectDate, memoContent, postMemoResult, postError } =
+  const { loading, selectDate, memoContent, postMemoResult, error } =
     useAppSelector((state: RootState) => state.memo);
 
   const { nansu } = params;
@@ -53,8 +53,8 @@ const MemoContainer = () => {
   };
 
   useEffect(() => {
-    if (postError) {
-      alert(postError);
+    if (error) {
+      alert(error);
       return;
     }
 
@@ -63,7 +63,7 @@ const MemoContainer = () => {
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
     }
-  }, [postMemoResult, postError]);
+  }, [postMemoResult, error]);
 
   return (
     <>
