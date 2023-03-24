@@ -52,7 +52,7 @@ class JanFrontSerializer(serializers.ModelSerializer):
 
 class JanBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = JanBack
         fields = ('pic','nansu')
@@ -61,14 +61,14 @@ class JanBackSerializer(serializers.ModelSerializer):
 
 class FebFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = FebFront
         fields = ('pic','nansu')
 
 class FebBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = FebBack
         fields = ('pic','nansu')
@@ -78,14 +78,14 @@ class FebBackSerializer(serializers.ModelSerializer):
 
 class MarFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = MarFront
         fields = ('pic','nansu')
 
 class MarBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = MarBack
         fields = ('pic','nansu')
@@ -94,14 +94,14 @@ class MarBackSerializer(serializers.ModelSerializer):
 
 class AprilFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = AprilFront
         fields = ('pic','nansu')
 
 class AprilBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = AprilBack
         fields = ('pic','nansu')
@@ -110,14 +110,14 @@ class AprilBackSerializer(serializers.ModelSerializer):
 
 class MayFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = MayFront
         fields = ('pic','nansu')
 
 class MayBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = MayBack
         fields = ('pic','nansu')
@@ -126,14 +126,14 @@ class MayBackSerializer(serializers.ModelSerializer):
 
 class JuneFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = JuneFront
         fields = ('pic','nansu')
 
 class JuneBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = JuneBack
         fields = ('pic','nansu')
@@ -142,14 +142,14 @@ class JuneBackSerializer(serializers.ModelSerializer):
 
 class JulyFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = JulyFront
         fields = ('pic','nansu')
 
 class JulyBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = JulyBack
         fields = ('pic','nansu')
@@ -158,14 +158,14 @@ class JulyBackSerializer(serializers.ModelSerializer):
 
 class AugFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = AugFront
         fields = ('pic','nansu')
 
 class AugBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = AugBack
         fields = ('pic','nansu')
@@ -174,14 +174,14 @@ class AugBackSerializer(serializers.ModelSerializer):
 
 class SepFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = SepFront
         fields = ('pic','nansu')
 
 class SepBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = SepBack
         fields = ('pic','nansu')
@@ -190,14 +190,14 @@ class SepBackSerializer(serializers.ModelSerializer):
 
 class OctFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = OctFront
         fields = ('pic','nansu')
 
 class OctBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = OctBack
         fields = ('pic','nansu')
@@ -206,14 +206,14 @@ class OctBackSerializer(serializers.ModelSerializer):
 
 class NovFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = NovFront
         fields = ('pic','nansu')
 
 class NovBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = NovBack
         fields = ('pic','nansu')
@@ -222,14 +222,14 @@ class NovBackSerializer(serializers.ModelSerializer):
 
 class DecFrontSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = DecFront
         fields = ('pic','nansu')
 
 class DecBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = DecBack
         fields = ('pic','nansu')
@@ -238,7 +238,7 @@ class DecBackSerializer(serializers.ModelSerializer):
 
 class PrologSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = Prolog
         fields = ('pic','nansu')
@@ -247,7 +247,7 @@ class PrologSerializer(serializers.ModelSerializer):
 
 class CoverSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
-    pic = serializers.JSONField(encoder=DjangoJSONEncoder, required=False)
+    pic = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = Cover
         fields = ('pic','nansu')
