@@ -269,8 +269,20 @@ class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_summary='메모 DELETE API',
+        query_serializer=NoticeSerializer
+    )
     def delete(self, request, *args, **kwargs):
-        return Response({"detail": "DELETE 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        query_params_serializer = NoticeSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('nansu')
+        monthdays = query_params_serializer.validated_data.get('monthdays')
+
+        filtered_queryset = self.queryset.filter(nansu=nansu, monthdays=monthdays)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
         return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
