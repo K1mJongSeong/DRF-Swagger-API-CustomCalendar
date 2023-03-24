@@ -265,40 +265,6 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
 
         return super().changeform_view(request, object_id, extra_context=extra_context)
 
-    # def nansu_view(self, request, object_id=None, extra_context=None):
-    #     print('nansu_view 실행')
-    #     if "_insert-random" in request.POST:
-    #         nansu_option = request.POST.get('nansu')
-    #         nansu_type = request.POST.get('nansu_type')
-    #         nansu_list = []
-    #         for _ in range(int(nansu_option)):
-    #             random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-    #             new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type,nansu_state='정상')
-    #             new_nansu.save()
-    #             nansu_list.append(new_nansu)
-            
-    #         new_nansu_info = NansuInfo(nansu_count=int(nansu_option), nansu_date=datetime.now(), template_name=nansu_type)
-    #         new_nansu_info.save()
-    #         print(nansu_list)
-    #         # 세션에 nansu_seq 값 저장
-    #         nansu_seq_list = [nansu.nansu_seq for nansu in nansu_list]
-    #         request.session['nansu_seq'] =  nansu_option#new_nansu.nansu_seq
-    #         request.session['nansu'] = nansu_seq_list
-    #         request.session['nansu_type'] = nansu_type
-    #         print(nansu_option)
-    #         print(nansu_seq_list)
-
-
-
-    #         self.message_user(request, f"{nansu_option} 개의 난수가 생성 되었습니다.")
-    #         request.session.modified = True
-    #         return HttpResponseRedirect(request.path)
-    #     nansu_seq = request.session.get('nansu_seq', None) # 저장된 nansu_seq 값을 가져오기
-        
-
-    #     return super().changeform_view(request, object_id, extra_context=extra_context)
-
-
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
         print('changeform_view 실행')
         extra_context = extra_context or {}

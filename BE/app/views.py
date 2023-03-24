@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from rest_framework.views import APIView
@@ -13,22 +13,27 @@ from drf_yasg.utils import swagger_auto_schema, force_serializer_instance
 from drf_yasg import openapi
 from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice, NansuInfo
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer, NoticeSerializer, NansuInfoSerializer
+from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth import logout
+from django.contrib.auth.models import AnonymousUser
 
 def index(request):
     return HttpResponse("TEST PAGE")
 
-def custom_logout(request):
-    # 세션 데이터를 복사하여 백업합니다.
-    session_dict = request.session.get("session_dict",{})
 
-    # 일반적인 로그아웃 처리를 수행합니다.
-    logout(request)
+class CustomLogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        # 세션 데이터 백업
+        session_backup = dict(request.session)
 
-    # 백업한 세션 데이터를 새 세션에 복원합니다.
-    request.session["session_dict"] = session_dict
+        # 로그아웃
+        response = super().dispatch(request, *args, **kwargs)
 
-    # 로그아웃 후 원하는 페이지로 리디렉션합니다.
-    return HttpResponseRedirect('/admin/login/')
+        # 백업된 세션 데이터를 복원
+        for key, value in session_backup.items():
+            request.session[key] = value
+
+        return response
 
 def nansu_info_detail(request, info_seq, nansu_count):
     nansu_list = Nansu.objects.all()[:nansu_count]
@@ -246,7 +251,7 @@ class MonthAPI(APIView):
 
 
 
-class Notice(generics.RetrieveUpdateDestroyAPIView):
+class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.all()
 
@@ -269,7 +274,7 @@ class Notice(generics.RetrieveUpdateDestroyAPIView):
 
     def patch(self, request, *args, **kwargs):
         return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        
+
     @swagger_auto_schema(
         operation_summary='메모 GET API',
         query_serializer=NoticeSerializer
@@ -280,9 +285,6 @@ class Notice(generics.RetrieveUpdateDestroyAPIView):
         nansu = query_params_serializer.validated_data.get('nansu')
 
         filtered_queryset = self.queryset.filter(nansu=nansu)
-        
-        if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)

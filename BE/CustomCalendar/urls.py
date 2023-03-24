@@ -11,7 +11,7 @@ from rest_framework_swagger.views import get_swagger_view
 from app import views
 #from app.admin import NansuInfoDetail
 from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView, SwaggerSchemaView
-from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice
+from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, CustomLogoutView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -33,7 +33,7 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),#Swagger API PATH
     path('admin/', admin.site.urls), #localhost:8000/admin/ 경로입니다. admin.site.urls 함수가 호출됩니다.
-    path('admin/logout/',views.custom_logout, name='cutom_logout'),
+    path('custom_logout/', CustomLogoutView.as_view(), name='custom_logout'),
     path('nansu/', views.nansu, name='nansu'), 
     path('',views.index),#root url을 의미합니다. views.index 함수가 호출됩니다. 
     path('NansuList/',NansuList.as_view()),

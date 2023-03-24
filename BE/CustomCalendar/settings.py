@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 ADMIN_LOGOUT_PRESERVE_SESSION = True
-
+ACCOUNT_SESSION_REMEMBER = True
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = '/static/'
 #STATIC_ROOT = BASE_DIR / "staticfiles"
