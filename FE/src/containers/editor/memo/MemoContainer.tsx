@@ -2,12 +2,18 @@ import MemoTemplate, { MemoForm } from 'components/editor/MemoTemplate';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { changeMemoField, updateDate } from 'reducer/memo';
+import { useParams } from 'react-router-dom';
+import { changeMemoField, post, updateDate } from 'reducer/memo';
 import { RootState } from 'store';
 
 const MemoContainer = () => {
+  const params = useParams();
   const dispatch = useAppDispatch();
-  const { selectDate } = useAppSelector((state: RootState) => state.memo);
+  const { selectDate, memoContent, postError } = useAppSelector(
+    (state: RootState) => state.memo,
+  );
+
+  const { nansu } = params;
 
   const handleClose = () => {
     dispatch(updateDate(null));
@@ -35,12 +41,19 @@ const MemoContainer = () => {
     dispatch(changeMemoField(value));
   };
 
+  const handlePostMemo = () => {
+    if (!nansu || !selectDate) return;
+    if (!memoContent) return alert('메모를 입력해주세요');
+    dispatch(post({ nansu, monthdays: selectDate, notice: memoContent }));
+  };
+
   return (
     <MemoTemplate>
       <MemoForm
         onClose={handleClose}
         targetDate={targetDate}
         onChange={handleChangeMemo}
+        onPost={handlePostMemo}
       />
     </MemoTemplate>
   );

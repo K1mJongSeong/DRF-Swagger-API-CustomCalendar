@@ -14,10 +14,12 @@ export const MemoForm = ({
   onClose,
   targetDate,
   onChange,
+  onPost,
 }: {
   onClose: () => void;
   targetDate: string | null;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onPost: () => void;
 }) => {
   const { memoContent } = useAppSelector((state: RootState) => state.memo);
   return (
@@ -41,7 +43,7 @@ export const MemoForm = ({
             maxLength={100}
             maxRows={3}
           />
-          <Button $fullWidth $borderBtn>
+          <Button $fullWidth $borderBtn onClick={onPost}>
             저장
           </Button>
         </form>
