@@ -13,6 +13,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
+from django.contrib.admin import AdminSite
 import random
 import string
 
@@ -22,9 +23,10 @@ admin.site.register(Calendar)
 admin.site.register(Prolog)
 admin.site.register(Cover)
 
+
 class JanFrontAdmin(admin.ModelAdmin):
     #actions = ['update_order_nansu','update_notice_memo']
-    list_display = ('jan_nansu','jan_memo','jan_pic','jan_seq')
+    list_display = ('nansu','memo','pic','jan_seq')
     # def update_order_nansu(self, request, queryset):
     #     # Nansu 테이블과 연결된 JanFront 테이블의 jan_nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
     #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('jan_seq')).values('nansu')[:1]
@@ -48,96 +50,96 @@ class JanFrontAdmin(admin.ModelAdmin):
 admin.site.register(JanFront, JanFrontAdmin)
 
 class JanBackAdmin(admin.ModelAdmin):
-    list_display = ('jan_nansu','jan_pic','jan_seq')
+    list_display = ('nansu','pic','jan_seq')
 admin.site.register(JanBack, JanBackAdmin)
 
 class FebFrontAdmin(admin.ModelAdmin):
-    list_display = ('feb_nansu','feb_memo','feb_pic','feb_seq')
+    list_display = ('nansu','memo','pic','feb_seq')
 admin.site.register(FebFront, FebFrontAdmin)
 
 class FebBackAdmin(admin.ModelAdmin):
-    list_display = ('feb_nansu','feb_pic','feb_seq')
+    list_display = ('nansu','pic','feb_seq')
 admin.site.register(FebBack, FebBackAdmin)
 
 
 class MarFrontAdmin(admin.ModelAdmin):
-    list_display = ('mar_nansu','mar_memo','mar_pic','mar_seq')
+    list_display = ('nansu','memo','pic','mar_seq')
 admin.site.register(MarFront, MarFrontAdmin)
 
 class MarBackAdmin(admin.ModelAdmin):
-    list_display = ('mar_nansu','mar_pic','mar_seq')
+    list_display = ('nansu','pic','mar_seq')
 admin.site.register(MarBack, MarBackAdmin)
 
 
 class AprilFrontAdmin(admin.ModelAdmin):
-    list_display = ('april_nansu','april_memo','april_pic','april_seq')
+    list_display = ('nansu','memo','pic','april_seq')
 admin.site.register(AprilFront, AprilFrontAdmin)
 
 class AprilBackAdmin(admin.ModelAdmin):
-    list_display = ('april_nansu','april_pic','april_seq')
+    list_display = ('nansu','pic','april_seq')
 admin.site.register(AprilBack, AprilBackAdmin)
 
 
 class MayFrontAdmin(admin.ModelAdmin):
-    list_display = ('may_nansu','may_memo','may_pic','may_seq')
+    list_display = ('nansu','memo','pic','may_seq')
 admin.site.register(MayFront, MayFrontAdmin)
 
 class MayBackAdmin(admin.ModelAdmin):
-    list_display = ('may_nansu','may_pic','may_seq')
+    list_display = ('nansu','pic','may_seq')
 admin.site.register(MayBack, MayBackAdmin)
 
 
 class JuneFrontAdmin(admin.ModelAdmin):
-    list_display = ('june_nansu','june_memo','june_pic','june_seq')
+    list_display = ('nansu','memo','pic','june_seq')
 admin.site.register(JuneFront, JuneFrontAdmin)
 
 class JuneBackAdmin(admin.ModelAdmin):
-    list_display = ('june_nansu','june_pic','june_seq')
+    list_display = ('nansu','pic','june_seq')
 admin.site.register(JuneBack, JuneBackAdmin)
 
 
 class JulyFrontAdmin(admin.ModelAdmin):
-    list_display = ('july_nansu','july_memo','july_pic','july_seq')
+    list_display = ('nansu','memo','pic','july_seq')
 admin.site.register(JulyFront, JulyFrontAdmin)
 
 class JulyBackAdmin(admin.ModelAdmin):
-    list_display = ('july_nansu','july_pic','july_seq')
+    list_display = ('nansu','pic','july_seq')
 admin.site.register(JulyBack, JulyBackAdmin)
 
 
 class AugFrontAdmin(admin.ModelAdmin):
-    list_display = ('aug_nansu','aug_memo','aug_pic','aug_seq')
+    list_display = ('nansu','memo','pic','aug_seq')
 admin.site.register(AugFront, AugFrontAdmin)
 
 class AugBackAdmin(admin.ModelAdmin):
-    list_display = ('aug_nansu','aug_pic','aug_seq')
+    list_display = ('nansu','pic','aug_seq')
 admin.site.register(AugBack, AugBackAdmin)
 
 
 class SepFrontAdmin(admin.ModelAdmin):
-    list_display = ('sep_nansu','sep_memo','sep_pic','sep_seq')
+    list_display = ('nansu','memo','pic','sep_seq')
 admin.site.register(SepFront, SepFrontAdmin)
 
 class SepBackAdmin(admin.ModelAdmin):
-    list_display = ('sep_nansu','sep_pic','sep_seq')
+    list_display = ('nansu','pic','sep_seq')
 admin.site.register(SepBack, SepBackAdmin)
 
 
 class OctFrontAdmin(admin.ModelAdmin):
-    list_display = ('oct_nansu','oct_memo','oct_pic','oct_seq')
+    list_display = ('nansu','memo','pic','oct_seq')
 admin.site.register(OctFront, OctFrontAdmin)
 
 class OctBackAdmin(admin.ModelAdmin):
-    list_display = ('oct_nansu','oct_pic','oct_seq')
+    list_display = ('nansu','pic','oct_seq')
 admin.site.register(OctBack, OctBackAdmin)
 
 
 class DecFrontAdmin(admin.ModelAdmin):
-    list_display = ('dec_nansu','dec_memo','dec_pic','dec_seq')
+    list_display = ('nansu','memo','pic','dec_seq')
 admin.site.register(DecFront, DecFrontAdmin)
 
 class DecBackAdmin(admin.ModelAdmin):
-    list_display = ('dec_nansu','dec_pic','dec_seq')
+    list_display = ('nansu','pic','dec_seq')
 admin.site.register(DecBack, DecBackAdmin)
 
 class NoticeAdmin(admin.ModelAdmin):
@@ -324,6 +326,7 @@ admin.site.register(Nansu, NansuAdmin)
 
 class NansuInfoAdmin(admin.ModelAdmin):
     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
+    list_per_page = 20
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         nansu_info = NansuInfo.objects.get(pk=object_id)
