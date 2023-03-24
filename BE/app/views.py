@@ -279,10 +279,15 @@ class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
         nansu = query_params_serializer.validated_data.get('nansu')
         monthdays = query_params_serializer.validated_data.get('monthdays')
 
-        filtered_queryset = self.queryset.filter(nansu=nansu, monthdays=monthdays)
+        # nansu와 monthdays에 맞는 데이터를 찾기
+        notice_to_delete = self.queryset.filter(nansu=nansu, monthdays=monthdays)
 
-        serializer = self.serializer_class(filtered_queryset, many=True)
-        return Response(serializer.data)
+        if not notice_to_delete.exists():
+            return Response({"detail": "해당하는 nansu와 monthdays 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 쿼리셋에서 해당하는 데이터 삭제
+        notice_to_delete.delete()
+        return Response({"detail": "데이터가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, *args, **kwargs):
         return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
