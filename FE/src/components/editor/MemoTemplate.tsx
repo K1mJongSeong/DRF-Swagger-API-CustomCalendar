@@ -1,5 +1,8 @@
 import Button from 'components/common/Button';
+import { useAppSelector } from 'hooks';
 import { MdOutlineClose } from 'react-icons/md';
+import ReactTextareaAutosize from 'react-textarea-autosize';
+import { RootState } from 'store';
 import styled from 'styled-components';
 import { EditorIconButton } from './EditorButtons';
 
@@ -10,10 +13,13 @@ const MemoTemplate = ({ children }: { children: React.ReactNode }) => {
 export const MemoForm = ({
   onClose,
   targetDate,
+  onChange,
 }: {
   onClose: () => void;
   targetDate: string | null;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) => {
+  const { memoContent } = useAppSelector((state: RootState) => state.memo);
   return (
     <MemoFormBlock>
       <div className="title_con">
@@ -28,7 +34,13 @@ export const MemoForm = ({
         </div>
         <form>
           <label>메모 입력</label>
-          <textarea maxLength={100} />
+          <ReactTextareaAutosize
+            placeholder="메모를 입력해주세요."
+            onChange={onChange}
+            value={memoContent}
+            maxLength={100}
+            maxRows={3}
+          />
           <Button $fullWidth $borderBtn>
             저장
           </Button>
@@ -96,8 +108,6 @@ const MemoFormBlock = styled.div`
       textarea {
         margin-top: 0.5em;
         width: 100%;
-        height: 4rem;
-        max-height: 4rem;
         resize: none;
         padding: 0.3em;
         border: none;

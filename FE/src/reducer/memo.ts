@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface MemoState {
   selectDate: string | null;
+  memoContent: string;
 }
 
 const initialState: MemoState = {
   selectDate: null,
+  memoContent: '',
 };
 export const MemoSlice = createSlice({
   name: 'memo',
@@ -13,8 +15,11 @@ export const MemoSlice = createSlice({
     updateDate: (state, action: PayloadAction<string | null>) => {
       state.selectDate = action.payload;
     },
+    changeMemoField: (state, action: PayloadAction<string>) => {
+      state.memoContent = action.payload;
+    },
   },
 });
 
-export const { updateDate } = MemoSlice.actions;
+export const { updateDate, changeMemoField } = MemoSlice.actions;
 export default MemoSlice.reducer;

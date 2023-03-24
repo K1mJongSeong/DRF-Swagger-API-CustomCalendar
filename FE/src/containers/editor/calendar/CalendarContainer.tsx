@@ -15,6 +15,7 @@ import CalendarWrap from 'components/editor/calendar/CalendarWrap';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
 import { updateDate } from 'reducer/memo';
+import { selectId } from 'reducer/images';
 
 interface DayCellProps {
   day: Date;
@@ -113,6 +114,7 @@ const DayCell = (props: DayCellProps) => {
 
   const handleClickCell = (day: Date) => {
     dispatch(updateDate(day.toString()));
+    dispatch(selectId(null));
   };
 
   return (

@@ -1,9 +1,8 @@
 import MemoTemplate, { MemoForm } from 'components/editor/MemoTemplate';
-import { format } from 'date-fns';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { updateDate } from 'reducer/memo';
+import { changeMemoField, updateDate } from 'reducer/memo';
 import { RootState } from 'store';
 
 const MemoContainer = () => {
@@ -12,18 +11,37 @@ const MemoContainer = () => {
 
   const handleClose = () => {
     dispatch(updateDate(null));
+    dispatch(changeMemoField(''));
   };
 
   const [targetDate, setTargetDate] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!selectDate) return;
-    console.log(moment(selectDate).format('yyyy년 MM월 DD일'));
-    setTargetDate(moment(selectDate).format('yyyy년 MM월 DD일'));
+    if (selectDate) {
+      setTargetDate(moment(selectDate).format('yyyy년 MM월 DD일'));
+    } else {
+      setTargetDate(null);
+    }
   }, [selectDate]);
+
+  const handleChangeMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    const maxRows = 3;
+    const lineCount = (value.match(/[^\n]*\n[^\n]*/gi)?.length ?? 1) + 1;
+    if (lineCount > maxRows) {
+      alert('최대 3줄까지 작성 가능합니다.');
+      return;
+    }
+    dispatch(changeMemoField(value));
+  };
+
   return (
     <MemoTemplate>
-      <MemoForm onClose={handleClose} targetDate={targetDate} />
+      <MemoForm
+        onClose={handleClose}
+        targetDate={targetDate}
+        onChange={handleChangeMemo}
+      />
     </MemoTemplate>
   );
 };
