@@ -4,13 +4,16 @@
 
 {% block extrastyle %}
     <style>
-        #content-related { display: none; }
+        #content-related .module {
+        background: none;
+        display: none;
+        }
     </style>
 {% endblock %}
 
 {% block breadcrumbs %}{% endblock %}
 
-{% block content %}
+<!-- {% block content %}
 <div id="content-main">
 
 {% if app_list %}
@@ -42,4 +45,4 @@
     <p>{% trans "You don't have permission to view or edit anything." %}</p>
 {% endif %}
 </div>
-{% endblock %}
+{% endblock %} -->

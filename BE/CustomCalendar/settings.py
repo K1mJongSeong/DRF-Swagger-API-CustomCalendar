@@ -15,6 +15,7 @@ import my_settings
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
+ADMIN_LOGOUT_PRESERVE_SESSION = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = '/static/'
@@ -50,7 +51,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'app.apps.AppConfig',
     'admin_black.apps.AdminBlackConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -82,6 +82,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'CustomCalendar.wsgi.application'
 

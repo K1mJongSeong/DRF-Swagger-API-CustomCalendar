@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.generic import ListView, DetailView
@@ -15,6 +16,19 @@ from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, 
 
 def index(request):
     return HttpResponse("TEST PAGE")
+
+def custom_logout(request):
+    # 세션 데이터를 복사하여 백업합니다.
+    session_dict = request.session.get("session_dict",{})
+
+    # 일반적인 로그아웃 처리를 수행합니다.
+    logout(request)
+
+    # 백업한 세션 데이터를 새 세션에 복원합니다.
+    request.session["session_dict"] = session_dict
+
+    # 로그아웃 후 원하는 페이지로 리디렉션합니다.
+    return HttpResponseRedirect('/admin/login/')
 
 def nansu_info_detail(request, info_seq, nansu_count):
     nansu_list = Nansu.objects.all()[:nansu_count]
@@ -232,7 +246,7 @@ class MonthAPI(APIView):
 
 
 
-class Notice(generics.ListCreateAPIView):
+class Notice(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.all()
 
@@ -242,6 +256,20 @@ class Notice(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_summary='메모 PUT API',
+        request_body=NoticeSerializer,
+        responses={200: NoticeSerializer}
+    )
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return Response({"detail": "DELETE 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def patch(self, request, *args, **kwargs):
+        return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        
     @swagger_auto_schema(
         operation_summary='메모 GET API',
         query_serializer=NoticeSerializer

@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.apps import AppConfig
+from django.conf import settings
 from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, NansuInfo
 from .forms import OrderForm, NoticeForm
 from django.db.models import F, Subquery, OuterRef
@@ -23,10 +25,17 @@ admin.site.register(Calendar)
 admin.site.register(Prolog)
 admin.site.register(Cover)
 
+class YourAppConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'app'
+
+    def ready(self):
+        if settings.ADMIN_LOGOUT_PRESERVE_SESSION:
+            import app.signals
 
 class JanFrontAdmin(admin.ModelAdmin):
     #actions = ['update_order_nansu','update_notice_memo']
-    list_display = ('nansu','memo','pic','jan_seq')
+    list_display = ('nansu','pic','jan_seq')
     # def update_order_nansu(self, request, queryset):
     #     # Nansu 테이블과 연결된 JanFront 테이블의 jan_nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
     #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('jan_seq')).values('nansu')[:1]
@@ -54,7 +63,7 @@ class JanBackAdmin(admin.ModelAdmin):
 admin.site.register(JanBack, JanBackAdmin)
 
 class FebFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','feb_seq')
+    list_display = ('nansu','pic','feb_seq')
 admin.site.register(FebFront, FebFrontAdmin)
 
 class FebBackAdmin(admin.ModelAdmin):
@@ -63,7 +72,7 @@ admin.site.register(FebBack, FebBackAdmin)
 
 
 class MarFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','mar_seq')
+    list_display = ('nansu','pic','mar_seq')
 admin.site.register(MarFront, MarFrontAdmin)
 
 class MarBackAdmin(admin.ModelAdmin):
@@ -72,7 +81,7 @@ admin.site.register(MarBack, MarBackAdmin)
 
 
 class AprilFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','april_seq')
+    list_display = ('nansu','pic','april_seq')
 admin.site.register(AprilFront, AprilFrontAdmin)
 
 class AprilBackAdmin(admin.ModelAdmin):
@@ -81,7 +90,7 @@ admin.site.register(AprilBack, AprilBackAdmin)
 
 
 class MayFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','may_seq')
+    list_display = ('nansu','pic','may_seq')
 admin.site.register(MayFront, MayFrontAdmin)
 
 class MayBackAdmin(admin.ModelAdmin):
@@ -90,7 +99,7 @@ admin.site.register(MayBack, MayBackAdmin)
 
 
 class JuneFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','june_seq')
+    list_display = ('nansu','pic','june_seq')
 admin.site.register(JuneFront, JuneFrontAdmin)
 
 class JuneBackAdmin(admin.ModelAdmin):
@@ -99,7 +108,7 @@ admin.site.register(JuneBack, JuneBackAdmin)
 
 
 class JulyFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','july_seq')
+    list_display = ('nansu','pic','july_seq')
 admin.site.register(JulyFront, JulyFrontAdmin)
 
 class JulyBackAdmin(admin.ModelAdmin):
@@ -108,7 +117,7 @@ admin.site.register(JulyBack, JulyBackAdmin)
 
 
 class AugFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','aug_seq')
+    list_display = ('nansu','pic','aug_seq')
 admin.site.register(AugFront, AugFrontAdmin)
 
 class AugBackAdmin(admin.ModelAdmin):
@@ -117,7 +126,7 @@ admin.site.register(AugBack, AugBackAdmin)
 
 
 class SepFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','sep_seq')
+    list_display = ('nansu','pic','sep_seq')
 admin.site.register(SepFront, SepFrontAdmin)
 
 class SepBackAdmin(admin.ModelAdmin):
@@ -126,7 +135,7 @@ admin.site.register(SepBack, SepBackAdmin)
 
 
 class OctFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','oct_seq')
+    list_display = ('nansu','pic','oct_seq')
 admin.site.register(OctFront, OctFrontAdmin)
 
 class OctBackAdmin(admin.ModelAdmin):
@@ -135,7 +144,7 @@ admin.site.register(OctBack, OctBackAdmin)
 
 
 class DecFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','memo','pic','dec_seq')
+    list_display = ('nansu','pic','dec_seq')
 admin.site.register(DecFront, DecFrontAdmin)
 
 class DecBackAdmin(admin.ModelAdmin):
@@ -332,6 +341,7 @@ class NansuInfoAdmin(admin.ModelAdmin):
         nansu_info = NansuInfo.objects.get(pk=object_id)
         session_dict = request.session.get('session_dict', {})
         nansu_list = []
+        #nansu_option = None
         print(session_dict)
         if object_id in session_dict:
             nansu_list = session_dict[object_id]['nansu']
