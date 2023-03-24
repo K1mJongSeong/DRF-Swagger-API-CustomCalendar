@@ -21,6 +21,7 @@
     "react-router": "^6.7.0",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
+    "react-textarea-autosize": "^8.4.1",
     "react-uuid": "^2.0.0",
     "styled-components": "^5.3.6",
     "swiper": "^9.0.5",

@@ -1,15 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
 export interface AuthState {
   loading: boolean;
-  result: {
-    nansu_seq: number;
-    nansu: string;
-    nansu_state: string;
-    permission: number | null;
-    related_nansu: null;
-  } | null;
+  result: any | null;
   error: string | null | undefined;
 }
 
@@ -25,7 +20,7 @@ export const getVerifyNansu = createAsyncThunk(
     const res = await client.get(`/NansuUrlDetail/${nansu}/`, {
       headers: { 'Content-Type': 'application/json' },
     });
-    return res.data;
+    return res;
   },
 );
 

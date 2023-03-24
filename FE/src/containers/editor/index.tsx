@@ -4,7 +4,12 @@ import EditorTopSection from './EditorTopSection';
 import VisibleBackLoading from 'components/common/loading/VisibleBack';
 
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 
 // Import Swiper React components
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
@@ -26,7 +31,9 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
-import { getHolidays } from 'reducer/holidays';
+import { getHolidays, initialHolidayError } from 'reducer/holidays';
+import MemoContainer from './memo/MemoContainer';
+import { getMemoList, initialMemoError } from 'reducer/memo';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -36,17 +43,29 @@ const EditorContainer = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
 
   const page = searchParams?.get('page');
   const temp = searchParams?.get('temp');
   const year = searchParams?.get('year');
   const { pathname } = location;
+  const { nansu } = params;
 
   // redux
   const dispatch = useAppDispatch();
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
+  const {
+    selectDate,
+    loading: memoLoading,
+    error: memoError,
+  } = useAppSelector((state: RootState) => state.memo);
+  const { error: holidayError } = useAppSelector(
+    (state: RootState) => state.holidays,
+  );
+
+  /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
     for (let i = 1; i < 13; i++) {
       const str = i.toString();
@@ -56,17 +75,12 @@ const EditorContainer = () => {
         dispatch(getHolidays(str));
       }
     }
-    return () => {
-      for (let i = 1; i < 13; i++) {
-        const str = i.toString();
-        if (str.length === 1) {
-          dispatch(getHolidays(`0${str}`));
-        } else {
-          dispatch(getHolidays(str));
-        }
-      }
-    };
   }, []);
+  /** 첫 렌더링 시 메모 가져오기 */
+  useEffect(() => {
+    if (!nansu) return;
+    dispatch(getMemoList(nansu));
+  }, [nansu]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -111,7 +125,6 @@ const EditorContainer = () => {
             },
           })
           .then((resp) => {
-            console.log(resp);
             dispatch(updateImg({ id: cId, imgUrl: resp.data.image }));
           })
           .catch((err: Error) => {
@@ -124,6 +137,24 @@ const EditorContainer = () => {
       };
     }
   };
+
+  useEffect(() => {
+    if (holidayError || memoError) {
+      alert('에러가 발생했습니다.');
+      dispatch(initialHolidayError());
+      dispatch(initialMemoError());
+      if (memoError) return navigate(`/${nansu}`);
+      return navigate(-2);
+    }
+  }, [holidayError, memoError]);
+
+  useEffect(() => {
+    if (memoLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [memoLoading]);
 
   return (
     <>
@@ -150,6 +181,7 @@ const EditorContainer = () => {
       />
       {selectedId !== null && <EditorBottomSection setLoading={setLoading} />}
       {loading && <VisibleBackLoading />}
+      {selectDate && <MemoContainer />}
     </>
   );
 };

@@ -34,7 +34,11 @@ export const getHolidays = createAsyncThunk(
 const holidaysSlice = createSlice({
   name: 'holidays',
   initialState,
-  reducers: {},
+  reducers: {
+    initialHolidayError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getHolidays.pending, (state) => {
       state.result = null;
@@ -72,4 +76,5 @@ const holidaysSlice = createSlice({
   },
 });
 
+export const { initialHolidayError } = holidaysSlice.actions;
 export default holidaysSlice.reducer;

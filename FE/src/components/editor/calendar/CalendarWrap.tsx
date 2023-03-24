@@ -44,6 +44,8 @@ const CalendarWrapBlock = styled.div`
       /* border: 1px solid yellow; */
       padding: 1%;
       font-size: 35%;
+      display: flex;
+      flex-direction: column;
 
       &.disabled {
         opacity: 0;
@@ -64,6 +66,12 @@ const CalendarWrapBlock = styled.div`
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+        margin-bottom: 0.15rem;
+      }
+      .memo_con {
+        font-size: 35%;
+        zoom: 0.7;
+        white-space: pre-line;
       }
     }
   }

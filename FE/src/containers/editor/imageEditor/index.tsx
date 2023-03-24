@@ -163,11 +163,16 @@ const ImageEditorContainer = () => {
   /** crop */
   const handleCrop = () => {
     if (!editorIns) return;
-    editorIns.startDrawingMode('CROPPER');
-    setCropEdit(true);
-    setImgEdit(false);
-    setTxtEdit(false);
-    setAddLayer(false);
+    if (!cropEdit) {
+      editorIns.startDrawingMode('CROPPER');
+      setCropEdit(true);
+      setImgEdit(false);
+      setTxtEdit(false);
+      setAddLayer(false);
+    } else {
+      editorIns.stopDrawingMode();
+      setCropEdit(false);
+    }
   };
 
   const handleSetCropZone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,6 +201,9 @@ const ImageEditorContainer = () => {
       return;
     }
     editorIns.crop(cropZone);
+
+    editorIns.stopDrawingMode();
+    setCropEdit(false);
   };
   const handlecancleCrop = () => {
     if (!editorIns) return;
@@ -207,7 +215,7 @@ const ImageEditorContainer = () => {
   const handleImageEdit = () => {
     editorIns.stopDrawingMode();
     setCropEdit(false);
-    setImgEdit(true);
+    setImgEdit(!imgEdit);
     setTxtEdit(false);
     setAddLayer(false);
   };
