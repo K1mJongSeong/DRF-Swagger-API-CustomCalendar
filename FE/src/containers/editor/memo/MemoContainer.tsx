@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   changeMemoField,
+  getMemoList,
   initialPostResult,
   post,
   updateDate,
@@ -49,6 +50,7 @@ const MemoContainer = () => {
   const handlePostMemo = () => {
     if (!nansu || !selectDate) return;
     if (!memoContent) return alert('메모를 입력해주세요');
+    if (memoContent.length > 100) return alert('100자 이내로 작성해주세요.');
     dispatch(post({ nansu, monthdays: selectDate, notice: memoContent }));
   };
 
@@ -58,10 +60,11 @@ const MemoContainer = () => {
       return;
     }
 
-    if (postMemoResult) {
+    if (postMemoResult && nansu) {
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
+      dispatch(getMemoList(nansu));
     }
   }, [postMemoResult, error]);
 

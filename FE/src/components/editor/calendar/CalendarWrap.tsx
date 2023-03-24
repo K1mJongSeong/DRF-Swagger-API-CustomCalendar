@@ -71,6 +71,7 @@ const CalendarWrapBlock = styled.div`
       .memo_con {
         font-size: 35%;
         zoom: 0.7;
+        white-space: pre-line;
       }
     }
   }
