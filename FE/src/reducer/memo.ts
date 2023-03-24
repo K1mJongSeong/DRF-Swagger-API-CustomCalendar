@@ -9,6 +9,7 @@ interface PostMemoProps {
 }
 
 export interface MemoState {
+  loading: boolean;
   selectDate: string | null;
   memoContent: string;
   postMemoPayload: PostMemoProps | null;
@@ -17,6 +18,7 @@ export interface MemoState {
 }
 
 const initialState: MemoState = {
+  loading: false,
   selectDate: null,
   memoContent: '',
   postMemoPayload: null,
@@ -44,20 +46,27 @@ export const MemoSlice = createSlice({
     changeMemoField: (state, action: PayloadAction<string>) => {
       state.memoContent = action.payload;
     },
+    initialPostResult: (state) => {
+      state.postMemoResult = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(post.pending, (state) => {
+      state.loading = true;
       state.postError = null;
       state.postMemoResult = null;
     });
     builder.addCase(post.fulfilled, (state, action) => {
+      state.loading = false;
       state.postMemoResult = action.payload;
     });
     builder.addCase(post.rejected, (state, action) => {
+      state.loading = false;
       state.postError = action.error.message;
     });
   },
 });
 
-export const { updateDate, changeMemoField } = MemoSlice.actions;
+export const { updateDate, changeMemoField, initialPostResult } =
+  MemoSlice.actions;
 export default MemoSlice.reducer;

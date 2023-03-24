@@ -1,17 +1,22 @@
+import VisibleBackLoading from 'components/common/loading/VisibleBack';
 import MemoTemplate, { MemoForm } from 'components/editor/MemoTemplate';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { changeMemoField, post, updateDate } from 'reducer/memo';
+import {
+  changeMemoField,
+  initialPostResult,
+  post,
+  updateDate,
+} from 'reducer/memo';
 import { RootState } from 'store';
 
 const MemoContainer = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { selectDate, memoContent, postError } = useAppSelector(
-    (state: RootState) => state.memo,
-  );
+  const { loading, selectDate, memoContent, postMemoResult, postError } =
+    useAppSelector((state: RootState) => state.memo);
 
   const { nansu } = params;
 
@@ -47,15 +52,31 @@ const MemoContainer = () => {
     dispatch(post({ nansu, monthdays: selectDate, notice: memoContent }));
   };
 
+  useEffect(() => {
+    if (postError) {
+      alert(postError);
+      return;
+    }
+
+    if (postMemoResult) {
+      dispatch(updateDate(null));
+      dispatch(changeMemoField(''));
+      dispatch(initialPostResult());
+    }
+  }, [postMemoResult, postError]);
+
   return (
-    <MemoTemplate>
-      <MemoForm
-        onClose={handleClose}
-        targetDate={targetDate}
-        onChange={handleChangeMemo}
-        onPost={handlePostMemo}
-      />
-    </MemoTemplate>
+    <>
+      <MemoTemplate>
+        <MemoForm
+          onClose={handleClose}
+          targetDate={targetDate}
+          onChange={handleChangeMemo}
+          onPost={handlePostMemo}
+        />
+      </MemoTemplate>
+      {loading && <VisibleBackLoading />}
+    </>
   );
 };
 
