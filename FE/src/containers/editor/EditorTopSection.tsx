@@ -12,7 +12,7 @@ const EditorTopSection = ({
   children?: React.ReactNode;
   onSubmit?: () => void;
 }) => {
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
 
@@ -23,9 +23,9 @@ const EditorTopSection = ({
   const page = searchParams?.get('page');
 
   const handleClickBackBtn = () => {
-    if (isEdit) return nevigate(-1);
+    if (isEdit) return navigate(-1);
 
-    nevigate(`/${nansu}/list?temp=${temp}&year=${year}`);
+    navigate(`/${nansu}/list?temp=${temp}&year=${year}`);
   };
 
   const handleTestClick = () => {
@@ -33,7 +33,7 @@ const EditorTopSection = ({
   };
 
   const handleGotoOrder = () => {
-    nevigate(`/${nansu}/order`);
+    navigate(`/${nansu}/order`);
   };
 
   return (

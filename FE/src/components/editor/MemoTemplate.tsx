@@ -15,11 +15,13 @@ export const MemoForm = ({
   targetDate,
   onChange,
   onPost,
+  onUpdate,
 }: {
   onClose: () => void;
   targetDate: string | null;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onPost: () => void;
+  onUpdate: () => void;
 }) => {
   const { memoContent, isMemo } = useAppSelector(
     (state: RootState) => state.memo,
@@ -50,7 +52,7 @@ export const MemoForm = ({
               <Button $fullWidth $borderRedBtn>
                 삭제
               </Button>
-              <Button $fullWidth $borderBtn>
+              <Button $fullWidth $borderBtn onClick={onUpdate}>
                 수정
               </Button>
             </div>

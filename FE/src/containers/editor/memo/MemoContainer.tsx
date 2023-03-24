@@ -8,15 +8,16 @@ import {
   changeMemoField,
   getMemoList,
   initialPostResult,
-  post,
+  postMemo,
   updateDate,
+  updateMemo,
 } from 'reducer/memo';
 import { RootState } from 'store';
 
 const MemoContainer = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { loading, selectDate, memoContent, postMemoResult, error } =
+  const { loading, selectDate, memoContent, resMemoResult, error } =
     useAppSelector((state: RootState) => state.memo);
 
   const { nansu } = params;
@@ -51,7 +52,14 @@ const MemoContainer = () => {
     if (!nansu || !selectDate) return;
     if (!memoContent) return alert('메모를 입력해주세요');
     if (memoContent.length > 50) return alert('50자 이내로 작성해주세요.');
-    dispatch(post({ nansu, monthdays: selectDate, notice: memoContent }));
+    dispatch(postMemo({ nansu, monthdays: selectDate, notice: memoContent }));
+  };
+
+  const handleUpdateMemo = () => {
+    if (!nansu || !selectDate) return;
+    if (!memoContent) return alert('메모를 입력해주세요');
+    if (memoContent.length > 50) return alert('50자 이내로 작성해주세요.');
+    dispatch(updateMemo({ nansu, monthdays: selectDate, notice: memoContent }));
   };
 
   useEffect(() => {
@@ -60,13 +68,13 @@ const MemoContainer = () => {
       return;
     }
 
-    if (postMemoResult && nansu) {
+    if (resMemoResult && nansu) {
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(getMemoList(nansu));
     }
-  }, [postMemoResult, error]);
+  }, [resMemoResult, error]);
 
   return (
     <>
@@ -76,6 +84,7 @@ const MemoContainer = () => {
           targetDate={targetDate}
           onChange={handleChangeMemo}
           onPost={handlePostMemo}
+          onUpdate={handleUpdateMemo}
         />
       </MemoTemplate>
       {loading && <VisibleBackLoading />}

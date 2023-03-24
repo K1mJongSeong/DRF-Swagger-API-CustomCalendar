@@ -57,6 +57,9 @@ const EditorContainer = () => {
     (state: RootState) => state.images,
   );
   const { selectDate } = useAppSelector((state: RootState) => state.memo);
+  const { error: holidayError } = useAppSelector(
+    (state: RootState) => state.holidays,
+  );
 
   /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
@@ -131,6 +134,13 @@ const EditorContainer = () => {
       };
     }
   };
+
+  useEffect(() => {
+    if (holidayError) {
+      alert('에러가 발생했습니다.');
+      return navigate(-1);
+    }
+  }, [holidayError]);
 
   return (
     <>

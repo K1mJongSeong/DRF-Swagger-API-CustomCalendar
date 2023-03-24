@@ -2,10 +2,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
-export interface PostMemoProps {
+interface BasicMemoProps {
   nansu: string;
-  notice: string;
   monthdays: string;
+}
+export interface PostMemoProps extends BasicMemoProps {
+  notice: string;
 }
 
 export interface MemoState {
@@ -13,7 +15,7 @@ export interface MemoState {
   selectDate: string | null;
   memoContent: string;
   postMemoPayload: PostMemoProps | null;
-  postMemoResult: any | null;
+  resMemoResult: any | null;
   getMemoListResult: Array<PostMemoProps> | null;
   error: string | null | undefined;
   isMemo: boolean;
@@ -24,13 +26,13 @@ const initialState: MemoState = {
   selectDate: null,
   memoContent: '',
   postMemoPayload: null,
-  postMemoResult: null,
+  resMemoResult: null,
   getMemoListResult: null,
   error: null,
   isMemo: false,
 };
 
-export const post = createAsyncThunk(
+export const postMemo = createAsyncThunk(
   'memo/postMemo',
   async (postMemoPayload: PostMemoProps) => {
     const res = await client.post('/Notice/', postMemoPayload, {
@@ -39,10 +41,21 @@ export const post = createAsyncThunk(
     return res.data;
   },
 );
+
 export const getMemoList = createAsyncThunk(
   'memo/getMemoList',
   async (nansu: string) => {
     const res = await client.get(`/Notice/?nansu=${nansu}`, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return res.data;
+  },
+);
+
+export const updateMemo = createAsyncThunk(
+  'memo/updateMemo',
+  async (updateMemoPayload: PostMemoProps) => {
+    const res = await client.put('/Notice/', updateMemoPayload, {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.data;
@@ -60,23 +73,23 @@ export const MemoSlice = createSlice({
       state.memoContent = action.payload;
     },
     initialPostResult: (state) => {
-      state.postMemoResult = null;
+      state.resMemoResult = null;
     },
     hasMemo: (state, action: PayloadAction<boolean>) => {
       state.isMemo = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(post.pending, (state) => {
+    builder.addCase(postMemo.pending, (state) => {
       state.loading = true;
       state.error = null;
-      state.postMemoResult = null;
+      state.resMemoResult = null;
     });
-    builder.addCase(post.fulfilled, (state, action) => {
+    builder.addCase(postMemo.fulfilled, (state, action) => {
       state.loading = false;
-      state.postMemoResult = action.payload;
+      state.resMemoResult = action.payload;
     });
-    builder.addCase(post.rejected, (state, action) => {
+    builder.addCase(postMemo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });
@@ -91,7 +104,19 @@ export const MemoSlice = createSlice({
     });
     builder.addCase(getMemoList.rejected, (state, action) => {
       state.loading = false;
-      console.log(action.error);
+      state.error = action.error.message;
+    });
+    builder.addCase(updateMemo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.resMemoResult = null;
+    });
+    builder.addCase(updateMemo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.resMemoResult = action.payload;
+    });
+    builder.addCase(updateMemo.rejected, (state, action) => {
+      state.loading = false;
       state.error = action.error.message;
     });
   },
