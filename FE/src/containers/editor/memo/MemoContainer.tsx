@@ -1,4 +1,3 @@
-import VisibleBackLoading from 'components/common/loading/VisibleBack';
 import MemoTemplate, { MemoForm } from 'components/editor/MemoTemplate';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import moment from 'moment';
@@ -18,8 +17,9 @@ import { RootState } from 'store';
 const MemoContainer = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { loading, selectDate, memoContent, resMemoResult, error } =
-    useAppSelector((state: RootState) => state.memo);
+  const { selectDate, memoContent, resMemoResult } = useAppSelector(
+    (state: RootState) => state.memo,
+  );
 
   const { nansu } = params;
 
@@ -69,17 +69,13 @@ const MemoContainer = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-
     if (resMemoResult && nansu) {
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(getMemoList(nansu));
     }
-  }, [resMemoResult, error]);
+  }, [resMemoResult]);
 
   return (
     <>
@@ -93,7 +89,6 @@ const MemoContainer = () => {
           onRemove={handleRemoveMemo}
         />
       </MemoTemplate>
-      {loading && <VisibleBackLoading />}
     </>
   );
 };

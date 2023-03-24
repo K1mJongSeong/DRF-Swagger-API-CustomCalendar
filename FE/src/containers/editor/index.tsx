@@ -31,9 +31,9 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
-import { getHolidays } from 'reducer/holidays';
+import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
-import { getMemoList } from 'reducer/memo';
+import { getMemoList, initialMemoError } from 'reducer/memo';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -56,7 +56,11 @@ const EditorContainer = () => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
-  const { selectDate } = useAppSelector((state: RootState) => state.memo);
+  const {
+    selectDate,
+    loading: memoLoading,
+    error: memoError,
+  } = useAppSelector((state: RootState) => state.memo);
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
@@ -121,7 +125,6 @@ const EditorContainer = () => {
             },
           })
           .then((resp) => {
-            console.log(resp);
             dispatch(updateImg({ id: cId, imgUrl: resp.data.image }));
           })
           .catch((err: Error) => {
@@ -136,11 +139,22 @@ const EditorContainer = () => {
   };
 
   useEffect(() => {
-    if (holidayError) {
+    if (holidayError || memoError) {
       alert('에러가 발생했습니다.');
-      return navigate(-1);
+      dispatch(initialHolidayError());
+      dispatch(initialMemoError());
+      if (memoError) return navigate(`/${nansu}`);
+      return navigate(-2);
     }
-  }, [holidayError]);
+  }, [holidayError, memoError]);
+
+  useEffect(() => {
+    if (memoLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [memoLoading]);
 
   return (
     <>

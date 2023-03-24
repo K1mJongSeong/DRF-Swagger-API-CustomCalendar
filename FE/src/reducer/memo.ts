@@ -85,6 +85,9 @@ export const MemoSlice = createSlice({
     initialPostResult: (state) => {
       state.resMemoResult = null;
     },
+    initialMemoError: (state) => {
+      state.error = null;
+    },
     hasMemo: (state, action: PayloadAction<boolean>) => {
       state.isMemo = action.payload;
     },
@@ -144,6 +147,11 @@ export const MemoSlice = createSlice({
   },
 });
 
-export const { updateDate, changeMemoField, initialPostResult, hasMemo } =
-  MemoSlice.actions;
+export const {
+  updateDate,
+  changeMemoField,
+  initialPostResult,
+  initialMemoError,
+  hasMemo,
+} = MemoSlice.actions;
 export default MemoSlice.reducer;
