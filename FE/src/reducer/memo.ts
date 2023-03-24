@@ -2,10 +2,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
-interface PostMemoProps {
+export interface PostMemoProps {
   nansu: string;
-  notice?: string;
-  monthdays?: string;
+  notice: string;
+  monthdays: string;
 }
 
 export interface MemoState {
@@ -14,7 +14,7 @@ export interface MemoState {
   memoContent: string;
   postMemoPayload: PostMemoProps | null;
   postMemoResult: any | null;
-  getMemoListResult: any | null;
+  getMemoListResult: Array<PostMemoProps> | null;
   error: string | null | undefined;
 }
 

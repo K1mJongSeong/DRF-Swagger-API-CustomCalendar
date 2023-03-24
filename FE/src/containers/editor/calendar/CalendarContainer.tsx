@@ -14,8 +14,9 @@ import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import { updateDate } from 'reducer/memo';
+import { PostMemoProps, updateDate } from 'reducer/memo';
 import { selectId } from 'reducer/images';
+import { useEffect, useState } from 'react';
 
 interface DayCellProps {
   day: Date;
@@ -110,12 +111,27 @@ const DayCell = (props: DayCellProps) => {
     formattedDate,
   } = props;
   const dispatch = useAppDispatch();
-  const { selectDate } = useAppSelector((state: RootState) => state.memo);
+  const { selectDate, getMemoListResult } = useAppSelector(
+    (state: RootState) => state.memo,
+  );
 
   const handleClickCell = (day: Date) => {
     dispatch(updateDate(day.toString()));
     dispatch(selectId(null));
   };
+
+  const [isMemo, setIsMemo] = useState<PostMemoProps | null>(null);
+  useEffect(() => {
+    const memoCon = getMemoListResult?.filter((el) =>
+      isSameDay(day, new Date(el.monthdays)),
+    );
+    if (!memoCon || memoCon.length === 0) {
+      setIsMemo(null);
+      return;
+    } else {
+      setIsMemo(memoCon[0]);
+    }
+  }, [getMemoListResult]);
 
   return (
     <div
@@ -152,6 +168,7 @@ const DayCell = (props: DayCellProps) => {
         </span>
         {holiday && <span className="red txt">{holiday.dateName}</span>}
       </div>
+      {isMemo && <div className="memo_con">{isMemo.notice}</div>}
     </div>
   );
 };
