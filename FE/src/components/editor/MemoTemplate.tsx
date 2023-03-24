@@ -16,12 +16,14 @@ export const MemoForm = ({
   onChange,
   onPost,
   onUpdate,
+  onRemove,
 }: {
   onClose: () => void;
   targetDate: string | null;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onPost: () => void;
   onUpdate: () => void;
+  onRemove: () => void;
 }) => {
   const { memoContent, isMemo } = useAppSelector(
     (state: RootState) => state.memo,
@@ -49,7 +51,7 @@ export const MemoForm = ({
           />
           {isMemo ? (
             <div className="btn_wrap">
-              <Button $fullWidth $borderRedBtn>
+              <Button $fullWidth $borderRedBtn onClick={onRemove}>
                 삭제
               </Button>
               <Button $fullWidth $borderBtn onClick={onUpdate}>

@@ -9,6 +9,7 @@ import {
   getMemoList,
   initialPostResult,
   postMemo,
+  removeMemo,
   updateDate,
   updateMemo,
 } from 'reducer/memo';
@@ -62,10 +63,14 @@ const MemoContainer = () => {
     dispatch(updateMemo({ nansu, monthdays: selectDate, notice: memoContent }));
   };
 
+  const handleRemoveMemo = () => {
+    if (!nansu || !selectDate) return;
+    dispatch(removeMemo({ nansu, monthdays: selectDate }));
+  };
+
   useEffect(() => {
     if (error) {
       alert(error);
-      return;
     }
 
     if (resMemoResult && nansu) {
@@ -85,6 +90,7 @@ const MemoContainer = () => {
           onChange={handleChangeMemo}
           onPost={handlePostMemo}
           onUpdate={handleUpdateMemo}
+          onRemove={handleRemoveMemo}
         />
       </MemoTemplate>
       {loading && <VisibleBackLoading />}

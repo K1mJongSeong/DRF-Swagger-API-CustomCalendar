@@ -62,6 +62,16 @@ export const updateMemo = createAsyncThunk(
   },
 );
 
+export const removeMemo = createAsyncThunk(
+  'memo/removeMemo',
+  async (removeMemoPayload: BasicMemoProps) => {
+    const res = await client.delete(
+      `/Notice/?monthdays=${removeMemoPayload.monthdays}&nansu=${removeMemoPayload.nansu}`,
+    );
+    return res.data;
+  },
+);
+
 export const MemoSlice = createSlice({
   name: 'memo',
   initialState,
@@ -116,6 +126,18 @@ export const MemoSlice = createSlice({
       state.resMemoResult = action.payload;
     });
     builder.addCase(updateMemo.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(removeMemo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.resMemoResult = null;
+    });
+    builder.addCase(removeMemo.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(removeMemo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });
