@@ -27,6 +27,7 @@ import { selectId, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays } from 'reducer/holidays';
+import MemoContainer from './memo/MemoContainer';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -150,6 +151,7 @@ const EditorContainer = () => {
       />
       {selectedId !== null && <EditorBottomSection setLoading={setLoading} />}
       {loading && <VisibleBackLoading />}
+      <MemoContainer />
     </>
   );
 };
