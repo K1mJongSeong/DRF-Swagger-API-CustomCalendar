@@ -21,11 +21,13 @@ export const MemoForm = ({
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onPost: () => void;
 }) => {
-  const { memoContent } = useAppSelector((state: RootState) => state.memo);
+  const { memoContent, isMemo } = useAppSelector(
+    (state: RootState) => state.memo,
+  );
   return (
     <MemoFormBlock>
-      <div className="title_con">
-        <h2>메모 추가</h2>
+      <div className={`title_con ${isMemo && 'modify'}`}>
+        <h2>{isMemo ? '메모 수정' : '메모 추가'}</h2>
         <EditorIconButton fs="20" white onClick={onClose}>
           <MdOutlineClose />
         </EditorIconButton>
@@ -43,9 +45,20 @@ export const MemoForm = ({
             maxLength={100}
             maxRows={3}
           />
-          <Button $fullWidth $borderBtn onClick={onPost}>
-            저장
-          </Button>
+          {isMemo ? (
+            <div className="btn_wrap">
+              <Button $fullWidth $borderRedBtn>
+                삭제
+              </Button>
+              <Button $fullWidth $borderBtn>
+                수정
+              </Button>
+            </div>
+          ) : (
+            <Button $fullWidth $borderBtn onClick={onPost}>
+              저장
+            </Button>
+          )}
         </form>
       </div>
     </MemoFormBlock>
@@ -82,6 +95,10 @@ const MemoFormBlock = styled.div`
     color: white;
     h2 {
       font-size: 1.125rem;
+    }
+
+    &.modify {
+      background-color: #dfc726;
     }
   }
   .memo_con {
@@ -125,6 +142,13 @@ const MemoFormBlock = styled.div`
         min-height: auto;
         height: 40px;
         border-radius: 0;
+      }
+      .btn_wrap {
+        width: 100%;
+        display: flex;
+        & > button + button {
+          margin-left: 0.7rem;
+        }
       }
     }
   }

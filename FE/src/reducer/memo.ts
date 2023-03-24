@@ -16,6 +16,7 @@ export interface MemoState {
   postMemoResult: any | null;
   getMemoListResult: Array<PostMemoProps> | null;
   error: string | null | undefined;
+  isMemo: boolean;
 }
 
 const initialState: MemoState = {
@@ -26,6 +27,7 @@ const initialState: MemoState = {
   postMemoResult: null,
   getMemoListResult: null,
   error: null,
+  isMemo: false,
 };
 
 export const post = createAsyncThunk(
@@ -60,6 +62,9 @@ export const MemoSlice = createSlice({
     initialPostResult: (state) => {
       state.postMemoResult = null;
     },
+    hasMemo: (state, action: PayloadAction<boolean>) => {
+      state.isMemo = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(post.pending, (state) => {
@@ -86,11 +91,12 @@ export const MemoSlice = createSlice({
     });
     builder.addCase(getMemoList.rejected, (state, action) => {
       state.loading = false;
+      console.log(action.error);
       state.error = action.error.message;
     });
   },
 });
 
-export const { updateDate, changeMemoField, initialPostResult } =
+export const { updateDate, changeMemoField, initialPostResult, hasMemo } =
   MemoSlice.actions;
 export default MemoSlice.reducer;
