@@ -48,6 +48,7 @@ const EditorContainer = () => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
+  const { selectDate } = useAppSelector((state: RootState) => state.memo);
   useEffect(() => {
     for (let i = 1; i < 13; i++) {
       const str = i.toString();
@@ -151,7 +152,7 @@ const EditorContainer = () => {
       />
       {selectedId !== null && <EditorBottomSection setLoading={setLoading} />}
       {loading && <VisibleBackLoading />}
-      <MemoContainer />
+      {selectDate && <MemoContainer />}
     </>
   );
 };

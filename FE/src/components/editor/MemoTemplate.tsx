@@ -7,18 +7,24 @@ const MemoTemplate = ({ children }: { children: React.ReactNode }) => {
   return <MemoTemplateBlock>{children}</MemoTemplateBlock>;
 };
 
-export const MemoForm = () => {
+export const MemoForm = ({
+  onClose,
+  targetDate,
+}: {
+  onClose: () => void;
+  targetDate: string | null;
+}) => {
   return (
     <MemoFormBlock>
       <div className="title_con">
         <h2>메모 추가</h2>
-        <EditorIconButton fs="20" white>
+        <EditorIconButton fs="20" white onClick={onClose}>
           <MdOutlineClose />
         </EditorIconButton>
       </div>
       <div className="memo_con">
         <div className="target_area">
-          메모 날짜<span>2023년 12월 11일</span>
+          메모 날짜<span>{targetDate}</span>
         </div>
         <form>
           <label>메모 입력</label>

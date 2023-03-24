@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface MemoState {
-  selectDate: Date | null;
+  selectDate: string | null;
 }
 
 const initialState: MemoState = {
@@ -10,7 +10,7 @@ export const MemoSlice = createSlice({
   name: 'memo',
   initialState,
   reducers: {
-    updateDate: (state, action: PayloadAction<Date | null>) => {
+    updateDate: (state, action: PayloadAction<string | null>) => {
       state.selectDate = action.payload;
     },
   },

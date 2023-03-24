@@ -112,13 +112,13 @@ const DayCell = (props: DayCellProps) => {
   const { selectDate } = useAppSelector((state: RootState) => state.memo);
 
   const handleClickCell = (day: Date) => {
-    dispatch(updateDate(day));
+    dispatch(updateDate(day.toString()));
   };
 
   return (
     <div
       className={
-        selectDate === day
+        selectDate && isSameDay(day, new Date(selectDate))
           ? `col cell on ${
               !isSameMonth(day, monthStart)
                 ? 'disabled'
