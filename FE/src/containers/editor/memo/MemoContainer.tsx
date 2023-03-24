@@ -50,7 +50,7 @@ const MemoContainer = () => {
   const handlePostMemo = () => {
     if (!nansu || !selectDate) return;
     if (!memoContent) return alert('메모를 입력해주세요');
-    if (memoContent.length > 100) return alert('100자 이내로 작성해주세요.');
+    if (memoContent.length > 50) return alert('50자 이내로 작성해주세요.');
     dispatch(post({ nansu, monthdays: selectDate, notice: memoContent }));
   };
 

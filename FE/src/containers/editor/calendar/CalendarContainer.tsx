@@ -14,7 +14,12 @@ import uuid from 'react-uuid';
 import CalendarWrap from 'components/editor/calendar/CalendarWrap';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import { PostMemoProps, updateDate } from 'reducer/memo';
+import {
+  changeMemoField,
+  hasMemo,
+  PostMemoProps,
+  updateDate,
+} from 'reducer/memo';
 import { selectId } from 'reducer/images';
 import { useEffect, useState } from 'react';
 
@@ -114,12 +119,6 @@ const DayCell = (props: DayCellProps) => {
   const { selectDate, getMemoListResult } = useAppSelector(
     (state: RootState) => state.memo,
   );
-
-  const handleClickCell = (day: Date) => {
-    dispatch(updateDate(day.toString()));
-    dispatch(selectId(null));
-  };
-
   const [isMemo, setIsMemo] = useState<PostMemoProps | null>(null);
   useEffect(() => {
     const memoCon = getMemoListResult?.filter((el) =>
@@ -132,6 +131,17 @@ const DayCell = (props: DayCellProps) => {
       setIsMemo(memoCon[0]);
     }
   }, [getMemoListResult]);
+
+  const handleClickCell = (day: Date) => {
+    dispatch(updateDate(day.toString()));
+    dispatch(selectId(null));
+    if (isMemo) {
+      dispatch(hasMemo(true));
+      dispatch(changeMemoField(isMemo.notice));
+    } else {
+      dispatch(hasMemo(false));
+    }
+  };
 
   return (
     <div
