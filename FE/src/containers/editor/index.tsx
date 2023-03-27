@@ -34,6 +34,7 @@ import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
 import { getMemoList, initialMemoError } from 'reducer/memo';
+import { Renault } from 'data/template/renault';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -77,15 +78,23 @@ const EditorContainer = () => {
     }
   }, []);
   /** 첫 렌더링 시 메모 가져오기 */
-  useEffect(() => {
-    if (!nansu) return;
-    dispatch(getMemoList(nansu));
-  }, [nansu]);
+  // useEffect(() => {
+  //   if (!nansu) return;
+  //   dispatch(getMemoList(nansu));
+  // }, [nansu]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeSlidePage = (idx: number) => {
-    navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
+    Renault.forEach((el) => {
+      if (el.id === idx + 1) {
+        navigate(
+          `${pathname}?temp=${temp}&year=${year}&page=${idx + 1}&pageName=${
+            el.pageName
+          }`,
+        );
+      }
+    });
     dispatch(selectId(null));
   };
 

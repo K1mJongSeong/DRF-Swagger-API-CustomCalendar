@@ -21,6 +21,7 @@ const EditorTopSection = ({
   const temp = searchParams?.get('temp');
   const year = searchParams?.get('year');
   const page = searchParams?.get('page');
+  const pageName = searchParams?.get('pageName');
 
   const handleClickBackBtn = () => {
     if (isEdit) return navigate(-1);
@@ -28,8 +29,10 @@ const EditorTopSection = ({
     navigate(`/${nansu}/list?temp=${temp}&year=${year}`);
   };
 
-  const handleTestClick = () => {
-    alert(`템플릿 이름: ${temp}, 선택 년도: ${year}, 저장 페이지: ${page}`);
+  const handlePostPageClick = () => {
+    alert(
+      `템플릿 이름: ${temp}, 선택 년도: ${year}, 저장 페이지: ${page}, 페이지이름: ${pageName}`,
+    );
   };
 
   const handleGotoOrder = () => {
@@ -53,7 +56,7 @@ const EditorTopSection = ({
             <MdArrowBackIos />
           </EditorTextButton>
           <div className="right">
-            <EditorTextButton red onClick={handleTestClick}>
+            <EditorTextButton red onClick={handlePostPageClick}>
               저장
             </EditorTextButton>
             <EditorTextButton white onClick={handleGotoOrder}>

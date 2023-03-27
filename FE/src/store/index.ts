@@ -4,6 +4,7 @@ import holidays from 'reducer/holidays';
 import images from 'reducer/images';
 import memo from 'reducer/memo';
 import order from 'reducer/order';
+import page from 'reducer/page';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     images: images,
     holidays: holidays,
     memo: memo,
+    page: page,
   },
 });
 
