@@ -11,7 +11,7 @@ from rest_framework_swagger.views import get_swagger_view
 from app import views
 #from app.admin import NansuInfoDetail
 from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, MonthAPI2, ImageView, SwaggerSchemaView
-from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, NoticeView, CustomLogoutView
+from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, NoticeView, CustomLogoutView, NoticePostView, NoticeListView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -70,7 +70,9 @@ urlpatterns = [
     path('Prolog/',Prolog.as_view()),
     path('Cover/',Cover.as_view()),
     path('Image/',ImageView.as_view()),
-    path('Notice/<str:nansu>/',NoticeView.as_view()),
+    path('NoticeDetail/<str:nansu>/',NoticeView.as_view()),
+    path('NoticePost/',NoticePostView.as_view()),
+    path('NoticeList/',NoticeListView.as_view()),
     #path('NoticePost/',NoticePost.as_view()),
 ]
 

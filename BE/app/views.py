@@ -260,6 +260,38 @@ class NoticePostView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
+class NoticeListView(generics.ListCreateAPIView):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        nansu = self.request.query_params.get('nansu')
+        if nansu is not None:
+            queryset = queryset.filter(nansu__exact=nansu)
+        return queryset
+
+
+    @swagger_auto_schema(
+        operation_summary='메모 GET API',
+        query_serializer=NoticeSerializer
+    )
+    def get(self, request, *args, **kwargs):
+        query_params_serializer = NoticeSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = request.query_params.get('nansu', None)
+
+        #nansu = query_params_serializer.validated_data.get('nansu')
+
+        filtered_queryset = self.get_queryset().filter(nansu=nansu)
+        print(filtered_queryset)
+
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당하는 데이터가 존재하지 않습니다."})
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
+        return Response(serializer.data)
+
 class NoticeView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
@@ -482,7 +514,7 @@ class JanFront(generics.ListCreateAPIView):
         print(filtered_queryset)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -509,7 +541,7 @@ class JanBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -536,7 +568,7 @@ class FebFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -562,7 +594,7 @@ class FebBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -589,7 +621,7 @@ class MarFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -615,7 +647,7 @@ class MarBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -641,7 +673,7 @@ class AprilFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -667,7 +699,7 @@ class AprilBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -693,7 +725,7 @@ class MayFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -719,7 +751,7 @@ class MayBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -745,7 +777,7 @@ class JuneFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -771,7 +803,7 @@ class JuneBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -797,7 +829,7 @@ class JulyFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -823,7 +855,7 @@ class JulyBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -849,7 +881,7 @@ class AugFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -875,7 +907,7 @@ class AugBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -901,7 +933,7 @@ class SepFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -927,7 +959,7 @@ class SepBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -953,7 +985,7 @@ class OctFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -979,7 +1011,7 @@ class OctBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1005,7 +1037,7 @@ class NovFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1031,7 +1063,7 @@ class NovBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1058,7 +1090,7 @@ class DecFront(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1084,7 +1116,7 @@ class DecBack(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1112,7 +1144,7 @@ class Prolog(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
@@ -1138,7 +1170,7 @@ class Cover(generics.ListCreateAPIView):
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
