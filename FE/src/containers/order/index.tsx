@@ -1,9 +1,12 @@
+/* eslint-disable camelcase */
 import PBody from 'components/common/PBody';
 import ConfirmOrderModal from 'components/order/ConfirmOrderModal';
 import { useAppSelector, useAppDispatch } from 'hooks';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
+import { postOrder } from 'reducer/order';
 import { RootState } from 'store';
 import OrderConfirmSection from './OrderConfirmSection';
 import OrderFormSection from './OrderFormSection';
@@ -40,10 +43,25 @@ const OrderContainer = () => {
   };
 
   const handleSubmitOrderInfo = () => {
-    setModalOpen(false);
+    if (!nansu) return;
+    dispatch(
+      postOrder({
+        nansu,
+        postOrderPayload: {
+          user_name: userName,
+          user_phone: userPhone,
+          address,
+          postcode: postCode,
+          detailAddress,
+          orderState: '주문신청',
+          order_date: moment().toString(),
+        },
+      }),
+    );
+    // setModalOpen(false);
 
-    navigate(`/${nansu}/order?isOrdered=true`);
-    console.log(userName, userPhone, postCode, address, detailAddress);
+    // navigate(`/${nansu}/order?isOrdered=true`);
+    // console.log(userName, userPhone, postCode, address, detailAddress);
   };
 
   const handleCompleteOrder = () => {
