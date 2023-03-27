@@ -57,7 +57,9 @@ const EditorTopSection = ({
         newArr.push(el.imgUrl);
       }
     });
-    dispatch(postPage({ pageName, pagePayload: { pic: newArr, nansu } }));
+    if (newArr.length <= 0) return alert('이미지를 넣어주세요');
+    const newArrToStr = newArr.join();
+    dispatch(postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }));
   };
 
   const handleGotoOrder = () => {

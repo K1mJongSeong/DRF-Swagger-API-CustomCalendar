@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
 interface basicPageProps {
-  pic: Array<string> | null;
+  pic: string | null;
   nansu: string;
 }
 
