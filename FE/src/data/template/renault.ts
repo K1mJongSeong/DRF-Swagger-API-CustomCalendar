@@ -1,5 +1,9 @@
 export const Renault = [
-  { id: 1, tempSrc: '/assets/images/template/renault/0001.jpg', name: '커버' },
+  {
+    id: 1,
+    tempSrc: '/assets/images/template/renault/0001.jpg',
+    name: '커버',
+  },
   {
     id: 2,
     tempSrc: '/assets/images/template/renault/0002.jpg',
@@ -9,6 +13,7 @@ export const Renault = [
       { cId: 1, w: '30.4436%', h: '31.1034%', t: '63.4648%', l: '34.7985%' },
       { cId: 2, w: '30.4436%', h: '31.1034%', t: '63.4648%', l: '65.7305%' },
     ],
+    pageName: 'Cover',
   },
   {
     id: 3,
@@ -18,6 +23,7 @@ export const Renault = [
       { cId: 3, w: '36.7521%', h: '25.6146%', t: '10.8633%', l: '3.8665%' },
       { cId: 4, w: '36.7521%', h: '25.6146%', t: '10.8633%', l: '41.5954%' },
     ],
+    pageName: 'Prolog',
   },
   {
     id: 4,
@@ -26,12 +32,14 @@ export const Renault = [
     ctrlItems: [{ cId: 5, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
     month: 1,
+    pageName: 'JanFront',
   },
   {
     id: 5,
     tempSrc: '/assets/images/template/renault/0005.jpg',
     name: '1월뒤',
     ctrlItems: [{ cId: 6, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'JanBack',
   },
   {
     id: 6,
@@ -40,12 +48,14 @@ export const Renault = [
     ctrlItems: [{ cId: 7, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
     month: 2,
+    pageName: 'FebFront',
   },
   {
     id: 7,
     tempSrc: '/assets/images/template/renault/0007.jpg',
     name: '2월뒤',
     ctrlItems: [{ cId: 8, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'FebBack',
   },
   {
     id: 8,
@@ -54,12 +64,14 @@ export const Renault = [
     ctrlItems: [{ cId: 9, w: '26.455%', h: '77.7587%', l: '0', t: '16.8667%' }],
     isCalendar: true,
     month: 3,
+    pageName: 'MarFront',
   },
   {
     id: 9,
     tempSrc: '/assets/images/template/renault/0009.jpg',
     name: '3월뒤',
     ctrlItems: [{ cId: 10, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'MarBack',
   },
   {
     id: 10,
@@ -70,12 +82,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 4,
+    pageName: 'AprilFront',
   },
   {
     id: 11,
     tempSrc: '/assets/images/template/renault/0011.jpg',
     name: '4월뒤',
     ctrlItems: [{ cId: 12, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'AprilBack',
   },
   {
     id: 12,
@@ -86,12 +100,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 5,
+    pageName: 'MayFront',
   },
   {
     id: 13,
     tempSrc: '/assets/images/template/renault/0013.jpg',
     name: '5월뒤',
     ctrlItems: [{ cId: 14, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'MayBack',
   },
   {
     id: 14,
@@ -102,12 +118,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 6,
+    pageName: 'JuneFront',
   },
   {
     id: 15,
     tempSrc: '/assets/images/template/renault/0015.jpg',
     name: '6월뒤',
     ctrlItems: [{ cId: 16, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'JuneBack',
   },
   {
     id: 16,
@@ -118,12 +136,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 7,
+    pageName: 'JulyFront',
   },
   {
     id: 17,
     tempSrc: '/assets/images/template/renault/0017.jpg',
     name: '7월뒤',
     ctrlItems: [{ cId: 18, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'JulyBack',
   },
   {
     id: 18,
@@ -134,12 +154,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 8,
+    pageName: 'AugFront',
   },
   {
     id: 19,
     tempSrc: '/assets/images/template/renault/0019.jpg',
     name: '8월뒤',
     ctrlItems: [{ cId: 20, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'AugBack',
   },
   {
     id: 20,
@@ -150,12 +172,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 9,
+    pageName: 'SepFront',
   },
   {
     id: 21,
     tempSrc: '/assets/images/template/renault/0015.jpg',
     name: '9월뒤',
     ctrlItems: [{ cId: 22, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'SepBack',
   },
   {
     id: 22,
@@ -166,12 +190,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 10,
+    pageName: 'OctFront',
   },
   {
     id: 23,
     tempSrc: '/assets/images/template/renault/0023.jpg',
     name: '10월뒤',
     ctrlItems: [{ cId: 24, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'OctBack',
   },
   {
     id: 24,
@@ -182,12 +208,14 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 11,
+    pageName: 'NovFront',
   },
   {
     id: 25,
     tempSrc: '/assets/images/template/renault/0025.jpg',
     name: '11월뒤',
     ctrlItems: [{ cId: 26, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'NovBack',
   },
   {
     id: 26,
@@ -198,11 +226,13 @@ export const Renault = [
     ],
     isCalendar: true,
     month: 12,
+    pageName: 'DecFront',
   },
   {
     id: 27,
     tempSrc: '/assets/images/template/renault/0027.jpg',
     name: '12월뒤',
     ctrlItems: [{ cId: 28, w: '100%', h: '72.2698%', l: '0', t: '12.8644%' }],
+    pageName: 'DecBack',
   },
 ];

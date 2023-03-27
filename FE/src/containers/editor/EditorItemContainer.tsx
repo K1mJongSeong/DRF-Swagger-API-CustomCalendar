@@ -15,7 +15,7 @@ const EditorItemContainer = ({
       <div className="swiper-zoom-target">
         <div className="ctrl_wrap">
           {item.ctrlItems?.map((ci, idx) => (
-            <CtrlBlock onClick={onClick} img={ci} key={idx} />
+            <CtrlBlock onClick={onClick} img={ci} key={idx} pageNo={item.id} />
           ))}
         </div>
         <div className="page_wrap">

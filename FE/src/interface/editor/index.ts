@@ -19,7 +19,7 @@ export interface EditorConProps {
   Thumbs: SwiperModule;
   swiperRef: React.Ref<SwiperRef> | undefined;
   onSwiper: (idx: number) => void;
-  onClickImage: (cId: number) => void;
+  onClickImage: (cId: number, pageNo: number) => void;
 }
 
 interface basicItemTypes {
@@ -37,7 +37,7 @@ interface basicItemTypes {
     isCalendar?: boolean;
     month?: number | Date;
   };
-  onClick?: (cId: number, hadImg?: boolean) => void;
+  onClick?: (cId: number, pageNo: number) => void;
 }
 export interface ItemProps {
   item: {
@@ -70,5 +70,6 @@ export interface ImgBlockProps {
     l: string;
     t?: string | undefined;
   };
-  onClick?: (cId: number) => void;
+  onClick?: (cId: number, pageNo: number) => void;
+  pageNo?: number | null;
 }

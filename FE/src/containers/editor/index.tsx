@@ -28,12 +28,14 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 import client from 'lib/api/client';
 // redux
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { selectId, updateImg } from 'reducer/images';
+import { selectId, selectPageNo, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
 import { getMemoList, initialMemoError } from 'reducer/memo';
+import { Renault } from 'data/template/renault';
+import { getPage } from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -64,6 +66,9 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
+  const { loading: pageLoading } = useAppSelector(
+    (state: RootState) => state.page,
+  );
 
   /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
@@ -76,17 +81,36 @@ const EditorContainer = () => {
       }
     }
   }, []);
+
   /** 첫 렌더링 시 메모 가져오기 */
+  // useEffect(() => {
+  //   if (!nansu) return;
+  //   dispatch(getMemoList(nansu));
+  // }, [nansu]);
+
+  /** 첫 렌더링 시 작업리스트 가져오기 */
   useEffect(() => {
     if (!nansu) return;
-    dispatch(getMemoList(nansu));
-  }, [nansu]);
+    Renault.forEach((el) => {
+      if (!el.pageName) return;
+      dispatch(getPage({ pageName: el.pageName, nansu }));
+    });
+  }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeSlidePage = (idx: number) => {
-    navigate(`${pathname}?temp=${temp}&year=${year}&page=${idx + 1}`);
+    Renault.forEach((el) => {
+      if (el.id === idx + 1) {
+        navigate(
+          `${pathname}?temp=${temp}&year=${year}&page=${idx + 1}&pageName=${
+            el.pageName
+          }`,
+        );
+      }
+    });
     dispatch(selectId(null));
+    dispatch(selectPageNo(null));
   };
 
   useEffect(() => {
@@ -102,11 +126,13 @@ const EditorContainer = () => {
     setImgArr(newArr);
   }, [imgs]);
 
-  const handleClickImage = (cId: number) => {
+  const handleClickImage = (cId: number, pageNo: number) => {
     if (imgArr.includes(cId)) {
       dispatch(selectId(cId));
+      dispatch(selectPageNo(pageNo));
     } else {
       dispatch(selectId(null));
+      dispatch(selectPageNo(null));
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
       input.setAttribute('accept', '.jpg, .png');
@@ -125,7 +151,7 @@ const EditorContainer = () => {
             },
           })
           .then((resp) => {
-            dispatch(updateImg({ id: cId, imgUrl: resp.data.image }));
+            dispatch(updateImg({ id: cId, imgUrl: resp.data.image, pageNo }));
           })
           .catch((err: Error) => {
             console.log(err);
@@ -149,12 +175,12 @@ const EditorContainer = () => {
   }, [holidayError, memoError]);
 
   useEffect(() => {
-    if (memoLoading) {
+    if (memoLoading || pageLoading) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [memoLoading]);
+  }, [memoLoading, pageLoading]);
 
   return (
     <>

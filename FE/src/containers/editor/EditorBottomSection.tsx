@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 import client from 'lib/api/client';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
-import { deleteImg, selectId, updateImg } from 'reducer/images';
+import { deleteImg, selectId, selectPageNo, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import { IoCropSharp } from 'react-icons/io5';
 import { RxText } from 'react-icons/rx';
@@ -35,7 +35,9 @@ const EditorBottomSection = ({
 
   const isEdit = searchParams?.get('isEdit');
 
-  const { selectedId } = useAppSelector((state: RootState) => state.images);
+  const { selectedId, selectPageNo: selectPageNum } = useAppSelector(
+    (state: RootState) => state.images,
+  );
   const dispatch = useAppDispatch();
 
   const handleChangeImage = () => {
@@ -60,7 +62,14 @@ const EditorBottomSection = ({
         })
         .then((resp) => {
           if (selectedId === null) return;
-          dispatch(updateImg({ id: selectedId, imgUrl: resp.data.image }));
+          if (!selectPageNum) return;
+          dispatch(
+            updateImg({
+              id: selectedId,
+              imgUrl: resp.data.image,
+              pageNo: selectPageNum,
+            }),
+          );
         })
         .catch((err: Error) => {
           alert(err.message);
@@ -78,6 +87,7 @@ const EditorBottomSection = ({
     console.log(selectedId);
     dispatch(deleteImg({ selectedId }));
     dispatch(selectId(null));
+    dispatch(selectPageNo(null));
   };
 
   return (

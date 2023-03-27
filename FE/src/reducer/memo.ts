@@ -16,7 +16,7 @@ export interface MemoState {
   memoContent: string;
   postMemoPayload: PostMemoProps | null;
   resMemoResult: any | null;
-  getMemoListResult: Array<PostMemoProps> | null;
+  getMemoListResult: Array<PostMemoProps> | { detail: string } | null;
   error: string | null | undefined;
   isMemo: boolean;
 }
@@ -35,9 +35,13 @@ const initialState: MemoState = {
 export const postMemo = createAsyncThunk(
   'memo/postMemo',
   async (postMemoPayload: PostMemoProps) => {
-    const res = await client.post('/Notice/', postMemoPayload, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const res = await client.post(
+      `/Notice/${postMemoPayload.nansu}/`,
+      postMemoPayload,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
     return res.data;
   },
 );
@@ -45,7 +49,7 @@ export const postMemo = createAsyncThunk(
 export const getMemoList = createAsyncThunk(
   'memo/getMemoList',
   async (nansu: string) => {
-    const res = await client.get(`/Notice/?nansu=${nansu}`, {
+    const res = await client.get(`/Notice/${nansu}/`, {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.data;
@@ -55,9 +59,13 @@ export const getMemoList = createAsyncThunk(
 export const updateMemo = createAsyncThunk(
   'memo/updateMemo',
   async (updateMemoPayload: PostMemoProps) => {
-    const res = await client.put('/Notice/', updateMemoPayload, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const res = await client.put(
+      `/Notice/${updateMemoPayload.nansu}`,
+      updateMemoPayload,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
     return res.data;
   },
 );
