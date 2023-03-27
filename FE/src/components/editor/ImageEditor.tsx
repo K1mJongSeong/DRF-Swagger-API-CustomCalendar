@@ -9,7 +9,7 @@ const editorOption = {
   cssMaxHeight: 500,
   selectionStyle: {
     cornerStyle: 'circle',
-    cornerSize: 20,
+    cornerSize: 40,
     cornerColor: 'white',
     rotatingPointOffset: 70,
     borderColor: 'white',

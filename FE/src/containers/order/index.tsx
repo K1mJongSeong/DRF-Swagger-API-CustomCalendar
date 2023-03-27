@@ -52,9 +52,10 @@ const OrderContainer = () => {
           user_phone: userPhone,
           address,
           postcode: postCode,
+          nansu,
           detailAddress,
           orderState: '주문신청',
-          order_date: moment().toString(),
+          order_date: moment().format(),
         },
       }),
     );

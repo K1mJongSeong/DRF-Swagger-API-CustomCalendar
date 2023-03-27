@@ -121,6 +121,7 @@ const DayCell = (props: DayCellProps) => {
   );
   const [isMemo, setIsMemo] = useState<PostMemoProps | null>(null);
   useEffect(() => {
+    if (!Array.isArray(getMemoListResult)) return;
     const memoCon = getMemoListResult?.filter((el) =>
       isSameDay(day, new Date(el.monthdays)),
     );
