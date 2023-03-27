@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.generic import ListView, DetailView
@@ -12,9 +13,27 @@ from drf_yasg.utils import swagger_auto_schema, force_serializer_instance
 from drf_yasg import openapi
 from .models import Nansu, Order, OrderInfo, Calendar, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Image, Notice, NansuInfo
 from .serializers import NansuSerializer, OrderSerializer, OrderInfoSerializer, CalendarSerializer, JanFrontSerializer, JanBackSerializer, FebFrontSerializer, FebBackSerializer, MarFrontSerializer, MarBackSerializer,AprilFrontSerializer,AprilBackSerializer,MayFrontSerializer,MayBackSerializer, JuneFrontSerializer, JuneBackSerializer, JulyFrontSerializer, JulyBackSerializer, AugFrontSerializer, AugBackSerializer, SepFrontSerializer, SepBackSerializer, OctFrontSerializer, OctBackSerializer, NovFrontSerializer, NovBackSerializer, DecFrontSerializer, DecBackSerializer, PrologSerializer, CoverSerializer, ImageSerializer, NoticeSerializer, NansuInfoSerializer
+from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth import logout
+from django.contrib.auth.models import AnonymousUser
 
 def index(request):
     return HttpResponse("TEST PAGE")
+
+
+class CustomLogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        # 세션 데이터 백업
+        session_backup = dict(request.session)
+
+        # 로그아웃
+        response = super().dispatch(request, *args, **kwargs)
+
+        # 백업된 세션 데이터를 복원
+        for key, value in session_backup.items():
+            request.session[key] = value
+
+        return response
 
 def nansu_info_detail(request, info_seq, nansu_count):
     nansu_list = Nansu.objects.all()[:nansu_count]
@@ -232,7 +251,7 @@ class MonthAPI(APIView):
 
 
 
-class Notice(generics.ListCreateAPIView):
+class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.all()
 
@@ -241,6 +260,37 @@ class Notice(generics.ListCreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary='메모 PUT API',
+        request_body=NoticeSerializer,
+        responses={200: NoticeSerializer}
+    )
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary='메모 DELETE API',
+        query_serializer=NoticeSerializer
+    )
+    def delete(self, request, *args, **kwargs):
+        query_params_serializer = NoticeSerializer(data=request.query_params)
+        query_params_serializer.is_valid(raise_exception=True)
+        nansu = query_params_serializer.validated_data.get('nansu')
+        monthdays = query_params_serializer.validated_data.get('monthdays')
+
+        # nansu와 monthdays에 맞는 데이터를 찾기
+        notice_to_delete = self.queryset.filter(nansu=nansu, monthdays=monthdays)
+
+        if not notice_to_delete.exists():
+            return Response({"detail": "해당하는 nansu와 monthdays 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 쿼리셋에서 해당하는 데이터 삭제
+        notice_to_delete.delete()
+        return Response({"detail": "데이터가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, *args, **kwargs):
+        return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @swagger_auto_schema(
         operation_summary='메모 GET API',
@@ -252,9 +302,6 @@ class Notice(generics.ListCreateAPIView):
         nansu = query_params_serializer.validated_data.get('nansu')
 
         filtered_queryset = self.queryset.filter(nansu=nansu)
-        
-        if not filtered_queryset.exists():
-            return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
