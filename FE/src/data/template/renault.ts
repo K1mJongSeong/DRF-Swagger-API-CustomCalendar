@@ -3,7 +3,6 @@ export const Renault = [
     id: 1,
     tempSrc: '/assets/images/template/renault/0001.jpg',
     name: '커버',
-    pageName: 'Main',
   },
   {
     id: 2,
