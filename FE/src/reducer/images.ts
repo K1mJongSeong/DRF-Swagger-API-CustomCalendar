@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ImagesState {
-  imgs: Array<{ id: number; imgUrl: string }>;
+  imgs: Array<{ id: number; imgUrl: string; pageNo: number }>;
   selectedId: number | null;
+  selectPageNo: number | null;
 }
 
 const initialState: ImagesState = {
   imgs: [],
   selectedId: null,
+  selectPageNo: null,
 };
 
 export const imagesSlice = createSlice({
@@ -16,7 +18,7 @@ export const imagesSlice = createSlice({
   reducers: {
     updateImg: (
       state,
-      action: PayloadAction<{ id: number; imgUrl: string }>,
+      action: PayloadAction<{ id: number; imgUrl: string; pageNo: number }>,
     ) => {
       let Arr = [];
       state.imgs.forEach((i) => {
@@ -38,8 +40,12 @@ export const imagesSlice = createSlice({
     selectId: (state, action: PayloadAction<number | null>) => {
       state.selectedId = action.payload;
     },
+    selectPageNo: (state, action: PayloadAction<number | null>) => {
+      state.selectPageNo = action.payload;
+    },
   },
 });
 
-export const { updateImg, deleteImg, selectId } = imagesSlice.actions;
+export const { updateImg, deleteImg, selectId, selectPageNo } =
+  imagesSlice.actions;
 export default imagesSlice.reducer;

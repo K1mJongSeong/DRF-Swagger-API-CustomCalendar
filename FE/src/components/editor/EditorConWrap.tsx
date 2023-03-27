@@ -9,7 +9,7 @@ const EditorConWrap = ({ children }: { children: React.ReactNode }) => {
   return <EditorConWrapBlock>{children}</EditorConWrapBlock>;
 };
 
-export const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
+export const CtrlBlock = ({ img, onClick, pageNo }: ImgBlockProps) => {
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
@@ -35,7 +35,8 @@ export const CtrlBlock = ({ img, onClick }: ImgBlockProps) => {
 
   const handleClickImg = (cId: number) => {
     if (!onClick) return;
-    onClick(cId);
+    if (!pageNo) return;
+    onClick(cId, pageNo);
   };
 
   return (

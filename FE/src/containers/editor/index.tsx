@@ -28,7 +28,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 import client from 'lib/api/client';
 // redux
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { selectId, updateImg } from 'reducer/images';
+import { selectId, selectPageNo, updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays, initialHolidayError } from 'reducer/holidays';
@@ -96,6 +96,7 @@ const EditorContainer = () => {
       }
     });
     dispatch(selectId(null));
+    dispatch(selectPageNo(null));
   };
 
   useEffect(() => {
@@ -111,11 +112,13 @@ const EditorContainer = () => {
     setImgArr(newArr);
   }, [imgs]);
 
-  const handleClickImage = (cId: number) => {
+  const handleClickImage = (cId: number, pageNo: number) => {
     if (imgArr.includes(cId)) {
       dispatch(selectId(cId));
+      dispatch(selectPageNo(pageNo));
     } else {
       dispatch(selectId(null));
+      dispatch(selectPageNo(null));
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
       input.setAttribute('accept', '.jpg, .png');
@@ -134,7 +137,7 @@ const EditorContainer = () => {
             },
           })
           .then((resp) => {
-            dispatch(updateImg({ id: cId, imgUrl: resp.data.image }));
+            dispatch(updateImg({ id: cId, imgUrl: resp.data.image, pageNo }));
           })
           .catch((err: Error) => {
             console.log(err);

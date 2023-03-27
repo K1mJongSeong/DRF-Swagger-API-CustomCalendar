@@ -25,7 +25,7 @@ interface propsType {
 const ImageEditorContainer = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { imgs, selectedId } = useAppSelector(
+  const { imgs, selectedId, selectPageNo } = useAppSelector(
     (state: RootState) => state.images,
   );
   /** 작업 배경 이미지 */
@@ -271,7 +271,14 @@ const ImageEditorContainer = () => {
       .then((res) => {
         console.log(res.data.image);
         if (selectedId === null) return;
-        dispatch(updateImg({ id: selectedId, imgUrl: res.data.image }));
+        if (selectPageNo === null) return;
+        dispatch(
+          updateImg({
+            id: selectedId,
+            imgUrl: res.data.image,
+            pageNo: selectPageNo,
+          }),
+        );
         navigate(-1);
       })
       .catch((err: Error) => {

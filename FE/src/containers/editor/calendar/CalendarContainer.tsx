@@ -20,7 +20,7 @@ import {
   PostMemoProps,
   updateDate,
 } from 'reducer/memo';
-import { selectId } from 'reducer/images';
+import { selectId, selectPageNo } from 'reducer/images';
 import { useEffect, useState } from 'react';
 
 interface DayCellProps {
@@ -136,6 +136,7 @@ const DayCell = (props: DayCellProps) => {
   const handleClickCell = (day: Date) => {
     dispatch(updateDate(day.toString()));
     dispatch(selectId(null));
+    dispatch(selectPageNo(null));
     if (isMemo) {
       dispatch(hasMemo(true));
       dispatch(changeMemoField(isMemo.notice));
