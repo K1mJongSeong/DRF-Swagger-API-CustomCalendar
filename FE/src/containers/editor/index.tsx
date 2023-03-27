@@ -65,6 +65,9 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
+  const { loading: pageLoading } = useAppSelector(
+    (state: RootState) => state.page,
+  );
 
   /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
@@ -161,12 +164,12 @@ const EditorContainer = () => {
   }, [holidayError, memoError]);
 
   useEffect(() => {
-    if (memoLoading) {
+    if (memoLoading || pageLoading) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [memoLoading]);
+  }, [memoLoading, pageLoading]);
 
   return (
     <>
