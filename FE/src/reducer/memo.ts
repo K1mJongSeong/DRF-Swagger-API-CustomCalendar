@@ -45,7 +45,7 @@ export const postMemo = createAsyncThunk(
 export const getMemoList = createAsyncThunk(
   'memo/getMemoList',
   async (nansu: string) => {
-    const res = await client.get(`/Notice/?nansu=${nansu}`, {
+    const res = await client.get(`/Notice/${nansu}/`, {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.data;
