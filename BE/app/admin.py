@@ -152,7 +152,7 @@ class DecBackAdmin(admin.ModelAdmin):
 admin.site.register(DecBack, DecBackAdmin)
 
 class NoticeAdmin(admin.ModelAdmin):
-    list_display =('nansu','monthdays','notice','notice_idx')
+    list_display =('nansu','monthdays','notice')
     form = NoticeForm
     # actions = ['update_notice_nansu']
     # def update_notice_nansu(self, request, queryset):
