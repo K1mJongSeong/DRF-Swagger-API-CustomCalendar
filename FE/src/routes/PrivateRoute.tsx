@@ -1,3 +1,4 @@
+import Loading from 'components/common/loading';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { Navigate, Outlet, useParams } from 'react-router-dom';
@@ -11,7 +12,7 @@ interface PrivateRouteProps {
 export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
-  const { result, error } = useAppSelector((state) => state.auth);
+  const { result, error, loading } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const params = useParams();
   const { nansu } = params;
@@ -39,6 +40,10 @@ export default function PrivateRoute({
       }
     }
   }, [result, error]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지
