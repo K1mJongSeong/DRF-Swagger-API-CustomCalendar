@@ -3,10 +3,7 @@
 import EditorConWrap from 'components/editor/EditorConWrap';
 import { Renault } from 'data/template/renault';
 import { addMonths, format } from 'date-fns';
-import { useAppSelector } from 'hooks';
 import { EditorConProps } from 'interface/editor';
-import { useCallback, useEffect, useState } from 'react';
-import { RootState } from 'store';
 import EditorItemContainer from './EditorItemContainer';
 
 const EditorBodyContainer = (props: EditorConProps) => {

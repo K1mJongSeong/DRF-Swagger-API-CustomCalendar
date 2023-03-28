@@ -20,7 +20,8 @@ export default function PrivateRoute({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   useEffect(() => {
-    dispatch(getVerifyNansu(nansu as string));
+    if (!nansu) return;
+    dispatch(getVerifyNansu(nansu));
   }, []);
 
   useEffect(() => {

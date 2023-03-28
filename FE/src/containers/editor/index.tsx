@@ -36,7 +36,7 @@ import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
 import { getMemoList, initialMemoError } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { getPage, updatePrevImgs, updatePrevLoading } from 'reducer/page';
+import { getPage, updatePrevImgs } from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -84,10 +84,10 @@ const EditorContainer = () => {
   }, []);
 
   /** 첫 렌더링 시 메모 가져오기 */
-  // useEffect(() => {
-  //   if (!nansu) return;
-  //   dispatch(getMemoList(nansu));
-  // }, [nansu]);
+  useEffect(() => {
+    if (!nansu) return;
+    dispatch(getMemoList(nansu));
+  }, [nansu]);
 
   /** 첫 렌더링 시 작업리스트 가져오기 */
   // useEffect(() => {

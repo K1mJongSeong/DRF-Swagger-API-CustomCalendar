@@ -4,7 +4,10 @@ import client from 'lib/api/client';
 
 export interface AuthState {
   loading: boolean;
-  result: any | null;
+  result: {
+    data: { nansu: string; nansu_state: string };
+    status: number;
+  } | null;
   error: string | null | undefined;
 }
 
@@ -17,9 +20,7 @@ const initialState: AuthState = {
 export const getVerifyNansu = createAsyncThunk(
   'auth/getVerifyNansu',
   async (nansu: string) => {
-    const res = await client.get(`/NansuUrlDetail/${nansu}/`, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const res = await client.get(`/NansuUrlDetail/${nansu}/`);
     return res;
   },
 );
