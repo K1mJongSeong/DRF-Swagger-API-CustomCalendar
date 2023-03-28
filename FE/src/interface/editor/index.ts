@@ -36,6 +36,7 @@ interface basicItemTypes {
     }>;
     isCalendar?: boolean;
     month?: number | Date;
+    pageName?: string;
   };
   onClick?: (cId: number, pageNo: number) => void;
 }
@@ -53,6 +54,7 @@ export interface ItemProps {
     }>;
     isCalendar?: boolean;
     month?: number | Date;
+    pageName?: string;
   };
   onClick?: (cId: number, hadImg?: boolean) => void;
 }
@@ -72,4 +74,5 @@ export interface ImgBlockProps {
   };
   onClick?: (cId: number, pageNo: number) => void;
   pageNo?: number | null;
+  prevImg?: string | null;
 }

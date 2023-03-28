@@ -34,7 +34,6 @@ export const imagesSlice = createSlice({
       action: PayloadAction<{ selectedId: number | null }>,
     ) => {
       const Arr = state.imgs.filter((i) => i.id != action.payload.selectedId);
-      console.log('arr', Arr);
       state.imgs = Arr;
     },
     selectId: (state, action: PayloadAction<number | null>) => {

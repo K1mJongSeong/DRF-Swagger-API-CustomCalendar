@@ -17,13 +17,7 @@ function App() {
 
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Provider store={store}>
-          <Router />
-        </Provider>
-      )}
+      <Provider store={store}>{loading ? <Loading /> : <Router />}</Provider>
     </>
   );
 }

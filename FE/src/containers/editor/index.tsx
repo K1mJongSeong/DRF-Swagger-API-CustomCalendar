@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
@@ -35,7 +36,7 @@ import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
 import { getMemoList, initialMemoError } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { getPage } from 'reducer/page';
+import { getPage, updatePrevImgs } from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -66,7 +67,7 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
-  const { loading: pageLoading } = useAppSelector(
+  const { loading: pageLoading, getPageResult } = useAppSelector(
     (state: RootState) => state.page,
   );
 
@@ -83,19 +84,19 @@ const EditorContainer = () => {
   }, []);
 
   /** 첫 렌더링 시 메모 가져오기 */
-  // useEffect(() => {
-  //   if (!nansu) return;
-  //   dispatch(getMemoList(nansu));
-  // }, [nansu]);
-
-  /** 첫 렌더링 시 작업리스트 가져오기 */
   useEffect(() => {
     if (!nansu) return;
-    Renault.forEach((el) => {
-      if (!el.pageName) return;
-      dispatch(getPage({ pageName: el.pageName, nansu }));
-    });
-  }, []);
+    dispatch(getMemoList(nansu));
+  }, [nansu]);
+
+  /** 첫 렌더링 시 작업리스트 가져오기 */
+  // useEffect(() => {
+  //   if (!nansu) return;
+  //   Renault.forEach((el) => {
+  //     if (!el.pageName) return;
+  //     dispatch(getPage({ pageName: el.pageName, nansu }));
+  //   });
+  // }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -181,6 +182,18 @@ const EditorContainer = () => {
       setLoading(false);
     }
   }, [memoLoading, pageLoading]);
+
+  useEffect(() => {
+    if (!getPageResult) return;
+    if (getPageResult.data && getPageResult.pageName) {
+      dispatch(
+        updatePrevImgs({
+          data: getPageResult.data,
+          pageName: getPageResult.pageName,
+        }),
+      );
+    }
+  }, [getPageResult]);
 
   return (
     <>

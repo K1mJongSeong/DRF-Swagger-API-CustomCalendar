@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
 interface basicPageProps {
@@ -21,7 +21,9 @@ export interface PageState {
   postPageResult: any | null;
   loading: boolean;
   error: string | null | undefined;
-  getPageResult: any | null;
+  getPageResult: { data: Array<string>; pageName: string } | null;
+  prevImgs: Array<{ data: Array<string>; pageName: string }>;
+  getPrevLoading: boolean;
 }
 
 const initialState: PageState = {
@@ -29,6 +31,8 @@ const initialState: PageState = {
   loading: false,
   error: null,
   getPageResult: null,
+  prevImgs: [],
+  getPrevLoading: false,
 };
 
 export const postPage = createAsyncThunk(
@@ -52,17 +56,42 @@ export const getPage = createAsyncThunk(
       `/${getPagePayload.pageName}/?nansu=${getPagePayload.nansu}`,
       {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 3000,
       },
     );
-    return res.data;
+    if (Array.isArray(res.data)) {
+      return { data: res.data[0]?.pic, pageName: getPagePayload.pageName };
+    } else {
+      return res.data;
+    }
   },
 );
 
 export const pageSlice = createSlice({
   name: 'page',
   initialState,
-  reducers: {},
+  reducers: {
+    updatePrevImgs: (
+      state,
+      action: PayloadAction<{
+        data: Array<string>;
+        pageName: string;
+      }>,
+    ) => {
+      let Arr = [];
+      state.prevImgs.forEach((pv) => {
+        if (pv.pageName === action.payload.pageName) {
+          Arr = state.prevImgs.filter(
+            (pv) => pv.pageName != action.payload.pageName,
+          );
+          state.prevImgs = Arr;
+        }
+      });
+      state.prevImgs.push(action.payload);
+    },
+    updatePrevLoading: (state, aciton: PayloadAction<boolean>) => {
+      state.getPrevLoading = aciton.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(postPage.pending, (state) => {
       state.loading = true;
@@ -93,5 +122,5 @@ export const pageSlice = createSlice({
   },
 });
 
-// export const {} = pageSlice.actions;
+export const { updatePrevImgs, updatePrevLoading } = pageSlice.actions;
 export default pageSlice.reducer;

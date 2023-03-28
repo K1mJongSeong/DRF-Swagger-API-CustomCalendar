@@ -10,6 +10,11 @@ export interface PostMemoProps extends BasicMemoProps {
   notice: string;
 }
 
+interface RemoveMemoProps {
+  nansu: string;
+  removeMemoPayload: { nansu: string; monthdays: string; notice: string };
+}
+
 export interface MemoState {
   loading: boolean;
   selectDate: string | null;
@@ -35,13 +40,9 @@ const initialState: MemoState = {
 export const postMemo = createAsyncThunk(
   'memo/postMemo',
   async (postMemoPayload: PostMemoProps) => {
-    const res = await client.post(
-      `/Notice/${postMemoPayload.nansu}/`,
-      postMemoPayload,
-      {
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+    const res = await client.post('/NoticePost/', postMemoPayload, {
+      headers: { 'Content-Type': 'application/json' },
+    });
     return res.data;
   },
 );
@@ -49,7 +50,7 @@ export const postMemo = createAsyncThunk(
 export const getMemoList = createAsyncThunk(
   'memo/getMemoList',
   async (nansu: string) => {
-    const res = await client.get(`/Notice/${nansu}/`, {
+    const res = await client.get(`/NoticeList/?nansu=${nansu}`, {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.data;
@@ -72,9 +73,10 @@ export const updateMemo = createAsyncThunk(
 
 export const removeMemo = createAsyncThunk(
   'memo/removeMemo',
-  async (removeMemoPayload: BasicMemoProps) => {
+  async (removeMemoPayload: RemoveMemoProps) => {
     const res = await client.delete(
-      `/Notice/?monthdays=${removeMemoPayload.monthdays}&nansu=${removeMemoPayload.nansu}`,
+      `/NoticeDelete/${removeMemoPayload.nansu}/`,
+      { data: removeMemoPayload },
     );
     return res.data;
   },
@@ -145,8 +147,9 @@ export const MemoSlice = createSlice({
       state.error = null;
       state.resMemoResult = null;
     });
-    builder.addCase(removeMemo.fulfilled, (state) => {
+    builder.addCase(removeMemo.fulfilled, (state, action) => {
       state.loading = false;
+      state.resMemoResult = action.payload;
     });
     builder.addCase(removeMemo.rejected, (state, action) => {
       state.loading = false;
