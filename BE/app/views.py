@@ -250,6 +250,85 @@ class MonthAPI(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# class NoticeDeleteView(generics.DestroyAPIView):
+#     queryset = Notice.objects.all()
+#     serializer_class = NoticeSerializer
+#     lookup_field = 'nansu'
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 DELETE API',
+#         request_body=NoticeSerializer
+#     )
+#     def delete(self, request, *args, **kwargs):
+#         nansu = request.data.get('nansu')
+#         monthdays = request.data.get('monthdays')
+#         instance = self.get_object()
+
+#         if nansu and nansu != instance.nansu:
+#             raise serializers.ValidationError("Invalid value for 'nansu'")
+#         if monthdays and monthdays != instance.monthdays:
+#             raise serializers.ValidationError("Invalid value for 'monthdays'")
+
+#         self.perform_destroy(instance)
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     def perform_destroy(self, instance):
+#         instance.delete()
+class NoticeDeleteView(generics.DestroyAPIView):
+    serializer_class = NoticeSerializer
+    lookup_field = 'nansu'
+
+    def get_queryset(self):
+        queryset = Notice.objects.all()
+        nansu = self.request.data.get('nansu')
+        monthdays = self.request.data.get('monthdays')
+        if nansu:
+            queryset = queryset.filter(nansu=nansu)
+        if monthdays:
+            queryset = queryset.filter(monthdays=monthdays)
+        return queryset
+
+    @swagger_auto_schema(
+        operation_summary='메모 DELETE API',
+        request_body=NoticeSerializer
+    )
+    def delete(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"detail": "해당하는 데이터가 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        instance = queryset.first()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+
+
+
+
+
+class NoticePutView(generics.UpdateAPIView):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeSerializer
+
+
+    @swagger_auto_schema(
+        operation_summary='메모 PUT API'
+    )
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save()
+
 class NoticePostView(generics.CreateAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
@@ -292,7 +371,9 @@ class NoticeListView(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
-class NoticeView(generics.RetrieveUpdateDestroyAPIView):
+
+
+class NoticeView(generics.RetrieveUpdateDestroyAPIView): #사용 안 함.
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
 

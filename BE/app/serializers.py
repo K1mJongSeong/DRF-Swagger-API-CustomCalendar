@@ -11,7 +11,7 @@ class NansuInfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class NoticeSerializer(serializers.ModelSerializer):
-    nansu = serializers.CharField(required=False, help_text="nansu 필수 입력")
+    nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
 
     class Meta:
         model = Notice
