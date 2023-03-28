@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from django.db import models
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.generic import ListView, DetailView
@@ -249,11 +250,9 @@ class MonthAPI(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = NoticeSerializer
+class NoticePostView(generics.CreateAPIView):
     queryset = Notice.objects.all()
+    serializer_class = NoticeSerializer
 
     @swagger_auto_schema(
         operation_summary='메모 POST API'
@@ -261,36 +260,17 @@ class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
-    @swagger_auto_schema(
-        operation_summary='메모 PUT API',
-        request_body=NoticeSerializer,
-        responses={200: NoticeSerializer}
-    )
-    def put(self, request, *args, **kwargs):
-        return super().put(request, *args, **kwargs)
+class NoticeView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeSerializer
 
-    @swagger_auto_schema(
-        operation_summary='메모 DELETE API',
-        query_serializer=NoticeSerializer
-    )
-    def delete(self, request, *args, **kwargs):
-        query_params_serializer = NoticeSerializer(data=request.query_params)
-        query_params_serializer.is_valid(raise_exception=True)
-        nansu = query_params_serializer.validated_data.get('nansu')
-        monthdays = query_params_serializer.validated_data.get('monthdays')
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        nansu = self.request.query_params.get('nansu')
+        if nansu is not None:
+            queryset = queryset.filter(nansu__exact=nansu)
+        return queryset
 
-        # nansu와 monthdays에 맞는 데이터를 찾기
-        notice_to_delete = self.queryset.filter(nansu=nansu, monthdays=monthdays)
-
-        if not notice_to_delete.exists():
-            return Response({"detail": "해당하는 nansu와 monthdays 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
-
-        # 쿼리셋에서 해당하는 데이터 삭제
-        notice_to_delete.delete()
-        return Response({"detail": "데이터가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
-
-    def patch(self, request, *args, **kwargs):
-        return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @swagger_auto_schema(
         operation_summary='메모 GET API',
@@ -299,12 +279,184 @@ class Notice(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, *args, **kwargs):
         query_params_serializer = NoticeSerializer(data=request.query_params)
         query_params_serializer.is_valid(raise_exception=True)
-        nansu = query_params_serializer.validated_data.get('nansu')
+        nansu = request.query_params.get('nansu', None)
 
-        filtered_queryset = self.queryset.filter(nansu=nansu)
+        #nansu = query_params_serializer.validated_data.get('nansu')
+
+        filtered_queryset = self.get_queryset().filter(nansu=nansu)
+        print(filtered_queryset)
+
+        if not filtered_queryset.exists():
+            return Response({"detail": "해당하는 데이터가 존재하지 않습니다."})
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
+
+
+    # def get(self, request, *args, **kwargs):
+    #     filtered_queryset = self.queryset.filter(nansu=nansu)
+
+    #     if not filtered_queryset.exists():
+    #         return Response({"detail": "해당하는 데이터가 존재하지 않습니다."})
+    #     return self.retrieve(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary='메모 PUT API',
+        request_body=NoticeSerializer,
+        lookup_field='notice_idx',
+        responses={200: NoticeSerializer}
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary='메모 PATCH API',
+        request_body=NoticeSerializer,
+        lookup_field='notice_idx',
+        responses={200: NoticeSerializer}
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary='메모 DELETE API',
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+
+
+
+# class NoticeView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Notice.objects.all()
+#     serializer_class = NoticeSerializer
+#     lookup_field = 'notice_idx'
+    
+#     # def get_object(self):
+#     #     queryset = self.get_queryset()
+#     #     nansu = self.kwargs.get('nansu')
+#     #     obj = get_object_or_404(queryset, nansu=nansu)
+#     #     self.check_object_permissions(self.request, obj)
+#     #     return obj
+
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 POST API'
+#     )
+#     def post(self, request, *args, **kwargs):
+#         return super().post(request, *args, **kwargs)
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 GET API'
+#     )
+#     def get(self, request, *args, **kwargs):
+#         nansu = kwargs.get('nansu')
+#         filtered_queryset = self.queryset.filter(nansu=nansu)
+
+#         if not filtered_queryset.exists():
+#             return Response({"detail": "해당하는 데이터가 존재하지 않습니다."})
+
+#         return self.retrieve(request, *args, **kwargs)
+#     # def get(self, request, *args, **kwargs):
+#     #     nansu = kwargs.get('nansu')
+#     #     notice = request.query_params.get('notice', '')
+#     #     if not notice:
+#     #         notice = []
+#     #     filtered_queryset = self.queryset.filter(nansu=nansu)
+
+#     #     if not filtered_queryset.exists():
+#     #         return Response({"detail": "해당하는 데이터가 존재하지 않습니다."})
+#     #     return self.retrieve(request, *args, **kwargs)
+
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 PUT API',
+#         request_body=NoticeSerializer,
+#         lookup_field = 'nansu',
+#         responses={200: NoticeSerializer}
+#     )
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+
+#     def patch(self, request, *args, **kwargs):
+#         return self.partial_update(request, *args, **kwargs)
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 DELETE API',
+#     )
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+
+
+# class NoticeView(generics.CreateAPIView,generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = NoticeSerializer
+#     queryset = Notice.objects.all()
+#     lookup_field = 'nansu'
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 POST API'
+#     )
+#     def post(self, request, *args, **kwargs):
+#         return super().post(request, *args, **kwargs)
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 PUT API',
+#         request_body=NoticeSerializer,
+#         lookup_field = 'nansu',
+#         responses={200: NoticeSerializer}
+#     )
+#     def put(self, request, *args, **kwargs):
+        
+#         return super().put(request, *args, **kwargs)
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 DELETE API',
+#     )
+#     def delete(self, request, *args, **kwargs):
+#         query_params_serializer = NoticeSerializer(data=request.query_params)
+#         query_params_serializer.is_valid(raise_exception=True)
+#         nansu = query_params_serializer.validated_data.get('nansu')
+#         monthdays = query_params_serializer.validated_data.get('monthdays')
+
+#         # nansu와 monthdays에 맞는 데이터를 찾기
+#         notice_to_delete = self.queryset.filter(nansu=nansu, monthdays=monthdays)
+
+#         if not notice_to_delete.exists():
+#             return Response({"detail": "해당하는 nansu와 monthdays 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+#         # 쿼리셋에서 해당하는 데이터 삭제
+#         notice_to_delete.delete()
+#         return Response({"detail": "데이터가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+
+#     def patch(self, request, *args, **kwargs):
+#         return Response({"detail": "PATCH 요청은 허용되지 않습니다."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+#     @swagger_auto_schema(
+#         operation_summary='메모 GET API',
+#         query_serializer=NoticeSerializer,
+#     )
+#     def get(self, request, *args, **kwargs):
+#         query_params_serializer = NoticeSerializer(data=request.query_params)
+#         query_params_serializer.is_valid(raise_exception=True)
+#         nansu = query_params_serializer.validated_data.get('nansu')
+#         print(nansu)
+#         notice = query_params_serializer.validated_data.get('notice', '')
+
+#         filtered_queryset = self.queryset.filter(nansu=nansu)
+
+#         if notice:
+#             filtered_queryset = filtered_queryset.filter(notice=notice)
+
+#             if not filtered_queryset.exists():
+#                 return Response({"detail": "해당하는 notice 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+#         if not filtered_queryset.exists():
+#             return Response({"detail": "해당하는 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+#         serializer = self.serializer_class(filtered_queryset, many=True)
+#         return Response(serializer.data)
 
 
 class JanFront(generics.ListCreateAPIView):
@@ -327,6 +479,7 @@ class JanFront(generics.ListCreateAPIView):
         nansu = query_params_serializer.validated_data.get('nansu')
 
         filtered_queryset = self.queryset.filter(nansu=nansu)
+        print(filtered_queryset)
         
         if not filtered_queryset.exists():
             return Response({"detail": "해당 nansu 값이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
@@ -351,7 +504,8 @@ class JanBack(generics.ListCreateAPIView):
         query_params_serializer = JanBackSerializer(data=request.query_params)
         query_params_serializer.is_valid(raise_exception=True)
         nansu = query_params_serializer.validated_data.get('nansu')
-
+        pic = query_params_serializer.validated_data.get('pic')
+        print(pic)
         filtered_queryset = self.queryset.filter(nansu=nansu)
         
         if not filtered_queryset.exists():
