@@ -55,7 +55,11 @@ export const getPage = createAsyncThunk(
         timeout: 3000,
       },
     );
-    return res.data;
+    if (Array.isArray(res.data)) {
+      return { data: res.data[0], pageName: getPagePayload.pageName };
+    } else {
+      return res.data;
+    }
   },
 );
 

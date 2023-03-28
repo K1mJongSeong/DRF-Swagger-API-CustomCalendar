@@ -66,7 +66,7 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
-  const { loading: pageLoading } = useAppSelector(
+  const { loading: pageLoading, getPageResult } = useAppSelector(
     (state: RootState) => state.page,
   );
 
@@ -181,6 +181,11 @@ const EditorContainer = () => {
       setLoading(false);
     }
   }, [memoLoading, pageLoading]);
+
+  useEffect(() => {
+    if (!getPageResult) return;
+    console.log(getPageResult);
+  }, [getPageResult]);
 
   return (
     <>
