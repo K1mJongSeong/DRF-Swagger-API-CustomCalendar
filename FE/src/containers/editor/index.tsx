@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
 import EditorTopSection from './EditorTopSection';
@@ -35,7 +36,7 @@ import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
 import { getMemoList, initialMemoError } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { getPage } from 'reducer/page';
+import { getPage, updatePrevImgs, updatePrevLoading } from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -89,13 +90,13 @@ const EditorContainer = () => {
   // }, [nansu]);
 
   /** 첫 렌더링 시 작업리스트 가져오기 */
-  useEffect(() => {
-    if (!nansu) return;
-    Renault.forEach((el) => {
-      if (!el.pageName) return;
-      dispatch(getPage({ pageName: el.pageName, nansu }));
-    });
-  }, []);
+  // useEffect(() => {
+  //   if (!nansu) return;
+  //   Renault.forEach((el) => {
+  //     if (!el.pageName) return;
+  //     dispatch(getPage({ pageName: el.pageName, nansu }));
+  //   });
+  // }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -184,7 +185,14 @@ const EditorContainer = () => {
 
   useEffect(() => {
     if (!getPageResult) return;
-    console.log(getPageResult);
+    if (getPageResult.data && getPageResult.pageName) {
+      dispatch(
+        updatePrevImgs({
+          data: getPageResult.data,
+          pageName: getPageResult.pageName,
+        }),
+      );
+    }
   }, [getPageResult]);
 
   return (

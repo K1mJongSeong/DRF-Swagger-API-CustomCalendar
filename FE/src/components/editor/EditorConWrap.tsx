@@ -2,19 +2,30 @@ import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
 import { ImgBlockProps } from 'interface/editor';
 import { useRef, useEffect, useState } from 'react';
-import { useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
+import { updateImg } from 'reducer/images';
 
 const EditorConWrap = ({ children }: { children: React.ReactNode }) => {
   return <EditorConWrapBlock>{children}</EditorConWrapBlock>;
 };
 
-export const CtrlBlock = ({ img, onClick, pageNo }: ImgBlockProps) => {
+export const CtrlBlock = ({ img, onClick, pageNo, prevImg }: ImgBlockProps) => {
+  const dispatch = useAppDispatch();
   const { imgs, selectedId } = useAppSelector(
     (state: RootState) => state.images,
   );
+  const { getPrevLoading, loading } = useAppSelector(
+    (state: RootState) => state.page,
+  );
   const [hadImg, setHadImg] = useState<boolean>(false);
   const [isSelect, setIsSelect] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!prevImg || getPrevLoading || loading || !pageNo) return;
+    console.log({ id: img.cId, imgUrl: prevImg, pageNo });
+    dispatch(updateImg({ id: img.cId, imgUrl: prevImg, pageNo }));
+  }, []);
 
   useEffect(() => {
     if (selectedId === img.cId) {
@@ -34,8 +45,7 @@ export const CtrlBlock = ({ img, onClick, pageNo }: ImgBlockProps) => {
   }, [imgs]);
 
   const handleClickImg = (cId: number) => {
-    if (!onClick) return;
-    if (!pageNo) return;
+    if (!onClick || !pageNo) return;
     onClick(cId, pageNo);
   };
 
