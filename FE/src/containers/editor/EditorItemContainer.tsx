@@ -16,7 +16,6 @@ const EditorItemContainer = ({
 }: ItemInBodyProps) => {
   const dispatch = useAppDispatch();
   const { prevImgs } = useAppSelector((state: RootState) => state.page);
-  const { imgs } = useAppSelector((state: RootState) => state.images);
   const [localData, setLocalData] = useState<{
     data: Array<string>;
     pageName: string;

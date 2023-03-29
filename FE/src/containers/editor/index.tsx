@@ -188,7 +188,6 @@ const EditorContainer = () => {
   useEffect(() => {
     if (!getPageResult) return;
     if (getPageResult.data && getPageResult.pageName) {
-      console.log('세번');
       dispatch(
         updatePrevImgs({
           data: getPageResult.data,
