@@ -96,13 +96,13 @@ const EditorContainer = () => {
   }, [nansu]);
 
   /** 첫 렌더링 시 작업리스트 가져오기 */
-  // useEffect(() => {
-  //   if (!nansu) return;
-  //   Renault.forEach((el) => {
-  //     if (!el.pageName) return;
-  //     dispatch(getPage({ pageName: el.pageName, nansu }));
-  //   });
-  // }, []);
+  useEffect(() => {
+    if (!nansu) return;
+    Renault.forEach((el) => {
+      if (!el.pageName) return;
+      dispatch(getPage({ pageName: el.pageName, nansu }));
+    });
+  }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -195,6 +195,7 @@ const EditorContainer = () => {
   useEffect(() => {
     if (!getPageResult) return;
     if (getPageResult.data && getPageResult.pageName) {
+      console.log('세번');
       dispatch(
         updatePrevImgs({
           data: getPageResult.data,

@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import auth from 'reducer/auth';
 import holidays from 'reducer/holidays';
 import images from 'reducer/images';
@@ -15,6 +15,9 @@ export const store = configureStore({
     memo: memo,
     page: page,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,8 +1,9 @@
 import { CtrlBlock, ImgBlock } from 'components/editor/EditorConWrap';
-import { useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { ItemInBodyProps } from 'interface/editor';
 import { useEffect, useState } from 'react';
 import uuid from 'react-uuid';
+import { updateImg } from 'reducer/images';
 import { RootState } from 'store';
 import CalendarContainer from './calendar/CalendarContainer';
 
@@ -12,20 +13,44 @@ const EditorItemContainer = ({
   selectedDate,
   months,
 }: ItemInBodyProps) => {
+  const dispatch = useAppDispatch();
   const { prevImgs } = useAppSelector((state: RootState) => state.page);
   const [localData, setLocalData] = useState<{
     data: Array<string>;
     pageName: string;
   } | null>(null);
 
+  const [localLoading, setLocalLoading] = useState<boolean>(false);
   useEffect(() => {
     if (prevImgs.length <= 0) return;
+    setLocalLoading(true);
     prevImgs.forEach((el) => {
       if (el.pageName === item.pageName) {
         setLocalData(el);
       }
     });
+    setLocalLoading(false);
   }, [prevImgs]);
+
+  useEffect(() => {
+    if (!localData || !item.ctrlItems) return;
+    if (localLoading) return;
+    const ctrlNum = item.ctrlItems?.length;
+    item.ctrlItems.forEach((el) => {
+      console.log(localData.data);
+      for (let i = 1; i < ctrlNum + 1; i++) {
+        console.log(i);
+        console.log(el.cId);
+        console.log(localData.data[i - 1]);
+        const imgObj = {
+          id: el.cId,
+          imgUrl: localData.data[i - 1],
+          pageNo: item.id,
+        };
+        dispatch(updateImg(imgObj));
+      }
+    });
+  }, [localData, localLoading]);
   return (
     <div className="item swiper-zoom-container">
       <div className="swiper-zoom-target">
