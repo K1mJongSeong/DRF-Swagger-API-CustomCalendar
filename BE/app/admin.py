@@ -1,16 +1,19 @@
 from django.contrib import admin
 from django.apps import AppConfig
 from django.conf import settings
-from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, NansuInfo
+from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, NansuInfo, NansuSession
 from .forms import OrderForm, NoticeForm
+from django.urls import path
 from django.db.models import F, Subquery, OuterRef
 from django.utils.timezone import now
+from django.utils import timezone
+from datetime import timedelta
 from django.http import HttpResponseRedirect
 from django.utils.html import format_html
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db import connection
+from django.db import connection, models
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse
@@ -21,9 +24,9 @@ import string
 
 admin.site.site_header = '모바일 달력커스텀 인쇄주문'
 admin.site.index_title = '모바일 달력커스텀 인쇄주문'
-admin.site.register(Calendar)
-admin.site.register(Prolog)
-admin.site.register(Cover)
+# admin.site.register(Calendar)
+# admin.site.register(Prolog)
+# admin.site.register(Cover)
 
 class YourAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -33,139 +36,139 @@ class YourAppConfig(AppConfig):
         if settings.ADMIN_LOGOUT_PRESERVE_SESSION:
             import app.signals
 
-class JanFrontAdmin(admin.ModelAdmin):
-    #actions = ['update_order_nansu','update_notice_memo']
-    list_display = ('nansu','pic','jan_seq')
-    # def update_order_nansu(self, request, queryset):
-    #     # Nansu 테이블과 연결된 JanFront 테이블의 jan_nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
-    #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('jan_seq')).values('nansu')[:1]
+# class JanFrontAdmin(admin.ModelAdmin):
+#     #actions = ['update_order_nansu','update_notice_memo']
+#     list_display = ('nansu','pic','jan_seq')
+#     # def update_order_nansu(self, request, queryset):
+#     #     # Nansu 테이블과 연결된 JanFront 테이블의 jan_nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+#     #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('jan_seq')).values('nansu')[:1]
 
-    #     # JanFront 테이블의 jan_nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
-    #     JanFront.objects.update(jan_nansu=Subquery(nansu_subquery))
+#     #     # JanFront 테이블의 jan_nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
+#     #     JanFront.objects.update(jan_nansu=Subquery(nansu_subquery))
 
-    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
-    # update_order_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
+#     #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+#     # update_order_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
 
-    # def update_notice_memo(self, request, queryset):
-    #     # JanFront 테이블과 연결된 Notice 테이블의 jan_memo 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
-    #     notice_subquery = Notice.objects.filter(notice_idx=OuterRef('jan_idx')).values('notice')[:1]
+#     # def update_notice_memo(self, request, queryset):
+#     #     # JanFront 테이블과 연결된 Notice 테이블의 jan_memo 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+#     #     notice_subquery = Notice.objects.filter(notice_idx=OuterRef('jan_idx')).values('notice')[:1]
 
-    #     # JanFront 테이블의 jan_memo 필드를 Notice 테이블의 notice 필드 값으로 업데이트합니다.
-    #     JanFront.objects.update(jan_memo=Subquery(notice_subquery))
+#     #     # JanFront 테이블의 jan_memo 필드를 Notice 테이블의 notice 필드 값으로 업데이트합니다.
+#     #     JanFront.objects.update(jan_memo=Subquery(notice_subquery))
 
-    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
-    # update_notice_memo.short_description = "메모 필드를 가져옵니다."
+#     #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+#     # update_notice_memo.short_description = "메모 필드를 가져옵니다."
 
-admin.site.register(JanFront, JanFrontAdmin)
+# admin.site.register(JanFront, JanFrontAdmin)
 
-class JanBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','jan_seq')
-admin.site.register(JanBack, JanBackAdmin)
+# class JanBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','jan_seq')
+# admin.site.register(JanBack, JanBackAdmin)
 
-class FebFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','feb_seq')
-admin.site.register(FebFront, FebFrontAdmin)
+# class FebFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','feb_seq')
+# admin.site.register(FebFront, FebFrontAdmin)
 
-class FebBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','feb_seq')
-admin.site.register(FebBack, FebBackAdmin)
-
-
-class MarFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','mar_seq')
-admin.site.register(MarFront, MarFrontAdmin)
-
-class MarBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','mar_seq')
-admin.site.register(MarBack, MarBackAdmin)
+# class FebBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','feb_seq')
+# admin.site.register(FebBack, FebBackAdmin)
 
 
-class AprilFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','april_seq')
-admin.site.register(AprilFront, AprilFrontAdmin)
+# class MarFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','mar_seq')
+# admin.site.register(MarFront, MarFrontAdmin)
 
-class AprilBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','april_seq')
-admin.site.register(AprilBack, AprilBackAdmin)
-
-
-class MayFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','may_seq')
-admin.site.register(MayFront, MayFrontAdmin)
-
-class MayBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','may_seq')
-admin.site.register(MayBack, MayBackAdmin)
+# class MarBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','mar_seq')
+# admin.site.register(MarBack, MarBackAdmin)
 
 
-class JuneFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','june_seq')
-admin.site.register(JuneFront, JuneFrontAdmin)
+# class AprilFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','april_seq')
+# admin.site.register(AprilFront, AprilFrontAdmin)
 
-class JuneBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','june_seq')
-admin.site.register(JuneBack, JuneBackAdmin)
-
-
-class JulyFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','july_seq')
-admin.site.register(JulyFront, JulyFrontAdmin)
-
-class JulyBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','july_seq')
-admin.site.register(JulyBack, JulyBackAdmin)
+# class AprilBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','april_seq')
+# admin.site.register(AprilBack, AprilBackAdmin)
 
 
-class AugFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','aug_seq')
-admin.site.register(AugFront, AugFrontAdmin)
+# class MayFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','may_seq')
+# admin.site.register(MayFront, MayFrontAdmin)
 
-class AugBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','aug_seq')
-admin.site.register(AugBack, AugBackAdmin)
-
-
-class SepFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','sep_seq')
-admin.site.register(SepFront, SepFrontAdmin)
-
-class SepBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','sep_seq')
-admin.site.register(SepBack, SepBackAdmin)
+# class MayBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','may_seq')
+# admin.site.register(MayBack, MayBackAdmin)
 
 
-class OctFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','oct_seq')
-admin.site.register(OctFront, OctFrontAdmin)
+# class JuneFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','june_seq')
+# admin.site.register(JuneFront, JuneFrontAdmin)
 
-class OctBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','oct_seq')
-admin.site.register(OctBack, OctBackAdmin)
+# class JuneBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','june_seq')
+# admin.site.register(JuneBack, JuneBackAdmin)
 
 
-class DecFrontAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','dec_seq')
-admin.site.register(DecFront, DecFrontAdmin)
+# class JulyFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','july_seq')
+# admin.site.register(JulyFront, JulyFrontAdmin)
 
-class DecBackAdmin(admin.ModelAdmin):
-    list_display = ('nansu','pic','dec_seq')
-admin.site.register(DecBack, DecBackAdmin)
+# class JulyBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','july_seq')
+# admin.site.register(JulyBack, JulyBackAdmin)
 
-class NoticeAdmin(admin.ModelAdmin):
-    list_display =('nansu','monthdays','notice')
-    form = NoticeForm
-    # actions = ['update_notice_nansu']
-    # def update_notice_nansu(self, request, queryset):
-    #     # Nansu 테이블과 연결된 Notice 테이블의 nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
-    #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('notice_idx')).values('nansu')[:1]
 
-    #     # Order 테이블의 nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
-    #     Notice.objects.update(nansu=Subquery(nansu_subquery))
+# class AugFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','aug_seq')
+# admin.site.register(AugFront, AugFrontAdmin)
 
-    #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
-    # update_notice_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
+# class AugBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','aug_seq')
+# admin.site.register(AugBack, AugBackAdmin)
 
-admin.site.register(Notice, NoticeAdmin)
+
+# class SepFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','sep_seq')
+# admin.site.register(SepFront, SepFrontAdmin)
+
+# class SepBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','sep_seq')
+# admin.site.register(SepBack, SepBackAdmin)
+
+
+# class OctFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','oct_seq')
+# admin.site.register(OctFront, OctFrontAdmin)
+
+# class OctBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','oct_seq')
+# admin.site.register(OctBack, OctBackAdmin)
+
+
+# class DecFrontAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','dec_seq')
+# admin.site.register(DecFront, DecFrontAdmin)
+
+# class DecBackAdmin(admin.ModelAdmin):
+#     list_display = ('nansu','pic','dec_seq')
+# admin.site.register(DecBack, DecBackAdmin)
+
+# class NoticeAdmin(admin.ModelAdmin):
+#     list_display =('nansu','monthdays','notice')
+#     form = NoticeForm
+#     # actions = ['update_notice_nansu']
+#     # def update_notice_nansu(self, request, queryset):
+#     #     # Nansu 테이블과 연결된 Notice 테이블의 nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
+#     #     nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('notice_idx')).values('nansu')[:1]
+
+#     #     # Order 테이블의 nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
+#     #     Notice.objects.update(nansu=Subquery(nansu_subquery))
+
+#     #     self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
+#     # update_notice_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
+
+# admin.site.register(Notice, NoticeAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']
@@ -214,16 +217,28 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         if "_insert-random" in request.POST:
             nansu_option = request.POST.get('nansu')
             nansu_type = request.POST.get('nansu_type')
+            create_date = request.POST.get('create_at')
+            info_seq = request.POST.get('info_seq')
+            print('11111')
+            print(create_date)
             nansu_list = []
+            session_dict = request.session.get('session_dict', {})  # 기존 세션 딕셔너리 가져오기
             for _ in range(int(nansu_option)):
                 random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
                 new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type,nansu_state='정상')
                 new_nansu.save()
                 nansu_list.append(new_nansu)
             
-            new_nansu_info = NansuInfo(nansu_count=int(nansu_option), nansu_date=datetime.now(), template_name=nansu_type)
+            new_nansu_info = NansuInfo(nansu_count=int(nansu_option), nansu_date=datetime.now(), template_name=nansu_type, session_data=session_dict)
             new_nansu_info.save()
             print(nansu_list)
+            print(random_string)
+
+            new_nansu_session = NansuSession(session_nansu=random_string, session_nansu_type=nansu_type, expire_date=timezone.now(), session_nansu_option=nansu_option,session_nansu_seq=info_seq)# + datetime.timedelta(days=1))
+            new_nansu_session.save()
+            request.session['nansu_session_id'] = new_nansu_session.pk
+            print(new_nansu_session.pk)
+
             # 세션에 nansu_seq 값 저장
             nansu_seq_list = [nansu.nansu_seq for nansu in nansu_list]
             request.session['nansu_seq'] =  nansu_option#new_nansu.nansu_seq
@@ -232,7 +247,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             print(nansu_option)
             print(nansu_seq_list)
 
-            session_dict = request.session.get('session_dict', {})  # 기존 세션 딕셔너리 가져오기
+            
 
             # 새로운 info_seq에 대한 세션 정보 추가
             if new_nansu_info:
@@ -299,16 +314,38 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         obj.save()
 admin.site.register(Nansu, NansuAdmin)
 
+
+
 class NansuInfoAdmin(admin.ModelAdmin):
     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
     list_per_page = 20
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         nansu_info = NansuInfo.objects.get(pk=object_id)
-        session_dict = request.session.get('session_dict', {})
+        session_data = nansu_info.session_data
+        print('asd123')
+        print(session_data)
+        if session_data:
+            session_dict = session_data
+        else:
+            session_dict = request.session.get('session_dict',{})
+        #session_dict = request.session.get('session_dict', {})
         nansu_list = []
-        #nansu_option = None
-        print(session_dict)
+        # 세션 정보 가져오기
+        session_id = request.session.get('nansu_session_id', None)
+        print(session_id)
+        # if session_id:
+        #     try:
+        #         nansu_session = NansuSession.objects.get(pk=session_id)
+        #         nansu_list = nansu_session.session_nansu.split(',')
+        #         nansu_type = nansu_session.session_nansu_type
+        #         nansu_option = nansu_session.session_nansu_option # add this line
+        #         nansu_seq = nansu_session.session_nansu_seq # add this line
+        #         nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+        #     except NansuSession.DoesNotExist:
+        #         pass
+        # nansu_option = None
+        
         if object_id in session_dict:
             nansu_list = session_dict[object_id]['nansu']
             nansu_type = session_dict[object_id]['nansu_type']
@@ -317,17 +354,61 @@ class NansuInfoAdmin(admin.ModelAdmin):
         else:
             nansu_type = nansu_info.template_name
             nansu_objects = Nansu.objects.filter(nansu_type=nansu_type).order_by('-created_at')
-
+        print(session_dict)
+        print('bbb123123')
         context = {
             'nansu_info': nansu_info,
             'nansu_list': nansu_objects,
             'nansu_type': nansu_type,
-            'nansu_option': nansu_option,
+            # 'nansu_option': nansu_option, # pass nansu_option to context
+            # 'nansu_seq': nansu_seq, # pass nansu_seq to context
         }
 
         return render(request, 'admin/nansu_info.html', context)
 
 admin.site.register(NansuInfo, NansuInfoAdmin)
+
+# class NansuInfoAdmin(admin.ModelAdmin):
+#     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
+#     list_per_page = 20
+
+#     def change_view(self, request, object_id, form_url='', extra_context=None):
+#         nansu_info = NansuInfo.objects.get(pk=object_id)
+#         session_dict = request.session.get('session_dict', {})
+#         nansu_list = []
+#         # 세션 정보 가져오기
+#         session_id = request.session.get('nansu_session_id', None)
+#         print(session_id)
+#         if session_id:
+#             try:
+#                 nansu_session = NansuSession.objects.get(pk=session_id)
+#                 nansu_list = nansu_session.session_nansu.split(',')
+#                 nansu_type = nansu_session.session_nansu_type
+#                 nansu_option = nansu_session.session_nansu
+#                 nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+#             except NansuSession.DoesNotExist:
+#                 pass
+#         #nansu_option = None
+#         print(session_dict)
+#         if object_id in session_dict:
+#             nansu_list = session_dict[object_id]['nansu']
+#             nansu_type = session_dict[object_id]['nansu_type']
+#             nansu_option = session_dict[object_id]['nansu_seq']
+#             nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+#         else:
+#             nansu_type = nansu_info.template_name
+#             nansu_objects = Nansu.objects.filter(nansu_type=nansu_type).order_by('-created_at')
+
+#         context = {
+#             'nansu_info': nansu_info,
+#             'nansu_list': nansu_objects,
+#             'nansu_type': nansu_type,
+#             'nansu_option': nansu_option,
+#         }
+
+#         return render(request, 'admin/nansu_info.html', context)
+
+# admin.site.register(NansuInfo, NansuInfoAdmin)
 
 
 
