@@ -24,6 +24,7 @@ export interface PageState {
   getPageResult: { data: Array<string>; pageName: string } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
+  getPrevDone: boolean;
 }
 
 const initialState: PageState = {
@@ -33,6 +34,7 @@ const initialState: PageState = {
   getPageResult: null,
   prevImgs: [],
   getPrevLoading: false,
+  getPrevDone: false,
 };
 
 export const postPage = createAsyncThunk(
@@ -70,6 +72,9 @@ export const pageSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
+    initialPrevImgs: (state) => {
+      state.prevImgs = [];
+    },
     updatePrevImgs: (
       state,
       action: PayloadAction<{
@@ -90,6 +95,9 @@ export const pageSlice = createSlice({
     },
     updatePrevLoading: (state, aciton: PayloadAction<boolean>) => {
       state.getPrevLoading = aciton.payload;
+    },
+    updatePrevDone: (state) => {
+      state.getPrevDone = true;
     },
   },
   extraReducers: (builder) => {
@@ -122,5 +130,10 @@ export const pageSlice = createSlice({
   },
 });
 
-export const { updatePrevImgs, updatePrevLoading } = pageSlice.actions;
+export const {
+  initialPrevImgs,
+  updatePrevImgs,
+  updatePrevLoading,
+  updatePrevDone,
+} = pageSlice.actions;
 export default pageSlice.reducer;

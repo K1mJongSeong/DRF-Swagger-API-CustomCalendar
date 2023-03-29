@@ -42,7 +42,7 @@ import {
   updateDate,
 } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { getPage, updatePrevImgs } from 'reducer/page';
+import { updatePrevImgs, updatePrevLoading } from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -73,9 +73,11 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
-  const { loading: pageLoading, getPageResult } = useAppSelector(
-    (state: RootState) => state.page,
-  );
+  const {
+    loading: pageLoading,
+    getPageResult,
+    getPrevLoading,
+  } = useAppSelector((state: RootState) => state.page);
 
   /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
@@ -94,15 +96,6 @@ const EditorContainer = () => {
     if (!nansu) return;
     dispatch(getMemoList(nansu));
   }, [nansu]);
-
-  /** 첫 렌더링 시 작업리스트 가져오기 */
-  useEffect(() => {
-    if (!nansu) return;
-    Renault.forEach((el) => {
-      if (!el.pageName) return;
-      dispatch(getPage({ pageName: el.pageName, nansu }));
-    });
-  }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -185,12 +178,12 @@ const EditorContainer = () => {
   }, [holidayError, memoError]);
 
   useEffect(() => {
-    if (memoLoading || pageLoading) {
+    if (memoLoading || pageLoading || getPrevLoading) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [memoLoading, pageLoading]);
+  }, [memoLoading, pageLoading, getPrevLoading]);
 
   useEffect(() => {
     if (!getPageResult) return;
@@ -202,6 +195,7 @@ const EditorContainer = () => {
           pageName: getPageResult.pageName,
         }),
       );
+      dispatch(updatePrevLoading(false));
     }
   }, [getPageResult]);
 

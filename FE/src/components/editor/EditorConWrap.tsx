@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FcPlus } from 'react-icons/fc';
 import { ImgBlockProps } from 'interface/editor';
 import { useRef, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppSelector } from 'hooks';
 import { RootState } from 'store';
 
 const EditorConWrap = ({ children }: { children: React.ReactNode }) => {

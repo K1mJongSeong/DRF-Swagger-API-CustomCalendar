@@ -4,6 +4,7 @@ import { ItemInBodyProps } from 'interface/editor';
 import { useEffect, useState } from 'react';
 import uuid from 'react-uuid';
 import { updateImg } from 'reducer/images';
+import { initialPrevImgs } from 'reducer/page';
 import { RootState } from 'store';
 import CalendarContainer from './calendar/CalendarContainer';
 
@@ -15,6 +16,7 @@ const EditorItemContainer = ({
 }: ItemInBodyProps) => {
   const dispatch = useAppDispatch();
   const { prevImgs } = useAppSelector((state: RootState) => state.page);
+  const { imgs } = useAppSelector((state: RootState) => state.images);
   const [localData, setLocalData] = useState<{
     data: Array<string>;
     pageName: string;
@@ -39,17 +41,19 @@ const EditorItemContainer = ({
     item.ctrlItems.forEach((el) => {
       console.log(localData.data);
       for (let i = 1; i < ctrlNum + 1; i++) {
-        console.log(i);
-        console.log(el.cId);
-        console.log(localData.data[i - 1]);
         const imgObj = {
           id: el.cId,
           imgUrl: localData.data[i - 1],
           pageNo: item.id,
         };
+        console.log(i);
+        console.log(el.cId);
+        console.log(localData.data[i - 1]);
         dispatch(updateImg(imgObj));
       }
     });
+    setLocalData(null);
+    dispatch(initialPrevImgs());
   }, [localData, localLoading]);
   return (
     <div className="item swiper-zoom-container">
