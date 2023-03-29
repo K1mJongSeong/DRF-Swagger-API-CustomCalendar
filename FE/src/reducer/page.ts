@@ -18,12 +18,17 @@ interface getPageProps {
 }
 
 export interface PageState {
-  postPageResult: any | null;
+  postPageResult: {
+    result: { pic: Array<string>; nansu: string };
+    pageName: string;
+  } | null;
   loading: boolean;
   error: string | null | undefined;
   getPageResult: { data: Array<string>; pageName: string } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
+  getPrevDone: boolean;
+  savedPages: Array<string>;
 }
 
 const initialState: PageState = {
@@ -33,6 +38,8 @@ const initialState: PageState = {
   getPageResult: null,
   prevImgs: [],
   getPrevLoading: false,
+  getPrevDone: false,
+  savedPages: [],
 };
 
 export const postPage = createAsyncThunk(
@@ -45,7 +52,7 @@ export const postPage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return res.data;
+    return { result: res.data, pageName: postPagePayload.pageName };
   },
 );
 
@@ -70,6 +77,21 @@ export const pageSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
+    initialPageError: (state) => {
+      state.error = null;
+    },
+    initialPostPageResult: (state) => {
+      state.postPageResult = null;
+    },
+    initialPrevImgs: (state) => {
+      state.prevImgs = [];
+    },
+    afterPrintPrevImgs: (state, action: PayloadAction<string>) => {
+      const newArr = state.prevImgs.filter(
+        (el) => el.pageName !== action.payload,
+      );
+      state.prevImgs = newArr;
+    },
     updatePrevImgs: (
       state,
       action: PayloadAction<{
@@ -90,6 +112,19 @@ export const pageSlice = createSlice({
     },
     updatePrevLoading: (state, aciton: PayloadAction<boolean>) => {
       state.getPrevLoading = aciton.payload;
+    },
+    updatePrevDone: (state) => {
+      state.getPrevDone = true;
+    },
+    updateSavedPages: (state, action: PayloadAction<string>) => {
+      let Arr = [];
+      state.savedPages.forEach((sp) => {
+        if (sp === action.payload) {
+          Arr = state.savedPages.filter((el) => el != action.payload);
+          state.savedPages = Arr;
+        }
+      });
+      state.savedPages.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -122,5 +157,13 @@ export const pageSlice = createSlice({
   },
 });
 
-export const { updatePrevImgs, updatePrevLoading } = pageSlice.actions;
+export const {
+  initialPageError,
+  initialPrevImgs,
+  afterPrintPrevImgs,
+  updatePrevImgs,
+  updatePrevLoading,
+  updatePrevDone,
+  updateSavedPages,
+} = pageSlice.actions;
 export default pageSlice.reducer;

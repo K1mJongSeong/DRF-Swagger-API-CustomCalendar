@@ -2,18 +2,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
+interface postOrderPayload {
+  user_name: string;
+  user_phone: string;
+  address: string;
+  nansu?: string;
+  postcode: string;
+  detailAddress: string;
+  orderState: string;
+  order_date: string;
+}
 interface postOrderProps {
   nansu: string;
-  postOrderPayload: {
-    user_name: string;
-    user_phone: string;
-    address: string;
-    nansu?: string;
-    postcode: string;
-    detailAddress: string;
-    orderState: string;
-    order_date: string;
-  };
+  postOrderPayload: postOrderPayload;
 }
 export interface OrderState {
   loading: boolean;

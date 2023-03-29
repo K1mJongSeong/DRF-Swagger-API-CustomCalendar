@@ -13,7 +13,11 @@ import OrderFormSection from './OrderFormSection';
 import OrderTopSection from './OrderTopSection';
 
 const OrderContainer = () => {
-  const { orderInfo } = useAppSelector((state: RootState) => state.order);
+  const {
+    orderInfo,
+    postOrderResult,
+    error: orderError,
+  } = useAppSelector((state: RootState) => state.order);
   const navigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
@@ -59,15 +63,23 @@ const OrderContainer = () => {
         },
       }),
     );
-    // setModalOpen(false);
-
-    // navigate(`/${nansu}/order?isOrdered=true`);
-    // console.log(userName, userPhone, postCode, address, detailAddress);
   };
 
   const handleCompleteOrder = () => {
     navigate('/');
   };
+
+  useEffect(() => {
+    if (orderError) {
+      alert(orderError);
+      setModalOpen(false);
+      return;
+    }
+    if (postOrderResult) {
+      setModalOpen(false);
+      navigate(`/${nansu}/order?isOrdered=true`);
+    }
+  }, [postOrderResult, orderError]);
 
   return (
     <>

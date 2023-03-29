@@ -7,9 +7,10 @@ import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import { postPage } from 'reducer/page';
-import { useState } from 'react';
+import { postPage, updateSavedPages } from 'reducer/page';
+import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
+import { initialPostResult } from 'reducer/memo';
 
 const EditorTopSection = ({
   children,
@@ -20,6 +21,7 @@ const EditorTopSection = ({
 }) => {
   const dispatch = useAppDispatch();
   const { imgs } = useAppSelector((state: RootState) => state.images);
+  const { postPageResult, savedPages } = useAppSelector((state) => state.page);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -50,6 +52,8 @@ const EditorTopSection = ({
 
   const handlePostPage = () => {
     if (!pageName || !nansu) return;
+    const ctrlNum = searchParams?.get('ctrlNum');
+    if (!ctrlNum) return;
 
     let newArr: Array<string> = [];
     imgs.forEach((el) => {
@@ -57,14 +61,28 @@ const EditorTopSection = ({
         newArr.push(el.imgUrl);
       }
     });
-    if (newArr.length <= 0) return alert('이미지를 넣어주세요');
-    const newArrToStr = newArr.join();
-    dispatch(postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }));
+    if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    if (savedPages.includes(pageName)) {
+      alert('수정');
+    } else {
+      const newArrToStr = newArr.join();
+      dispatch(
+        postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
+      );
+    }
   };
 
   const handleGotoOrder = () => {
     navigate(`/${nansu}/order`);
   };
+
+  useEffect(() => {
+    if (postPageResult) {
+      setModalOpen(false);
+      dispatch(updateSavedPages(postPageResult.pageName));
+      dispatch(initialPostResult());
+    }
+  }, [postPageResult]);
 
   return (
     <>
@@ -87,9 +105,11 @@ const EditorTopSection = ({
               <EditorTextButton red onClick={handlePostModalOpen}>
                 저장
               </EditorTextButton>
-              <EditorTextButton white onClick={handleGotoOrder}>
-                <BsCartPlus />
-              </EditorTextButton>
+              {imgs?.length > 28 && (
+                <EditorTextButton white onClick={handleGotoOrder}>
+                  <BsCartPlus />
+                </EditorTextButton>
+              )}
             </div>
           </>
         )}

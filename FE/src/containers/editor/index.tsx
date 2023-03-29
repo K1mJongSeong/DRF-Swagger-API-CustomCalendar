@@ -34,9 +34,20 @@ import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
-import { getMemoList, initialMemoError } from 'reducer/memo';
+import {
+  changeMemoField,
+  getMemoList,
+  initialMemoError,
+  initialPostResult,
+  updateDate,
+} from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { getPage, updatePrevImgs } from 'reducer/page';
+import {
+  initialPageError,
+  updatePrevImgs,
+  updatePrevLoading,
+  updateSavedPages,
+} from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -67,9 +78,11 @@ const EditorContainer = () => {
   const { error: holidayError } = useAppSelector(
     (state: RootState) => state.holidays,
   );
-  const { loading: pageLoading, getPageResult } = useAppSelector(
-    (state: RootState) => state.page,
-  );
+  const {
+    loading: pageLoading,
+    getPageResult,
+    error: pageError,
+  } = useAppSelector((state: RootState) => state.page);
 
   /** 첫 렌더링 시 공휴일 가져오기 */
   useEffect(() => {
@@ -89,15 +102,6 @@ const EditorContainer = () => {
     dispatch(getMemoList(nansu));
   }, [nansu]);
 
-  /** 첫 렌더링 시 작업리스트 가져오기 */
-  // useEffect(() => {
-  //   if (!nansu) return;
-  //   Renault.forEach((el) => {
-  //     if (!el.pageName) return;
-  //     dispatch(getPage({ pageName: el.pageName, nansu }));
-  //   });
-  // }, []);
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeSlidePage = (idx: number) => {
@@ -106,7 +110,7 @@ const EditorContainer = () => {
         navigate(
           `${pathname}?temp=${temp}&year=${year}&page=${idx + 1}&pageName=${
             el.pageName
-          }`,
+          }&ctrlNum=${el.ctrlItems ? el.ctrlItems.length : 0}`,
         );
       }
     });
@@ -166,14 +170,19 @@ const EditorContainer = () => {
   };
 
   useEffect(() => {
-    if (holidayError || memoError) {
+    if (holidayError || memoError || pageError) {
       alert('에러가 발생했습니다.');
       dispatch(initialHolidayError());
       dispatch(initialMemoError());
-      if (memoError) return navigate(`/${nansu}`);
+      dispatch(updateDate(null));
+      dispatch(changeMemoField(''));
+      dispatch(initialPostResult());
+      dispatch(initialPageError());
+      dispatch(initialPostResult());
+      if (memoError || pageError) return navigate(`/${nansu}`);
       return navigate(-2);
     }
-  }, [holidayError, memoError]);
+  }, [holidayError, memoError, pageError]);
 
   useEffect(() => {
     if (memoLoading || pageLoading) {
@@ -192,6 +201,8 @@ const EditorContainer = () => {
           pageName: getPageResult.pageName,
         }),
       );
+      dispatch(updatePrevLoading(false));
+      dispatch(updateSavedPages(getPageResult.pageName));
     }
   }, [getPageResult]);
 
