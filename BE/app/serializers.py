@@ -67,6 +67,7 @@ class JanFrontSerializer(serializers.ModelSerializer):
         model = JanFront
         fields = ('pic','nansu')
 
+
 class JanBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
     pic = serializers.CharField(required=False, allow_blank=True)
