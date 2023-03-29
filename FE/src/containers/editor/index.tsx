@@ -34,7 +34,13 @@ import { RootState } from 'store';
 import EditorBodyContainer from './EditorBodyContainer';
 import { getHolidays, initialHolidayError } from 'reducer/holidays';
 import MemoContainer from './memo/MemoContainer';
-import { getMemoList, initialMemoError } from 'reducer/memo';
+import {
+  changeMemoField,
+  getMemoList,
+  initialMemoError,
+  initialPostResult,
+  updateDate,
+} from 'reducer/memo';
 import { Renault } from 'data/template/renault';
 import { getPage, updatePrevImgs } from 'reducer/page';
 
@@ -170,6 +176,9 @@ const EditorContainer = () => {
       alert('에러가 발생했습니다.');
       dispatch(initialHolidayError());
       dispatch(initialMemoError());
+      dispatch(updateDate(null));
+      dispatch(changeMemoField(''));
+      dispatch(initialPostResult());
       if (memoError) return navigate(`/${nansu}`);
       return navigate(-2);
     }
