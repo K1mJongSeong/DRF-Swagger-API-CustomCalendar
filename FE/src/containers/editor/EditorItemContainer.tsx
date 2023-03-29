@@ -37,23 +37,17 @@ const EditorItemContainer = ({
   useEffect(() => {
     if (!localData || !item.ctrlItems) return;
     if (localLoading) return;
-    const ctrlNum = item.ctrlItems?.length;
-    item.ctrlItems.forEach((el) => {
+    item.ctrlItems.forEach((el, idx) => {
       console.log(localData.data);
-      for (let i = 1; i < ctrlNum + 1; i++) {
-        const imgObj = {
-          id: el.cId,
-          imgUrl: localData.data[i - 1],
-          pageNo: item.id,
-        };
-        console.log(i);
-        console.log(el.cId);
-        console.log(localData.data[i - 1]);
-        dispatch(updateImg(imgObj));
-      }
+      const imgObj = {
+        id: el.cId,
+        imgUrl: localData.data[idx],
+        pageNo: item.id,
+      };
+      dispatch(updateImg(imgObj));
     });
-    setLocalData(null);
     dispatch(initialPrevImgs());
+    setLocalData(null);
   }, [localData, localLoading]);
   return (
     <div className="item swiper-zoom-container">
