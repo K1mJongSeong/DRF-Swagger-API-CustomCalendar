@@ -18,13 +18,17 @@ interface getPageProps {
 }
 
 export interface PageState {
-  postPageResult: any | null;
+  postPageResult: {
+    result: { pic: Array<string>; nansu: string };
+    pageName: string;
+  } | null;
   loading: boolean;
   error: string | null | undefined;
   getPageResult: { data: Array<string>; pageName: string } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
   getPrevDone: boolean;
+  savedPages: Array<string>;
 }
 
 const initialState: PageState = {
@@ -35,6 +39,7 @@ const initialState: PageState = {
   prevImgs: [],
   getPrevLoading: false,
   getPrevDone: false,
+  savedPages: [],
 };
 
 export const postPage = createAsyncThunk(
@@ -47,7 +52,7 @@ export const postPage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return res.data;
+    return { result: res.data, pageName: postPagePayload.pageName };
   },
 );
 
@@ -74,6 +79,9 @@ export const pageSlice = createSlice({
   reducers: {
     initialPageError: (state) => {
       state.error = null;
+    },
+    initialPostPageResult: (state) => {
+      state.postPageResult = null;
     },
     initialPrevImgs: (state) => {
       state.prevImgs = [];
@@ -107,6 +115,16 @@ export const pageSlice = createSlice({
     },
     updatePrevDone: (state) => {
       state.getPrevDone = true;
+    },
+    updateSavedPages: (state, action: PayloadAction<string>) => {
+      let Arr = [];
+      state.savedPages.forEach((sp) => {
+        if (sp === action.payload) {
+          Arr = state.savedPages.filter((el) => el != action.payload);
+          state.savedPages = Arr;
+        }
+      });
+      state.savedPages.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -146,5 +164,6 @@ export const {
   updatePrevImgs,
   updatePrevLoading,
   updatePrevDone,
+  updateSavedPages,
 } = pageSlice.actions;
 export default pageSlice.reducer;

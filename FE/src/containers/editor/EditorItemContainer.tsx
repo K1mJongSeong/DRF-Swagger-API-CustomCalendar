@@ -4,7 +4,7 @@ import { ItemInBodyProps } from 'interface/editor';
 import { useEffect, useState } from 'react';
 import uuid from 'react-uuid';
 import { updateImg } from 'reducer/images';
-import { afterPrintPrevImgs, initialPrevImgs } from 'reducer/page';
+import { afterPrintPrevImgs } from 'reducer/page';
 import { RootState } from 'store';
 import CalendarContainer from './calendar/CalendarContainer';
 
@@ -37,7 +37,6 @@ const EditorItemContainer = ({
     if (!localData || !item.ctrlItems) return;
     if (localLoading) return;
     item.ctrlItems.forEach((el, idx) => {
-      console.log(localData.data);
       const imgObj = {
         id: el.cId,
         imgUrl: localData.data[idx],

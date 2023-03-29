@@ -46,6 +46,7 @@ import {
   initialPageError,
   updatePrevImgs,
   updatePrevLoading,
+  updateSavedPages,
 } from 'reducer/page';
 
 const EditorContainer = () => {
@@ -177,6 +178,7 @@ const EditorContainer = () => {
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(initialPageError());
+      dispatch(initialPostResult());
       if (memoError || pageError) return navigate(`/${nansu}`);
       return navigate(-2);
     }
@@ -200,6 +202,7 @@ const EditorContainer = () => {
         }),
       );
       dispatch(updatePrevLoading(false));
+      dispatch(updateSavedPages(getPageResult.pageName));
     }
   }, [getPageResult]);
 
