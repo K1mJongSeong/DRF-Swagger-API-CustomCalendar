@@ -4,7 +4,7 @@ import { ItemInBodyProps } from 'interface/editor';
 import { useEffect, useState } from 'react';
 import uuid from 'react-uuid';
 import { updateImg } from 'reducer/images';
-import { initialPrevImgs } from 'reducer/page';
+import { afterPrintPrevImgs, initialPrevImgs } from 'reducer/page';
 import { RootState } from 'store';
 import CalendarContainer from './calendar/CalendarContainer';
 
@@ -45,7 +45,7 @@ const EditorItemContainer = ({
       };
       dispatch(updateImg(imgObj));
     });
-    dispatch(initialPrevImgs());
+    dispatch(afterPrintPrevImgs(localData.pageName));
     setLocalData(null);
   }, [localData, localLoading]);
   return (

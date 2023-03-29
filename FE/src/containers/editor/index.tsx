@@ -42,7 +42,11 @@ import {
   updateDate,
 } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { updatePrevImgs, updatePrevLoading } from 'reducer/page';
+import {
+  initialPageError,
+  updatePrevImgs,
+  updatePrevLoading,
+} from 'reducer/page';
 
 const EditorContainer = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -76,7 +80,7 @@ const EditorContainer = () => {
   const {
     loading: pageLoading,
     getPageResult,
-    getPrevLoading,
+    error: pageError,
   } = useAppSelector((state: RootState) => state.page);
 
   /** 첫 렌더링 시 공휴일 가져오기 */
@@ -105,7 +109,7 @@ const EditorContainer = () => {
         navigate(
           `${pathname}?temp=${temp}&year=${year}&page=${idx + 1}&pageName=${
             el.pageName
-          }`,
+          }&ctrlNum=${el.ctrlItems ? el.ctrlItems.length : 0}`,
         );
       }
     });
@@ -165,25 +169,26 @@ const EditorContainer = () => {
   };
 
   useEffect(() => {
-    if (holidayError || memoError) {
+    if (holidayError || memoError || pageError) {
       alert('에러가 발생했습니다.');
       dispatch(initialHolidayError());
       dispatch(initialMemoError());
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
-      if (memoError) return navigate(`/${nansu}`);
+      dispatch(initialPageError());
+      if (memoError || pageError) return navigate(`/${nansu}`);
       return navigate(-2);
     }
-  }, [holidayError, memoError]);
+  }, [holidayError, memoError, pageError]);
 
   useEffect(() => {
-    if (memoLoading || pageLoading || getPrevLoading) {
+    if (memoLoading || pageLoading) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [memoLoading, pageLoading, getPrevLoading]);
+  }, [memoLoading, pageLoading]);
 
   useEffect(() => {
     if (!getPageResult) return;

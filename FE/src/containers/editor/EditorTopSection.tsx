@@ -8,7 +8,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
 import { postPage } from 'reducer/page';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
 
 const EditorTopSection = ({
@@ -20,6 +20,7 @@ const EditorTopSection = ({
 }) => {
   const dispatch = useAppDispatch();
   const { imgs } = useAppSelector((state: RootState) => state.images);
+  const { postPageResult } = useAppSelector((state) => state.page);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -50,6 +51,8 @@ const EditorTopSection = ({
 
   const handlePostPage = () => {
     if (!pageName || !nansu) return;
+    const ctrlNum = searchParams?.get('ctrlNum');
+    if (!ctrlNum) return;
 
     let newArr: Array<string> = [];
     imgs.forEach((el) => {
@@ -57,7 +60,7 @@ const EditorTopSection = ({
         newArr.push(el.imgUrl);
       }
     });
-    if (newArr.length <= 0) return alert('이미지를 넣어주세요');
+    if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
     const newArrToStr = newArr.join();
     dispatch(postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }));
   };
@@ -65,6 +68,12 @@ const EditorTopSection = ({
   const handleGotoOrder = () => {
     navigate(`/${nansu}/order`);
   };
+
+  useEffect(() => {
+    if (postPageResult) {
+      setModalOpen(false);
+    }
+  }, [postPageResult]);
 
   return (
     <>

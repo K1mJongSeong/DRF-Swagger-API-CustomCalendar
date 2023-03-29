@@ -72,8 +72,17 @@ export const pageSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
+    initialPageError: (state) => {
+      state.error = null;
+    },
     initialPrevImgs: (state) => {
       state.prevImgs = [];
+    },
+    afterPrintPrevImgs: (state, action: PayloadAction<string>) => {
+      const newArr = state.prevImgs.filter(
+        (el) => el.pageName !== action.payload,
+      );
+      state.prevImgs = newArr;
     },
     updatePrevImgs: (
       state,
@@ -131,7 +140,9 @@ export const pageSlice = createSlice({
 });
 
 export const {
+  initialPageError,
   initialPrevImgs,
+  afterPrintPrevImgs,
   updatePrevImgs,
   updatePrevLoading,
   updatePrevDone,
