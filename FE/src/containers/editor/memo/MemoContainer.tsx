@@ -64,21 +64,22 @@ const MemoContainer = () => {
   };
 
   const handleRemoveMemo = () => {
-    if (!nansu || !selectDate || !memoContent) return;
+    if (!nansu || !selectDate) return;
+    const memoConStr = memoContent ? memoContent : '';
     dispatch(
       removeMemo({
         nansu,
         removeMemoPayload: {
           nansu: nansu,
           monthdays: selectDate,
-          notice: memoContent,
+          notice: memoConStr,
         },
       }),
     );
   };
 
   useEffect(() => {
-    if (resMemoResult && nansu) {
+    if (resMemoResult !== null && nansu) {
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());

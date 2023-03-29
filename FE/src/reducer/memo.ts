@@ -60,13 +60,9 @@ export const getMemoList = createAsyncThunk(
 export const updateMemo = createAsyncThunk(
   'memo/updateMemo',
   async (updateMemoPayload: PostMemoProps) => {
-    const res = await client.put(
-      `/Notice/${updateMemoPayload.nansu}`,
-      updateMemoPayload,
-      {
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+    const res = await client.put('/NoticePut/', updateMemoPayload, {
+      headers: { 'Content-Type': 'application/json' },
+    });
     return res.data;
   },
 );
@@ -76,7 +72,7 @@ export const removeMemo = createAsyncThunk(
   async (removeMemoPayload: RemoveMemoProps) => {
     const res = await client.delete(
       `/NoticeDelete/${removeMemoPayload.nansu}/`,
-      { data: removeMemoPayload },
+      { data: removeMemoPayload.removeMemoPayload },
     );
     return res.data;
   },
