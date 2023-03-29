@@ -11,7 +11,7 @@ from rest_framework_swagger.views import get_swagger_view
 from app import views
 from app.admin import NansuInfoAdmin
 #from app.admin import NansuInfoDetail
-from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, ImageView, SwaggerSchemaView, JanFrontPutView
+from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, ImageView, SwaggerSchemaView, JanFrontPutView, JanBackPutView, FebFrontPutView, FebBackPutView, MarFrontPutView, MarBackPutView, AprilFrontPutView, AprilBackPutView, MayFrontPutView, MayBackPutView, JuneFrontPutView, JuneBackPutView, JulyFrontPutView, JulyBackPutView, AugFrontPutView, AugBackPutView, SepFrontPutView, SepBackPutView, OctFrontPutView, OctBackPutView, NovFrontPutView, NovBackPutView, DecFrontPutView, DecBackPutView, PrologPutView, CoverPutView
 from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, CustomLogoutView, NoticePostView, NoticeListView, NoticePutView, NoticeDeleteView
 
 schema_view = get_schema_view(
@@ -43,6 +43,31 @@ urlpatterns = [
     #path('CalendarUrlDetail/<int:calendar>/',CalendarUrlDetail.as_view()),
     path('JanFront/',JanFront.as_view()),
     path('JanFrontPut/<str:nansu>/',JanFrontPutView.as_view()),
+    path('JanBackPut/<str:nansu>/',JanBackPutView.as_view()),
+    path('FebFrontPut/<str:nansu>/',FebFrontPutView.as_view()),
+    path('FebBackPut/<str:nansu>/',FebBackPutView.as_view()),
+    path('MarFrontPut/<str:nansu>/',MarFrontPutView.as_view()),
+    path('MarBackPut/<str:nansu>/',MarBackPutView.as_view()),
+    path('AprilFrontPut/<str:nansu>/',AprilFrontPutView.as_view()),
+    path('AprilBackPut/<str:nansu>/',AprilBackPutView.as_view()),
+    path('MayFrontPut/<str:nansu>/',MayFrontPutView.as_view()),
+    path('MayBackPut/<str:nansu>/',MayBackPutView.as_view()),
+    path('JuneFrontPut/<str:nansu>/',JuneFrontPutView.as_view()),
+    path('JuneBackPut/<str:nansu>/',JuneBackPutView.as_view()),
+    path('JulyFrontPut/<str:nansu>/',JulyFrontPutView.as_view()),
+    path('JulyBackPut/<str:nansu>/',JulyBackPutView.as_view()),
+    path('AugFrontPut/<str:nansu>/',AugFrontPutView.as_view()),
+    path('AugBackPut/<str:nansu>/',AugBackPutView.as_view()),
+    path('SepFrontPut/<str:nansu>/',SepFrontPutView.as_view()),
+    path('SepBackPut/<str:nansu>/',SepBackPutView.as_view()),
+    path('OctFrontPut/<str:nansu>/',OctFrontPutView.as_view()),
+    path('OctBackPut/<str:nansu>/',OctBackPutView.as_view()),
+    path('NovFrontPut/<str:nansu>/',NovFrontPutView.as_view()),
+    path('NovBackPut/<str:nansu>/',NovBackPutView.as_view()),
+    path('DecFrontPut/<str:nansu>/',DecFrontPutView.as_view()),
+    path('DecBackPut/<str:nansu>/',DecBackPutView.as_view()),
+    path('PrologPut/<str:nansu>/',PrologPutView.as_view()),
+    path('CoverPut/<str:nansu>/',CoverPutView.as_view()),
     path('JanBack/',JanBack.as_view()),
     #path('JanBackPut/<str:nansu>/',JanBackPutView.as_view()),
     path('FebFront/',FebFront.as_view()),
@@ -80,4 +105,5 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#_media에 이미지 저장.
+
 

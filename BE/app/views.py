@@ -23,6 +23,710 @@ def index(request):
     return HttpResponse("TEST PAGE")
 
 
+class JanFrontPutView(generics.UpdateAPIView):
+    serializer_class = JanFrontSerializer
+    queryset = JanFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class JanBackPutView(generics.UpdateAPIView):
+    serializer_class = JanBackSerializer
+    queryset = JanBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class FebFrontPutView(generics.UpdateAPIView):
+    serializer_class = FebFrontSerializer
+    queryset = FebFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class FebBackPutView(generics.UpdateAPIView):
+    serializer_class = FebBackSerializer
+    queryset = FebBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+
+class MarFrontPutView(generics.UpdateAPIView):
+    serializer_class = MarFrontSerializer
+    queryset = MarFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+
+class MarBackPutView(generics.UpdateAPIView):
+    serializer_class = MarBackSerializer
+    queryset = MarBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+
+class AprilFrontPutView(generics.UpdateAPIView):
+    serializer_class = AprilFrontSerializer
+    queryset = AprilFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class AprilBackPutView(generics.UpdateAPIView):
+    serializer_class = AprilBackSerializer
+    queryset = AprilBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class MayFrontPutView(generics.UpdateAPIView):
+    serializer_class = MayFrontSerializer
+    queryset = MayFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class MayBackPutView(generics.UpdateAPIView):
+    serializer_class = MayBackSerializer
+    queryset = MayBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+
+class JuneFrontPutView(generics.UpdateAPIView):
+    serializer_class = JuneFrontSerializer
+    queryset = JuneFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class JuneBackPutView(generics.UpdateAPIView):
+    serializer_class = JuneBackSerializer
+    queryset = JuneBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class JulyFrontPutView(generics.UpdateAPIView):
+    serializer_class = JulyFrontSerializer
+    queryset = JulyFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class JulyBackPutView(generics.UpdateAPIView):
+    serializer_class = JulyBackSerializer
+    queryset = JulyBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+class AugFrontPutView(generics.UpdateAPIView):
+    serializer_class = AugFrontSerializer
+    queryset = AugFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class AugBackPutView(generics.UpdateAPIView):
+    serializer_class = AugBackSerializer
+    queryset = AugBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class SepFrontPutView(generics.UpdateAPIView):
+    serializer_class = SepFrontSerializer
+    queryset = SepFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class SepBackPutView(generics.UpdateAPIView):
+    serializer_class = SepBackSerializer
+    queryset = SepBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class OctFrontPutView(generics.UpdateAPIView):
+    serializer_class = OctFrontSerializer
+    queryset = OctFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class OctBackPutView(generics.UpdateAPIView):
+    serializer_class = OctBackSerializer
+    queryset = OctBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class NovFrontPutView(generics.UpdateAPIView):
+    serializer_class = NovFrontSerializer
+    queryset = NovFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class NovBackPutView(generics.UpdateAPIView):
+    serializer_class = NovBackSerializer
+    queryset = NovBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class DecFrontPutView(generics.UpdateAPIView):
+    serializer_class = DecFrontSerializer
+    queryset = DecFront.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class DecBackPutView(generics.UpdateAPIView):
+    serializer_class = DecBackSerializer
+    queryset = DecBack.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class PrologPutView(generics.UpdateAPIView):
+    serializer_class = PrologSerializer
+    queryset = Prolog.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
+
+class CoverPutView(generics.UpdateAPIView):
+    serializer_class = CoverSerializer
+    queryset = Cover.objects.all()
+    lookup_field = 'nansu'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.filter(nansu=self.kwargs[self.lookup_field]).first()
+        if not obj:
+            raise Http404(f"No {self.lookup_field} matching the query")
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        nansu = request.data.get('nansu')
+        if nansu and nansu != instance.nansu:
+            raise serializers.ValidationError("Invalid value for 'nansu'")
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(pic=serializer.validated_data['pic'])
+
 class CustomLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         # 세션 데이터 백업
@@ -205,8 +909,9 @@ class NoticeListView(generics.ListCreateAPIView):
 
 
 class JanFront(generics.ListCreateAPIView):
-    serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
+    serializer_class = JanFrontSerializer
+
 
     @swagger_auto_schema(
         operation_summary='1월 앞 POST API',
@@ -232,32 +937,6 @@ class JanFront(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
-
-
-
-class JanFrontPutView(generics.UpdateAPIView):
-    #queryset = JanFront.objects.all()
-    serializer_class = JanFrontSerializer
-    lookup_field = 'nansu'
-
-    def get_object(self):
-        queryset = JanFront.objects.filter(nansu=self.kwargs[self.lookup_field])
-        obj = get_object_or_404(queryset)
-        return obj
-
-    def put(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        nansu = request.data.get('nansu')
-        if nansu and nansu != instance.nansu:
-            raise serializers.ValidationError("Invalid value for 'nansu'")
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
-
-    def perform_update(self, serializer):
-        serializer.save(pic=serializer.validated_data['pic'])
 
 
 

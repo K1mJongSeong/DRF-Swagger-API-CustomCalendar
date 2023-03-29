@@ -201,7 +201,6 @@ class JanFront(models.Model):
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.AutoField(primary_key=True)
 
-    objects = models.Manager()
 
     class Meta:
         managed = True
