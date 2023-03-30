@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
 import { initialPostResult } from 'reducer/memo';
+import { Renault } from 'data/template/renault';
 
 const EditorTopSection = ({
   children,
@@ -98,6 +99,8 @@ const EditorTopSection = ({
     }
   }, [postPageResult, updatePageResult]);
 
+  const count = Renault.length - 1;
+
   return (
     <>
       <EditorTop>
@@ -119,7 +122,7 @@ const EditorTopSection = ({
               <EditorTextButton red onClick={handlePostModalOpen}>
                 저장
               </EditorTextButton>
-              {imgs?.length > 28 && (
+              {savedPages?.length >= count && (
                 <EditorTextButton white onClick={handleGotoOrder}>
                   <BsCartPlus />
                 </EditorTextButton>
