@@ -179,7 +179,6 @@ const EditorContainer = () => {
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(initialPageError());
-      dispatch(initialPostResult());
       dispatch(initialUpdatePageResult());
       if (memoError || pageError) return navigate(`/${nansu}`);
       return navigate(-2);
