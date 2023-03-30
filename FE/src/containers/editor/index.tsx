@@ -180,8 +180,7 @@ const EditorContainer = () => {
       dispatch(initialPostResult());
       dispatch(initialPageError());
       dispatch(initialUpdatePageResult());
-      if (memoError || pageError) return navigate(`/${nansu}`);
-      return navigate(-2);
+      return navigate(`/${nansu}`);
     }
   }, [holidayError, memoError, pageError]);
 

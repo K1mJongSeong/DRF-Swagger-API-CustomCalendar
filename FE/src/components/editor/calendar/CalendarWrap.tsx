@@ -75,6 +75,18 @@ const CalendarWrapBlock = styled.div`
       }
     }
   }
+
+  @media (max-width: 1080px) {
+    .row {
+      .cell {
+        .memo_con {
+          font-size: 0.5rem;
+          zoom: 0.4;
+          white-space: pre-line;
+        }
+      }
+    }
+  }
 `;
 
 export default CalendarWrap;

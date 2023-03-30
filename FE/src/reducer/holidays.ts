@@ -24,7 +24,6 @@ export const getHolidays = createAsyncThunk(
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=2023&solMonth=${month}&_type=json&ServiceKey=${process.env.REACT_APP_GET_HOLIDAY_KEY}`,
       {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 5000,
       },
     );
     return res.data.response.body.items.item;
