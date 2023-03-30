@@ -6,6 +6,7 @@ const EditorTop = ({ children }: { children: React.ReactNode }) => {
 
 const EditorTopBlock = styled.div`
   width: 100%;
+  min-height: 52px;
   display: flex;
   justify-content: space-between;
   align-items: center;

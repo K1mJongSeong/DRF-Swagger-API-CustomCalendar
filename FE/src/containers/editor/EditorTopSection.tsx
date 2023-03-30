@@ -119,9 +119,11 @@ const EditorTopSection = ({
               <MdArrowBackIos />
             </EditorTextButton>
             <div className="right">
-              <EditorTextButton red onClick={handlePostModalOpen}>
-                저장
-              </EditorTextButton>
+              {page !== '1' && (
+                <EditorTextButton red onClick={handlePostModalOpen}>
+                  저장
+                </EditorTextButton>
+              )}
               {savedPages?.length >= count && (
                 <EditorTextButton white onClick={handleGotoOrder}>
                   <BsCartPlus />
