@@ -68,6 +68,7 @@ class AprilBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=10)
     april_idx = models.IntegerField(blank=True, null=True)
     april_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -80,6 +81,7 @@ class AprilFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=9)
     april_idx = models.IntegerField(blank=True, null=True)
     april_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -92,6 +94,7 @@ class AugBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=18)
     aug_idx = models.IntegerField(blank=True, null=True)
     aug_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -104,6 +107,7 @@ class AugFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=17)
     aug_idx = models.IntegerField(blank=True, null=True)
     aug_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -128,6 +132,7 @@ class Cover(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=1)
     cover_idx = models.IntegerField(blank=True, null=True)
     cover_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -140,6 +145,7 @@ class DecBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=26)
     dec_idx = models.IntegerField(blank=True, null=True)
     dec_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -152,6 +158,7 @@ class DecFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=25)
     dec_idx = models.IntegerField(blank=True, null=True)
     dec_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -164,6 +171,7 @@ class FebBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=6)
     feb_idx = models.IntegerField(blank=True, null=True)
     feb_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -176,6 +184,7 @@ class FebFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=5)
     feb_idx = models.IntegerField(blank=True, null=True)
     feb_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -188,6 +197,7 @@ class JanBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=4)
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -200,6 +210,7 @@ class JanFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True, default=3)
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
 
     class Meta:
@@ -213,6 +224,7 @@ class JulyBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=16)
     july_idx = models.IntegerField(blank=True, null=True)
     july_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -225,6 +237,7 @@ class JulyFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=15)
     july_idx = models.IntegerField(blank=True, null=True)
     july_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -237,6 +250,7 @@ class JuneBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=14)
     june_idx = models.IntegerField(blank=True, null=True)
     june_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -249,6 +263,7 @@ class JuneFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=13)
     june_idx = models.IntegerField(blank=True, null=True)
     june_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -261,6 +276,7 @@ class MarBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=8)
     mar_idx = models.IntegerField(blank=True, null=True)
     mar_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -273,6 +289,7 @@ class MarFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=7)
     mar_idx = models.IntegerField(blank=True, null=True)
     mar_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -285,6 +302,7 @@ class MayFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=11)
     may_idx = models.IntegerField(blank=True, null=True)
     may_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -297,6 +315,7 @@ class MayBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=12)
     may_idx = models.IntegerField(blank=True, null=True)
     may_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -333,6 +352,7 @@ class NovBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=24)
     nov_idx = models.IntegerField(blank=True, null=True)
     nov_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -345,6 +365,7 @@ class NovFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=23)
     nov_idx = models.IntegerField(blank=True, null=True)
     nov_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -357,6 +378,7 @@ class OctBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=22)
     oct_idx = models.IntegerField(blank=True, null=True)
     oct_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -369,6 +391,7 @@ class OctFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=21)
     oct_idx = models.IntegerField(blank=True, null=True)
     oct_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -386,6 +409,7 @@ class Order(models.Model):
     #zipcode = models.IntegerField()
     postcode = models.CharField(max_length=20)
     detailAddress = models.CharField(max_length=30)
+    pic = models.TextField(blank=True, null=True)
 
     ORDER_STATE_CHOICES = [
         ('미주문', '미주문'),
@@ -415,6 +439,7 @@ class SepBack(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=20)
     sep_idx = models.IntegerField(blank=True, null=True)
     sep_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -427,6 +452,7 @@ class SepFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=19)
     sep_idx = models.IntegerField(blank=True, null=True)
     sep_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -438,6 +464,7 @@ class Prolog(models.Model):
     page_num = models.IntegerField(blank=True, null=True,default=2)
     prolog_idx = models.IntegerField(blank=True, null=True)
     prolog_seq = models.AutoField(primary_key=True)
+    total_pic = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
