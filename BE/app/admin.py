@@ -20,6 +20,7 @@ from django.urls import reverse
 from datetime import datetime
 from django.contrib.admin import AdminSite
 import random
+import json
 import string
 
 admin.site.site_header = '모바일 달력커스텀 인쇄주문'
@@ -234,7 +235,7 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             print(nansu_list)
             print(random_string)
 
-            new_nansu_session = NansuSession(session_nansu=random_string, session_nansu_type=nansu_type, expire_date=timezone.now(), session_nansu_option=nansu_option,session_nansu_seq=info_seq)# + datetime.timedelta(days=1))
+            new_nansu_session = NansuSession(session_nansu=random_string, session_nansu_type=nansu_type, expire_date=timezone.now(), session_nansu_option=info_seq,session_nansu_seq=info_seq)# + datetime.timedelta(days=1))
             new_nansu_session.save()
             request.session['nansu_session_id'] = new_nansu_session.pk
             print(new_nansu_session.pk)
@@ -246,8 +247,11 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             request.session['nansu_type'] = nansu_type
             print(nansu_option)
             print(nansu_seq_list)
-
-            
+            session_dict[new_nansu_info.info_seq] = {
+                'nansu_seq': nansu_option,
+                'nansu': [nansu.nansu_seq for nansu in nansu_list],  # 배열 형태로 저장
+                'nansu_type': nansu_type,
+            }
 
             # 새로운 info_seq에 대한 세션 정보 추가
             if new_nansu_info:
@@ -272,11 +276,17 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             request.session['nansu_seq'] = session_dict[object_id]['nansu_seq']
             request.session['nansu'] = session_dict[object_id]['nansu']
             request.session['nansu_type'] = session_dict[object_id]['nansu_type']
-            nansu_list = Nansu.objects.filter(nansu_seq__in=session_dict[object_id]['nansu']).order_by('-created_at')
+            nansu_list = []
+            for nansu_seq in session_dict[object_id]['nansu']:
+                nansu_obj = Nansu.objects.filter(nansu_seq=nansu_seq).first()
+                if nansu_obj:
+                    nansu_list.append(nansu_obj)
+            nansu_list = sorted(nansu_list, key=lambda nansu: nansu.created_at, reverse=True)
         else:
             # 세션에서 nansu_option에 해당하는 정보가 없으면 기존 로직대로 처리
             if nansu_seq == "1":
                 nansu_list = Nansu.objects.filter
+
 
         return super().changeform_view(request, object_id, extra_context=extra_context)
 
@@ -323,125 +333,56 @@ class NansuInfoAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, form_url='', extra_context=None):
         nansu_info = NansuInfo.objects.get(pk=object_id)
         session_data = nansu_info.session_data
+        obj = self.get_object(request, object_id)
         print('asd123')
         print(session_data)
         if session_data:
             session_dict = session_data
         else:
             session_dict = request.session.get('session_dict',{})
-        #session_dict = request.session.get('session_dict', {})
         nansu_list = []
+
         # 세션 정보 가져오기
         session_id = request.session.get('nansu_session_id', None)
         print(session_id)
-        # if session_id:
-        #     try:
-        #         nansu_session = NansuSession.objects.get(pk=session_id)
-        #         nansu_list = nansu_session.session_nansu.split(',')
-        #         nansu_type = nansu_session.session_nansu_type
-        #         nansu_option = nansu_session.session_nansu_option # add this line
-        #         nansu_seq = nansu_session.session_nansu_seq # add this line
-        #         nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-        #     except NansuSession.DoesNotExist:
-        #         pass
-        # nansu_option = None
-        
         if object_id in session_dict:
-            nansu_list = session_dict[object_id]['nansu']
-            nansu_type = session_dict[object_id]['nansu_type']
-            nansu_option = session_dict[object_id]['nansu_seq']
-            nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+            request.session['nansu_seq'] = session_dict[object_id]['nansu_seq']
+            request.session['nansu'] = session_dict[object_id]['nansu']
+            request.session['nansu_type'] = session_dict[object_id]['nansu_type']
+            # nansu_list = Nansu.objects.filter(nansu_seq__in=session_dict[object_id]['nansu']).order_by('-created_at')
+            nansu_dict = {}
+            nansu_objs = Nansu.objects.filter(nansu_seq__in=session_dict[object_id]['nansu']).order_by('-created_at')
+            for nansu in nansu_objs:
+                if nansu.nansu_seq not in nansu_dict:
+                    nansu_dict[nansu.nansu_seq] = {'nansu': [], 'nansu_type': nansu.nansu_type}
+                nansu_dict[nansu.nansu_seq]['nansu'].append(nansu.nansu)
+            print(nansu_dict)
         else:
-            nansu_type = nansu_info.template_name
-            nansu_objects = Nansu.objects.filter(nansu_type=nansu_type).order_by('-created_at')
+            # 세션에서 nansu_option에 해당하는 정보가 없으면 기존 로직대로 처리
+            # if nansu_seq == "1":
+            #     nansu_list = Nansu.objects.filter
+            nansu_dict = {}
+        # if object_id in session_dict:
+        #     nansu_list = session_dict[object_id]['nansu']
+        #     nansu_type = session_dict[object_id]['nansu_type']
+        #     nansu_option = session_dict[object_id]['nansu_seq']
+        #     nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
+        # else:
+        #     nansu_type = nansu_info.template_name
+        #     nansu_objects = Nansu.objects.filter(nansu_type=nansu_type).order_by('-created_at')
+
         print(session_dict)
         print('bbb123123')
-        context = {
-            'nansu_info': nansu_info,
-            'nansu_list': nansu_objects,
-            'nansu_type': nansu_type,
-            # 'nansu_option': nansu_option, # pass nansu_option to context
-            # 'nansu_seq': nansu_seq, # pass nansu_seq to context
-        }
+        extra_context = {'nansu_list': nansu_list, 'nansu_info': obj, 'session_dict': session_dict, 'nansu_dict': nansu_dict}
+        print(extra_context)
+        # context = {
+        #     'nansu_info': nansu_info,
+        #     'nansu_list': nansu_objects,
+        #     'nansu_type': nansu_type,
+        #     # 'nansu_option': nansu_option, # pass nansu_option to context
+        #     # 'nansu_seq': nansu_seq, # pass nansu_seq to context
+        # }
 
-        return render(request, 'admin/nansu_info.html', context)
+        return render(request, 'admin/nansu_info.html', extra_context)
 
 admin.site.register(NansuInfo, NansuInfoAdmin)
-
-# class NansuInfoAdmin(admin.ModelAdmin):
-#     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
-#     list_per_page = 20
-
-#     def change_view(self, request, object_id, form_url='', extra_context=None):
-#         nansu_info = NansuInfo.objects.get(pk=object_id)
-#         session_dict = request.session.get('session_dict', {})
-#         nansu_list = []
-#         # 세션 정보 가져오기
-#         session_id = request.session.get('nansu_session_id', None)
-#         print(session_id)
-#         if session_id:
-#             try:
-#                 nansu_session = NansuSession.objects.get(pk=session_id)
-#                 nansu_list = nansu_session.session_nansu.split(',')
-#                 nansu_type = nansu_session.session_nansu_type
-#                 nansu_option = nansu_session.session_nansu
-#                 nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-#             except NansuSession.DoesNotExist:
-#                 pass
-#         #nansu_option = None
-#         print(session_dict)
-#         if object_id in session_dict:
-#             nansu_list = session_dict[object_id]['nansu']
-#             nansu_type = session_dict[object_id]['nansu_type']
-#             nansu_option = session_dict[object_id]['nansu_seq']
-#             nansu_objects = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-#         else:
-#             nansu_type = nansu_info.template_name
-#             nansu_objects = Nansu.objects.filter(nansu_type=nansu_type).order_by('-created_at')
-
-#         context = {
-#             'nansu_info': nansu_info,
-#             'nansu_list': nansu_objects,
-#             'nansu_type': nansu_type,
-#             'nansu_option': nansu_option,
-#         }
-
-#         return render(request, 'admin/nansu_info.html', context)
-
-# admin.site.register(NansuInfo, NansuInfoAdmin)
-
-
-
-# class NansuInfoAdmin(admin.ModelAdmin):
-#     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
-
-#     def change_view(self, request, object_id, form_url='', extra_context=None):
-#         nansu_info = NansuInfo.objects.get(pk=object_id)
-#         nansu_list = request.session.get('nansu', []) # 수정된 부분
-#         nansu_type = request.session.get('nansu_type', None)
-#         nansu_option = request.session.get('nansu_seq', None)
-#         print(nansu_list)
-#         print(nansu_option)
-
-#         if nansu_option == "1":
-#             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-#             print('성공1')
-#         elif nansu_option == "10":
-#             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-#             print('성공10')
-#         elif nansu_option == "100":
-#             nansu_list = Nansu.objects.filter(nansu_seq__in=nansu_list).order_by('-created_at')
-#             print('성공100')
-#         else:
-#             nansu_list = Nansu.objects.filter(nansu_type=nansu_info.template_name).order_by('-created_at')
-#             print('실패')
-#         print(nansu_list.count())
-#         print(nansu_type)
-
-#         context = {
-#             'nansu_info':nansu_info,
-#             'nansu_list':nansu_list,
-#         }
-
-#         return render(request,'admin/nansu_info.html',context)
-# admin.site.register(NansuInfo, NansuInfoAdmin)

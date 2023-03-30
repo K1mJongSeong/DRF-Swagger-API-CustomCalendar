@@ -35,7 +35,7 @@ class NansuSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('user_name','user_phone','address','nansu','postcode','detailAddress','orderState','order_date')
+        fields = ('user_name','user_phone','address','nansu','postcode','detailAddress','orderState','order_date','pic')
 
 class OrderInfoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,7 +65,7 @@ class JanFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JanFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 class JanBackSerializer(serializers.ModelSerializer):
@@ -85,7 +85,7 @@ class JanBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JanBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -107,7 +107,7 @@ class FebFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FebFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class FebBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -126,7 +126,7 @@ class FebBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FebBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -148,7 +148,7 @@ class MarFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MarFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class MarBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -167,7 +167,7 @@ class MarBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MarBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -188,7 +188,7 @@ class AprilFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AprilFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class AprilBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -207,7 +207,7 @@ class AprilBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AprilBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -228,7 +228,7 @@ class MayFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MayFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class MayBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -247,7 +247,7 @@ class MayBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MayBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -268,7 +268,7 @@ class JuneFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JuneFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class JuneBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -287,7 +287,7 @@ class JuneBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JuneBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -308,7 +308,7 @@ class JulyFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JulyFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class JulyBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -327,7 +327,7 @@ class JulyBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JulyBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -348,7 +348,7 @@ class AugFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AugFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class AugBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -367,7 +367,7 @@ class AugBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AugBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -388,7 +388,7 @@ class SepFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SepFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class SepBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -407,7 +407,7 @@ class SepBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SepBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -428,7 +428,7 @@ class OctFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OctFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class OctBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -447,7 +447,7 @@ class OctBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OctBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -468,7 +468,7 @@ class NovFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NovFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class NovBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -487,7 +487,7 @@ class NovBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NovBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -508,7 +508,7 @@ class DecFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DecFront
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 class DecBackSerializer(serializers.ModelSerializer):
     nansu = serializers.CharField(required=True, help_text="nansu 필수 입력")
@@ -527,7 +527,7 @@ class DecBackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DecBack
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -548,7 +548,7 @@ class PrologSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prolog
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')
 
 
 
@@ -569,4 +569,4 @@ class CoverSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cover
-        fields = ('pic','nansu')
+        fields = ('pic','nansu','total_pic')

@@ -20,4 +20,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% if session_dict %}
+    <h2>세션 정보</h2>
+    <pre>{{ session_dict|safe }}</pre>
+    {% endif %}
 {% endblock %}
