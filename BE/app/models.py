@@ -9,6 +9,26 @@ from django.db import models
 from rest_framework import serializers
 
 
+# class DjangoSession(models.Model):
+#     session_key = models.CharField(primary_key=True, max_length=40)
+#     session_data = models.TextField()
+#     expire_date = models.DateTimeField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'django_session'
+
+class NansuSession(models.Model):
+    session_nansu = models.CharField(max_length=100, blank=True, null=True)
+    session_nansu_type = models.CharField(max_length=100, blank=True, null=True)
+    expire_date = models.DateTimeField(blank=True, null=True)
+    session_nansu_option = models.CharField(max_length=45, blank=True, null=True)
+    session_nansu_seq = models.CharField(max_length=110, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nansu_session'
+
 class Image(models.Model):
     id = models.AutoField(primary_key=True)
     image = models.ImageField(max_length=200,blank=True, null=True)
@@ -24,6 +44,7 @@ class NansuInfo(models.Model):
     nansu_count = models.IntegerField(blank=True, null=True)
     nansu_date = models.DateTimeField(blank=True, null=True)
     template_name = models.CharField(max_length=15, blank=True, null=True)
+    session_data = models.JSONField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -179,6 +200,7 @@ class JanFront(models.Model):
     page_num = models.IntegerField(blank=True, null=True, default=3)
     jan_idx = models.IntegerField(blank=True, null=True)
     jan_seq = models.AutoField(primary_key=True)
+
 
     class Meta:
         managed = True
@@ -357,11 +379,11 @@ class Order(models.Model):
     user_name = models.CharField(max_length=20)
     user_phone = models.CharField(max_length=20)
     address = models.CharField(max_length=45)
-    nansu = models.IntegerField(blank=True, null=True)
+    nansu = models.CharField(max_length=100,blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True,auto_now_add=True) 
-    order_seq = models.IntegerField(primary_key=True)
+    order_seq = models.AutoField(primary_key=True)
     order_date = models.DateTimeField(blank=True, null=True)
-    zipcode = models.IntegerField()
+    #zipcode = models.IntegerField()
     postcode = models.CharField(max_length=20)
     detailAddress = models.CharField(max_length=30)
 
