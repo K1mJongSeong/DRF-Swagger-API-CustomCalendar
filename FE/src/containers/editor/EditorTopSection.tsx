@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import { EditorTextButton } from 'components/editor/EditorButtons';
 import EditorTop from 'components/editor/EditorTop';
@@ -17,6 +18,8 @@ import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
 import { initialPostResult } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
+import { selectId, selectPageNo } from 'reducer/images';
+import GetPageImg from 'utils/getPageImg';
 
 const EditorTopSection = ({
   children,
@@ -30,6 +33,8 @@ const EditorTopSection = ({
   const { postPageResult, savedPages, updatePageResult } = useAppSelector(
     (state) => state.page,
   );
+
+  const getPageImg = new GetPageImg();
 
   const navigate = useNavigate();
   const params = useParams();
@@ -51,6 +56,8 @@ const EditorTopSection = ({
   };
 
   const handlePostModalOpen = () => {
+    dispatch(selectId(null));
+    dispatch(selectPageNo(null));
     setModalOpen(true);
   };
 
@@ -70,16 +77,19 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
-    const newArrToStr = newArr.join();
-    if (savedPages.includes(pageName)) {
-      dispatch(
-        updatePage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
-      );
-    } else {
-      dispatch(
-        postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
-      );
-    }
+    const test = getPageImg.getPageCanvasToImg(pageName, nansu);
+    console.log('test', test);
+    // // update, post PAGE
+    // const newArrToStr = newArr.join();
+    // if (savedPages.includes(pageName)) {
+    //   dispatch(
+    //     updatePage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
+    //   );
+    // } else {
+    //   dispatch(
+    //     postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
+    //   );
+    // }
   };
 
   const handleGotoOrder = () => {
