@@ -32,12 +32,13 @@ STATICFILES_DIRS = [
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','121.254.171.155']
+ALLOWED_HOSTS = ['*','121.254.171.155','localhost']
 #Git에서 clone 후 이 부분 IP를 본인 IP로 바꾸셔야합니다.
 
 # Application definition
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 CSRF_COOKIE_SECURE = False
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,7 +70,7 @@ ROOT_URLCONF = 'CustomCalendar.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'app' / 'templates'],
+        'DIRS': [BASE_DIR / 'CustomCalendar' / 'templates'],
         #'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {

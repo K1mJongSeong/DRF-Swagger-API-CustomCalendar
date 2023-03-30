@@ -335,7 +335,7 @@ class Nansu(models.Model):
 
     class Meta:
         verbose_name = '난수'
-        verbose_name_plural = '난수 목록'
+        verbose_name_plural = '난수 생성'
         managed = True
         db_table = 'nansu'
 
