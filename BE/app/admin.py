@@ -19,10 +19,13 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 from django.contrib.admin import AdminSite
+from django.contrib.auth.models import Group
 import random
 import json
 import string
 
+admin.site.index_title = ' '
+admin.site.unregister(Group)
 admin.site.site_header = '모바일 달력커스텀 인쇄주문'
 admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 # admin.site.register(Calendar)

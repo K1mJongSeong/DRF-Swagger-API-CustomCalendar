@@ -47,6 +47,8 @@ class NansuInfo(models.Model):
     session_data = models.JSONField(blank=True, null=True)
 
     class Meta:
+        verbose_name = '난수 상세페이지'
+        verbose_name_plural = '난수 그룹'
         managed = False
         db_table = 'nansu_info'
 
@@ -332,6 +334,8 @@ class Nansu(models.Model):
 
 
     class Meta:
+        verbose_name = '난수'
+        verbose_name_plural = '난수 목록'
         managed = True
         db_table = 'nansu'
 
@@ -420,6 +424,8 @@ class Order(models.Model):
     orderState = models.CharField(max_length=20, choices=ORDER_STATE_CHOICES)
 
     class Meta:
+        verbose_name = '주문'
+        verbose_name_plural = '주문 정보'
         managed = False
         db_table = 'order'
 
