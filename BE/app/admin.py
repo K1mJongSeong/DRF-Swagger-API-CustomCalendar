@@ -204,16 +204,6 @@ class OrderAdmin(admin.ModelAdmin):
                 obj.zipcode = 1
         obj.save()
     form = OrderForm
-    
-    def update_order_nansu(self, request, queryset):
-        # Nansu 테이블과 연결된 Order 테이블의 nansu 필드를 업데이트할 때 사용할 Subquery를 정의합니다.
-        nansu_subquery = Nansu.objects.filter(nansu_seq=OuterRef('order_seq')).values('nansu')[:1]
-
-        # Order 테이블의 nansu 필드를 Nansu 테이블의 nansu 필드 값으로 업데이트합니다.
-        Order.objects.update(nansu=Subquery(nansu_subquery))
-
-        self.message_user(request, f"{queryset.count()} 개의 난수가 수정 되었습니다.")
-    update_order_nansu.short_description = "난수 입력(Nansu페이지의 nansu필드 데이터가 입력됩니다.)"
 
 admin.site.register(Order, OrderAdmin)
 
