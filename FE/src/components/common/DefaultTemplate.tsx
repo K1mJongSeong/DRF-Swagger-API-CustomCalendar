@@ -11,6 +11,7 @@ const DefaultTemplateBlock = styled.div`
   overflow-y: auto;
   background-color: white;
   position: relative;
+  margin: 0 auto;
 `;
 
 export const SectionBlock = styled.div`

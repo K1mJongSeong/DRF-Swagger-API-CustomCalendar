@@ -5,6 +5,7 @@ import client from 'lib/api/client';
 interface basicPageProps {
   pic: string | null;
   nansu: string;
+  total_pic?: string;
 }
 
 interface postPageProps {

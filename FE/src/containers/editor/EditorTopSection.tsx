@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import { EditorTextButton } from 'components/editor/EditorButtons';
@@ -65,7 +66,7 @@ const EditorTopSection = ({
     setModalOpen(false);
   };
 
-  const handlePostPage = () => {
+  const handlePostPage = async () => {
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
@@ -77,19 +78,28 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
-    const test = getPageImg.getPageCanvasToImg(pageName, nansu);
-    console.log('test', test);
-    // // update, post PAGE
-    // const newArrToStr = newArr.join();
-    // if (savedPages.includes(pageName)) {
-    //   dispatch(
-    //     updatePage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
-    //   );
-    // } else {
-    //   dispatch(
-    //     postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
-    //   );
-    // }
+
+    getPageImg.resizingItem(pageName, 'lg');
+    const totalImg = await getPageImg.getTotalPage(pageName, nansu);
+    getPageImg.resizingItem(pageName, 'sm');
+
+    // update, post PAGE
+    const newArrToStr = newArr.join();
+    if (savedPages.includes(pageName)) {
+      dispatch(
+        updatePage({
+          pageName,
+          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+        }),
+      );
+    } else {
+      dispatch(
+        postPage({
+          pageName,
+          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+        }),
+      );
+    }
   };
 
   const handleGotoOrder = () => {

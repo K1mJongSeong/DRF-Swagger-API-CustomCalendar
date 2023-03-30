@@ -142,6 +142,29 @@ const EditorConWrapBlock = styled.div`
           }
         }
       }
+
+      &.lg {
+        min-width: 2457px;
+        min-height: 1749px;
+        .cl {
+          .row {
+            .cell {
+              font-size: 1.25rem !important;
+              &.red {
+                .red.txt {
+                  zoom: 0.7;
+                  margin-top: 0.7rem;
+                }
+              }
+              .memo_con {
+                margin-top: 1rem;
+                font-size: 1.2rem !important;
+                white-space: pre-line;
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
