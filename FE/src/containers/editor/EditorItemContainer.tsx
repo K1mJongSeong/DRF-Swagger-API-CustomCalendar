@@ -48,7 +48,10 @@ const EditorItemContainer = ({
     setLocalData(null);
   }, [localData, localLoading]);
   return (
-    <div className="item swiper-zoom-container">
+    <div
+      id={`item${(item.pageName && item.pageName) ?? ''}`}
+      className="item swiper-zoom-container"
+    >
       <div className="swiper-zoom-target">
         <div className="ctrl_wrap">
           {item.ctrlItems?.map((ci, idx) => {

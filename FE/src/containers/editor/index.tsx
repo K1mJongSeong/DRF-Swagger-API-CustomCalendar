@@ -44,6 +44,7 @@ import {
 import { Renault } from 'data/template/renault';
 import {
   initialPageError,
+  initialUpdatePageResult,
   updatePrevImgs,
   updatePrevLoading,
   updateSavedPages,
@@ -178,9 +179,8 @@ const EditorContainer = () => {
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(initialPageError());
-      dispatch(initialPostResult());
-      if (memoError || pageError) return navigate(`/${nansu}`);
-      return navigate(-2);
+      dispatch(initialUpdatePageResult());
+      return navigate(`/${nansu}`);
     }
   }, [holidayError, memoError, pageError]);
 

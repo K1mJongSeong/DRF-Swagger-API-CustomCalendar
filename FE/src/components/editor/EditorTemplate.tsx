@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const EditorTemplate = ({ children }: { children: React.ReactNode }) => {
@@ -19,4 +18,4 @@ const EditorTemplateBlock = styled.div`
   }
 `;
 
-export default React.memo(EditorTemplate);
+export default EditorTemplate;

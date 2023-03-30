@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const EditorTop = ({ children }: { children: React.ReactNode }) => {
@@ -7,6 +6,7 @@ const EditorTop = ({ children }: { children: React.ReactNode }) => {
 
 const EditorTopBlock = styled.div`
   width: 100%;
+  min-height: 52px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,4 +24,4 @@ const EditorTopBlock = styled.div`
   }
 `;
 
-export default React.memo(EditorTop);
+export default EditorTop;

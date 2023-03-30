@@ -12,7 +12,9 @@ const CalendarWrap = ({
   rowLength: number;
 }) => {
   return (
-    <CalendarWrapBlock rowLength={rowLength}>{children}</CalendarWrapBlock>
+    <CalendarWrapBlock rowLength={rowLength} className="cl">
+      {children}
+    </CalendarWrapBlock>
   );
 };
 
@@ -72,6 +74,18 @@ const CalendarWrapBlock = styled.div`
         font-size: 35%;
         zoom: 0.7;
         white-space: pre-line;
+      }
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .row {
+      .cell {
+        .memo_con {
+          font-size: 0.5rem;
+          zoom: 0.4;
+          white-space: pre-line;
+        }
       }
     }
   }

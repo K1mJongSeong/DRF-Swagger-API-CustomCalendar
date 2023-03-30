@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import { EditorTextButton } from 'components/editor/EditorButtons';
 import EditorTop from 'components/editor/EditorTop';
@@ -7,10 +9,18 @@ import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
-import { postPage, updateSavedPages } from 'reducer/page';
+import {
+  initialUpdatePageResult,
+  postPage,
+  updatePage,
+  updateSavedPages,
+} from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
 import { initialPostResult } from 'reducer/memo';
+import { Renault } from 'data/template/renault';
+import { selectId, selectPageNo } from 'reducer/images';
+import GetPageImg from 'utils/getPageImg';
 
 const EditorTopSection = ({
   children,
@@ -21,7 +31,11 @@ const EditorTopSection = ({
 }) => {
   const dispatch = useAppDispatch();
   const { imgs } = useAppSelector((state: RootState) => state.images);
-  const { postPageResult, savedPages } = useAppSelector((state) => state.page);
+  const { postPageResult, savedPages, updatePageResult } = useAppSelector(
+    (state) => state.page,
+  );
+
+  const getPageImg = new GetPageImg();
 
   const navigate = useNavigate();
   const params = useParams();
@@ -43,6 +57,8 @@ const EditorTopSection = ({
   };
 
   const handlePostModalOpen = () => {
+    dispatch(selectId(null));
+    dispatch(selectPageNo(null));
     setModalOpen(true);
   };
 
@@ -50,7 +66,7 @@ const EditorTopSection = ({
     setModalOpen(false);
   };
 
-  const handlePostPage = () => {
+  const handlePostPage = async () => {
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
@@ -62,12 +78,26 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+
+    getPageImg.resizingItem(pageName, 'lg');
+    const totalImg = await getPageImg.getTotalPage(pageName, nansu);
+    getPageImg.resizingItem(pageName, 'sm');
+
+    // update, post PAGE
+    const newArrToStr = newArr.join();
     if (savedPages.includes(pageName)) {
-      alert('수정');
-    } else {
-      const newArrToStr = newArr.join();
       dispatch(
-        postPage({ pageName, pagePayload: { pic: newArrToStr, nansu } }),
+        updatePage({
+          pageName,
+          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+        }),
+      );
+    } else {
+      dispatch(
+        postPage({
+          pageName,
+          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+        }),
       );
     }
   };
@@ -82,7 +112,14 @@ const EditorTopSection = ({
       dispatch(updateSavedPages(postPageResult.pageName));
       dispatch(initialPostResult());
     }
-  }, [postPageResult]);
+    if (updatePageResult) {
+      setModalOpen(false);
+      dispatch(updateSavedPages(updatePageResult.pageName));
+      dispatch(initialUpdatePageResult());
+    }
+  }, [postPageResult, updatePageResult]);
+
+  const count = Renault.length - 1;
 
   return (
     <>
@@ -102,10 +139,12 @@ const EditorTopSection = ({
               <MdArrowBackIos />
             </EditorTextButton>
             <div className="right">
-              <EditorTextButton red onClick={handlePostModalOpen}>
-                저장
-              </EditorTextButton>
-              {imgs?.length > 28 && (
+              {page !== '1' && (
+                <EditorTextButton red onClick={handlePostModalOpen}>
+                  저장
+                </EditorTextButton>
+              )}
+              {savedPages?.length >= count && (
                 <EditorTextButton white onClick={handleGotoOrder}>
                   <BsCartPlus />
                 </EditorTextButton>
