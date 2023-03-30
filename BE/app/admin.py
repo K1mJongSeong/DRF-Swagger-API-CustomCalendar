@@ -9,7 +9,7 @@ from django.utils.timezone import now
 from django.utils import timezone
 from datetime import timedelta
 from django.http import HttpResponseRedirect
-from django.utils.html import format_html
+from django.utils.html import format_html, format_html_join
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -176,9 +176,28 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['nansu']
     ordering = ['-order_date','-create_date']
     list_filter = ['orderState']
-    list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date')
+    list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date','download_pic')
     list_per_page = 20
+
+    def download_pic(self, obj):
+        if obj.pic:
+            urls = obj.pic.split(',')
+            download_links = []
+            for index, url in enumerate(urls):
+                link = format_html('<a href="{}" target="_blank" download>다운로드 {}</a>', url, index + 1)
+                download_links.append(link)
+            return format_html_join(', ', '{}', ((link,) for link in download_links))
+        else:
+            return "N/A"
+    download_pic.short_description = "다운로드"
     
+    # def download_pic(self, obj):
+    #     if obj.pic:
+    #         return format_html('<a href="{}" target="_blank" download>다운로드</a>', obj.pic)
+    #     else:
+    #         return "N/A"
+    # download_pic.short_description = "다운로드"
+
 
     def save_model(self, request, obj, form, change):
         if not change:  # 새로 생성되는 객체인 경우
