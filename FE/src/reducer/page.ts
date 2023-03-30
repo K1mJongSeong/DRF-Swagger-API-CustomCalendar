@@ -29,6 +29,10 @@ export interface PageState {
   getPrevLoading: boolean;
   getPrevDone: boolean;
   savedPages: Array<string>;
+  updatePageResult: {
+    result: { pic: Array<string>; nansu: string };
+    pageName: string;
+  } | null;
 }
 
 const initialState: PageState = {
@@ -40,6 +44,7 @@ const initialState: PageState = {
   getPrevLoading: false,
   getPrevDone: false,
   savedPages: [],
+  updatePageResult: null,
 };
 
 export const postPage = createAsyncThunk(
@@ -73,6 +78,20 @@ export const getPage = createAsyncThunk(
   },
 );
 
+export const updatePage = createAsyncThunk(
+  'page/updatePage',
+  async (updatePagePayload: postPageProps) => {
+    const res = await client.put(
+      `/${updatePagePayload.pageName}Put/${updatePagePayload.pagePayload.nansu}/`,
+      updatePagePayload.pagePayload,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
+    return res.data;
+  },
+);
+
 export const pageSlice = createSlice({
   name: 'page',
   initialState,
@@ -82,6 +101,9 @@ export const pageSlice = createSlice({
     },
     initialPostPageResult: (state) => {
       state.postPageResult = null;
+    },
+    initialUpdatePageResult: (state) => {
+      state.updatePageResult = null;
     },
     initialPrevImgs: (state) => {
       state.prevImgs = [];
@@ -154,6 +176,19 @@ export const pageSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
+    builder.addCase(updatePage.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.updatePageResult = null;
+    });
+    builder.addCase(updatePage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.updatePageResult = action.payload;
+    });
+    builder.addCase(updatePage.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
   },
 });
 
@@ -161,6 +196,7 @@ export const {
   initialPageError,
   initialPrevImgs,
   afterPrintPrevImgs,
+  initialUpdatePageResult,
   updatePrevImgs,
   updatePrevLoading,
   updatePrevDone,

@@ -44,6 +44,7 @@ import {
 import { Renault } from 'data/template/renault';
 import {
   initialPageError,
+  initialUpdatePageResult,
   updatePrevImgs,
   updatePrevLoading,
   updateSavedPages,
@@ -179,6 +180,7 @@ const EditorContainer = () => {
       dispatch(initialPostResult());
       dispatch(initialPageError());
       dispatch(initialPostResult());
+      dispatch(initialUpdatePageResult());
       if (memoError || pageError) return navigate(`/${nansu}`);
       return navigate(-2);
     }

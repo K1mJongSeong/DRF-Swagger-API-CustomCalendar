@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const EditorTop = ({ children }: { children: React.ReactNode }) => {
@@ -24,4 +23,4 @@ const EditorTopBlock = styled.div`
   }
 `;
 
-export default React.memo(EditorTop);
+export default EditorTop;
