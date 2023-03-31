@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
@@ -20,20 +21,25 @@ interface getPageProps {
 
 export interface PageState {
   postPageResult: {
-    result: { pic: Array<string>; nansu: string };
+    result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
   } | null;
   loading: boolean;
   error: string | null | undefined;
-  getPageResult: { data: Array<string>; pageName: string } | null;
+  getPageResult: {
+    data: Array<string>;
+    pageName: string;
+    total_pic: string;
+  } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
   getPrevDone: boolean;
   savedPages: Array<string>;
   updatePageResult: {
-    result: { pic: Array<string>; nansu: string };
+    result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
   } | null;
+  totalPicArr: Array<{ total_pic: string; pageName: string }>;
 }
 
 const initialState: PageState = {
@@ -46,6 +52,7 @@ const initialState: PageState = {
   getPrevDone: false,
   savedPages: [],
   updatePageResult: null,
+  totalPicArr: [],
 };
 
 export const postPage = createAsyncThunk(
@@ -72,7 +79,11 @@ export const getPage = createAsyncThunk(
       },
     );
     if (Array.isArray(res.data)) {
-      return { data: res.data[0]?.pic, pageName: getPagePayload.pageName };
+      return {
+        data: res.data[0]?.pic,
+        pageName: getPagePayload.pageName,
+        total_pic: res.data[0].total_pic,
+      };
     } else {
       return res.data;
     }
@@ -89,7 +100,7 @@ export const updatePage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return res.data;
+    return { result: res.data, pageName: updatePagePayload.pageName };
   },
 );
 
@@ -108,6 +119,9 @@ export const pageSlice = createSlice({
     },
     initialPrevImgs: (state) => {
       state.prevImgs = [];
+    },
+    initialTotalPicArr: (state) => {
+      state.totalPicArr = [];
     },
     afterPrintPrevImgs: (state, action: PayloadAction<string>) => {
       const newArr = state.prevImgs.filter(
@@ -148,6 +162,21 @@ export const pageSlice = createSlice({
         }
       });
       state.savedPages.push(action.payload);
+    },
+    updateTotalPicArr: (
+      state,
+      action: PayloadAction<{ pageName: string; total_pic: string }>,
+    ) => {
+      let Arr = [];
+      state.totalPicArr.forEach((sp) => {
+        if (sp.pageName === action.payload.pageName) {
+          Arr = state.totalPicArr.filter(
+            (el) => el.pageName != action.payload.pageName,
+          );
+          state.totalPicArr = Arr;
+        }
+      });
+      state.totalPicArr.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -198,9 +227,11 @@ export const {
   initialPrevImgs,
   afterPrintPrevImgs,
   initialUpdatePageResult,
+  initialTotalPicArr,
   updatePrevImgs,
   updatePrevLoading,
   updatePrevDone,
   updateSavedPages,
+  updateTotalPicArr,
 } = pageSlice.actions;
 export default pageSlice.reducer;

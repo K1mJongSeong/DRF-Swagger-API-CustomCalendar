@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import PBody from 'components/common/PBody';
 import ConfirmOrderModal from 'components/order/ConfirmOrderModal';
+import { Renault } from 'data/template/renault';
 import { useAppSelector, useAppDispatch } from 'hooks';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ const OrderContainer = () => {
     postOrderResult,
     error: orderError,
   } = useAppSelector((state: RootState) => state.order);
+  const { totalPicArr } = useAppSelector((state: RootState) => state.page);
   const navigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
@@ -46,8 +48,17 @@ const OrderContainer = () => {
     setModalOpen(false);
   };
 
+  const count = Renault.length - 1;
+
   const handleSubmitOrderInfo = () => {
     if (!nansu) return;
+    const totalPic = totalPicArr.map((el) => {
+      return el.total_pic;
+    });
+    if (totalPic.length < count) {
+      alert('Error: 모든 페이지가 저장되지 않았습니다. 다시 시도해주세요.');
+      return;
+    }
     dispatch(
       postOrder({
         nansu,
@@ -60,6 +71,7 @@ const OrderContainer = () => {
           detailAddress,
           orderState: '주문신청',
           order_date: moment().format(),
+          pic: totalPic.join(),
         },
       }),
     );

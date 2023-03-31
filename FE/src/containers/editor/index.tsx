@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable prefer-const */
 import EditorBottomSection from './EditorBottomSection';
 import EditorTopList from 'components/editor/EditorTopList';
@@ -48,6 +49,7 @@ import {
   updatePrevImgs,
   updatePrevLoading,
   updateSavedPages,
+  updateTotalPicArr,
 } from 'reducer/page';
 
 const EditorContainer = () => {
@@ -194,13 +196,22 @@ const EditorContainer = () => {
 
   useEffect(() => {
     if (!getPageResult) return;
-    if (getPageResult.data && getPageResult.pageName) {
+    if (
+      getPageResult.data &&
+      getPageResult.pageName &&
+      getPageResult.total_pic
+    ) {
       dispatch(
         updatePrevImgs({
           data: getPageResult.data,
           pageName: getPageResult.pageName,
         }),
       );
+      const totalPicArrObj = {
+        total_pic: getPageResult.total_pic,
+        pageName: getPageResult.pageName,
+      };
+      dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(updatePrevLoading(false));
       dispatch(updateSavedPages(getPageResult.pageName));
     }

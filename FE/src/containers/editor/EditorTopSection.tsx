@@ -14,6 +14,7 @@ import {
   postPage,
   updatePage,
   updateSavedPages,
+  updateTotalPicArr,
 } from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
@@ -21,6 +22,7 @@ import { initialPostResult } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
 import { selectId, selectPageNo } from 'reducer/images';
 import GetPageImg from 'utils/getPageImg';
+import WorkingLoading from 'components/common/loading/Working';
 
 const EditorTopSection = ({
   children,
@@ -56,21 +58,24 @@ const EditorTopSection = ({
     navigate(`/${nansu}/list?temp=${temp}&year=${year}`);
   };
 
+  // page API modal open
   const handlePostModalOpen = () => {
     dispatch(selectId(null));
     dispatch(selectPageNo(null));
     setModalOpen(true);
   };
 
+  // page API modal close
   const handlePostModalClose = () => {
     setModalOpen(false);
   };
 
+  const [totalPicLoading, setTotalPicLoading] = useState<boolean>(false);
+  // page API submit
   const handlePostPage = async () => {
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
-
     let newArr: Array<string> = [];
     imgs.forEach((el) => {
       if (el.pageNo.toString() === page) {
@@ -78,11 +83,17 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    setTotalPicLoading(true);
 
     getPageImg.resizingItem(pageName, 'lg');
     const totalImg = await getPageImg.getTotalPage(pageName, nansu);
+    console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
-
+    setTotalPicLoading(false);
+    if (!totalImg) {
+      alert('이미지 저장 실패');
+      return false;
+    }
     // update, post PAGE
     const newArrToStr = newArr.join();
     if (savedPages.includes(pageName)) {
@@ -102,22 +113,33 @@ const EditorTopSection = ({
     }
   };
 
-  const handleGotoOrder = () => {
-    navigate(`/${nansu}/order`);
-  };
-
+  // POST, UPDATE result 처리
   useEffect(() => {
     if (postPageResult) {
       setModalOpen(false);
       dispatch(updateSavedPages(postPageResult.pageName));
+      const totalPicArrObj = {
+        total_pic: postPageResult.result.total_pic,
+        pageName: postPageResult.pageName,
+      };
+      dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialPostResult());
     }
     if (updatePageResult) {
       setModalOpen(false);
       dispatch(updateSavedPages(updatePageResult.pageName));
+      const totalPicArrObj = {
+        total_pic: updatePageResult.result.total_pic,
+        pageName: updatePageResult.pageName,
+      };
+      dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialUpdatePageResult());
     }
   }, [postPageResult, updatePageResult]);
+
+  const handleGotoOrder = () => {
+    navigate(`/${nansu}/order`);
+  };
 
   const count = Renault.length - 1;
 
@@ -161,6 +183,7 @@ const EditorTopSection = ({
           page={page}
         />
       )}
+      {totalPicLoading && <WorkingLoading />}
     </>
   );
 };
