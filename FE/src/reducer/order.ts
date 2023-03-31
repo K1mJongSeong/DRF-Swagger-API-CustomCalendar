@@ -11,6 +11,7 @@ interface postOrderPayload {
   detailAddress: string;
   orderState: string;
   order_date: string;
+  pic: string;
 }
 interface postOrderProps {
   nansu: string;

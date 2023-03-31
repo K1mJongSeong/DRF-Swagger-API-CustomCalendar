@@ -76,7 +76,6 @@ const EditorTopSection = ({
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
-    setTotalPicLoading(true);
     let newArr: Array<string> = [];
     imgs.forEach((el) => {
       if (el.pageNo.toString() === page) {
@@ -84,11 +83,17 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    setTotalPicLoading(true);
 
     getPageImg.resizingItem(pageName, 'lg');
     const totalImg = await getPageImg.getTotalPage(pageName, nansu);
+    console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
     setTotalPicLoading(false);
+    if (totalImg === undefined) {
+      alert('이미지 저장 실패');
+      return false;
+    }
     // update, post PAGE
     const newArrToStr = newArr.join();
     if (savedPages.includes(pageName)) {
