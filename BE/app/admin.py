@@ -20,6 +20,7 @@ from django.urls import reverse
 from datetime import datetime
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import Group
+
 import random
 import json
 import string
@@ -31,6 +32,7 @@ admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 # admin.site.register(Calendar)
 # admin.site.register(Prolog)
 # admin.site.register(Cover)
+
 
 class YourAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -333,6 +335,14 @@ admin.site.register(Nansu, NansuAdmin)
 class NansuInfoAdmin(admin.ModelAdmin):
     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
     list_per_page = 20
+
+    def has_add_permission(self, request, obj=None):
+        # 추가 권한 없애기
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # 변경 권한 없애기
+        return False
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         nansu_info = NansuInfo.objects.get(pk=object_id)
