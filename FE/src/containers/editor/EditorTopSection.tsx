@@ -22,6 +22,7 @@ import { initialPostResult } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
 import { selectId, selectPageNo } from 'reducer/images';
 import GetPageImg from 'utils/getPageImg';
+import WorkingLoading from 'components/common/loading/Working';
 
 const EditorTopSection = ({
   children,
@@ -57,16 +58,20 @@ const EditorTopSection = ({
     navigate(`/${nansu}/list?temp=${temp}&year=${year}`);
   };
 
+  // page API modal open
   const handlePostModalOpen = () => {
     dispatch(selectId(null));
     dispatch(selectPageNo(null));
     setModalOpen(true);
   };
 
+  // page API modal close
   const handlePostModalClose = () => {
     setModalOpen(false);
   };
 
+  const [totalPicLoading, setTotalPicLoading] = useState<boolean>(false);
+  // page API submit
   const handlePostPage = async () => {
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
@@ -103,14 +108,10 @@ const EditorTopSection = ({
     }
   };
 
-  const handleGotoOrder = () => {
-    navigate(`/${nansu}/order`);
-  };
-
+  // POST, UPDATE result 처리
   useEffect(() => {
     if (postPageResult) {
       setModalOpen(false);
-      console.log('POST');
       dispatch(updateSavedPages(postPageResult.pageName));
       const totalPicArrObj = {
         total_pic: postPageResult.result.total_pic,
@@ -121,7 +122,6 @@ const EditorTopSection = ({
     }
     if (updatePageResult) {
       setModalOpen(false);
-      console.log('PUT');
       dispatch(updateSavedPages(updatePageResult.pageName));
       const totalPicArrObj = {
         total_pic: updatePageResult.result.total_pic,
@@ -131,6 +131,10 @@ const EditorTopSection = ({
       dispatch(initialUpdatePageResult());
     }
   }, [postPageResult, updatePageResult]);
+
+  const handleGotoOrder = () => {
+    navigate(`/${nansu}/order`);
+  };
 
   const count = Renault.length - 1;
 
@@ -174,6 +178,7 @@ const EditorTopSection = ({
           page={page}
         />
       )}
+      <WorkingLoading />
     </>
   );
 };
