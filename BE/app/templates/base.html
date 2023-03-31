@@ -1,0 +1,10 @@
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var timestamp = new Date().getTime();
+        var cssQuery = "?time=" + timestamp;
+        $('link[rel="stylesheet"]').attr('href', function (i, href) {
+            return href + cssQuery;
+        });
+    </script>
+{% endblock %}
