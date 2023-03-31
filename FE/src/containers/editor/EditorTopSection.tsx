@@ -76,7 +76,7 @@ const EditorTopSection = ({
     if (!pageName || !nansu) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
-
+    setTotalPicLoading(true);
     let newArr: Array<string> = [];
     imgs.forEach((el) => {
       if (el.pageNo.toString() === page) {
@@ -88,7 +88,7 @@ const EditorTopSection = ({
     getPageImg.resizingItem(pageName, 'lg');
     const totalImg = await getPageImg.getTotalPage(pageName, nansu);
     getPageImg.resizingItem(pageName, 'sm');
-
+    setTotalPicLoading(false);
     // update, post PAGE
     const newArrToStr = newArr.join();
     if (savedPages.includes(pageName)) {
@@ -178,7 +178,7 @@ const EditorTopSection = ({
           page={page}
         />
       )}
-      <WorkingLoading />
+      {totalPicLoading && <WorkingLoading />}
     </>
   );
 };
