@@ -14,6 +14,7 @@ import {
   postPage,
   updatePage,
   updateSavedPages,
+  updateTotalPicArr,
 } from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
@@ -109,12 +110,24 @@ const EditorTopSection = ({
   useEffect(() => {
     if (postPageResult) {
       setModalOpen(false);
+      console.log('POST');
       dispatch(updateSavedPages(postPageResult.pageName));
+      const totalPicArrObj = {
+        total_pic: postPageResult.result.total_pic,
+        pageName: postPageResult.pageName,
+      };
+      dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialPostResult());
     }
     if (updatePageResult) {
       setModalOpen(false);
+      console.log('PUT');
       dispatch(updateSavedPages(updatePageResult.pageName));
+      const totalPicArrObj = {
+        total_pic: updatePageResult.result.total_pic,
+        pageName: updatePageResult.pageName,
+      };
+      dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialUpdatePageResult());
     }
   }, [postPageResult, updatePageResult]);
