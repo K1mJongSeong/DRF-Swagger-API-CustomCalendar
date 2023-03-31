@@ -21,22 +21,6 @@ from django.contrib.auth.models import AnonymousUser
 import csv
 
 
-def index(request):
-    return HttpResponse("TEST PAGE")
-
-# def download_order(request, pk):
-#     order = get_object_or_404(Order, pk=pk)
-#     file_path = order.pic
-
-#     if os.path.exists(file_path):
-#         with open(file_path, 'rb') as file:
-#             response = FileResponse(file, content_type=mimetypes.guess_type(file_path)[0])
-#             response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
-#             return response
-
-#     return HttpResponseNotFound('파일을 찾을 수 없습니다.')
-
-
 class JanFrontPutView(generics.UpdateAPIView):
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
