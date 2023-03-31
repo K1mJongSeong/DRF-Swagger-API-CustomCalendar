@@ -90,7 +90,7 @@ const EditorTopSection = ({
     console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
     setTotalPicLoading(false);
-    if (totalImg === undefined) {
+    if (!totalImg) {
       alert('이미지 저장 실패');
       return false;
     }

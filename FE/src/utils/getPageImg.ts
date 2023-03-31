@@ -1,35 +1,26 @@
+/* eslint-disable no-inner-declarations */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import * as htmlToImage from 'html-to-image';
 import client from 'lib/api/client';
 import moment from 'moment';
+import dataURLtoFile from './datUrlToFile';
 
 export default class GetPageImg {
   async getTotalPage(pageName: string, nansu: string) {
     try {
-      const img = await htmlToImage.toJpeg(
+      const dataUrl = await htmlToImage.toJpeg(
         document.querySelector(
           `#item${pageName ? pageName : ''}`,
         ) as HTMLDivElement,
       );
-      // dataURL to file
-      const dataURLtoFile = (dataurl: any, fileName: string) => {
-        if (!dataurl) return;
-        const arr = dataurl.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length,
-          u8arr = new Uint8Array(n);
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], fileName, { type: mime });
-      };
 
       const imgFile = dataURLtoFile(
-        img,
+        dataUrl,
         `${nansu}-${pageName}${moment().format('YYMMDDHHMMSS')}.jpg`,
       );
+      alert(imgFile);
       const formData = new FormData();
       if (!imgFile) return;
       formData.append('image', imgFile);
@@ -41,6 +32,7 @@ export default class GetPageImg {
       return res.data.image;
     } catch (err) {
       console.log(err);
+      alert(err);
     }
   }
 
