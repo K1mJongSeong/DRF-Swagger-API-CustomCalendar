@@ -73,7 +73,7 @@ const EditorTopSection = ({
   const [totalPicLoading, setTotalPicLoading] = useState<boolean>(false);
   // page API submit
   const handlePostPage = async () => {
-    if (!pageName || !nansu) return;
+    if (!pageName || !nansu || !page) return;
     const ctrlNum = searchParams?.get('ctrlNum');
     if (!ctrlNum) return;
     let newArr: Array<string> = [];
@@ -86,7 +86,7 @@ const EditorTopSection = ({
     setTotalPicLoading(true);
 
     getPageImg.resizingItem(pageName, 'lg');
-    const totalImg = await getPageImg.getTotalPage(pageName, nansu);
+    const totalImg: string = await getPageImg.getTotalPage(pageName, nansu);
     console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
     setTotalPicLoading(false);
@@ -95,7 +95,9 @@ const EditorTopSection = ({
       return false;
     }
     // update, post PAGE
-    const newArrToStr = newArr.join();
+    const newArrToStr: string = newArr.join().split(' ').join();
+    if (!newArrToStr) return;
+    alert(newArrToStr);
     if (savedPages.includes(pageName)) {
       dispatch(
         updatePage({
