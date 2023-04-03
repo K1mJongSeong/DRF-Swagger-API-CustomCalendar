@@ -3,9 +3,7 @@
 const dataURLtoFile = (dataurl: string, fileName: string) => {
   if (!dataurl) return;
   const arr = dataurl.split(',');
-  alert(arr[1]);
   console.log('arr', arr);
-  alert(arr);
   const obj = arr[0].match(/:(.*?);/);
   if (!obj) return;
   const mime = obj[1];

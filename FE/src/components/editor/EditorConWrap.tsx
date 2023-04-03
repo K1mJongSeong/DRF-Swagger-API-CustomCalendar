@@ -136,29 +136,50 @@ const EditorConWrapBlock = styled.div`
           position: absolute;
           background: inherit;
           border: 1px dashed #999;
-
+          z-index: 7;
           &.noBorder {
             border: none;
           }
         }
+        .temp_image {
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          position: absolute;
+          z-index: 6;
+        }
+        .temp {
+        }
       }
 
       &.lg {
-        min-width: 2457px;
-        min-height: 1749px;
+        min-width: 2000px;
+        min-height: 1423.6874px;
+        /* min-width: 2457px;
+        min-height: 1749px; */
         .cl {
+          width: 67.3992%;
+          height: 72.7272%;
           .row {
+            width: 100%;
             .cell {
-              font-size: 1.25rem !important;
+              width: 14.2857%;
+              font-size: 1.5rem !important;
               &.red {
                 .red.txt {
-                  zoom: 0.7;
-                  margin-top: 0.7rem;
+                  zoom: 1;
+                  font-size: 1rem !important;
+                  margin-top: 0.2rem;
                 }
               }
+              .cell_top {
+                max-width: 100%;
+                margin-bottom: 0;
+              }
               .memo_con {
-                margin-top: 1rem;
-                font-size: 1.2rem !important;
+                margin-top: 0.3rem;
+                font-size: 1rem !important;
+                zoom: 1;
                 white-space: pre-line;
               }
             }

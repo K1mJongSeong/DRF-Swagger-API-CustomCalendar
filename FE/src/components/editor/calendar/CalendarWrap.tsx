@@ -21,6 +21,8 @@ const CalendarWrap = ({
 const CalendarWrapBlock = styled.div`
   width: 67.3992%;
   height: 72.7272%;
+  max-width: 1656px;
+  max-height: 1272px;
   position: absolute;
   /* border: 1px solid black; */
   right: 0;
@@ -46,8 +48,6 @@ const CalendarWrapBlock = styled.div`
       /* border: 1px solid yellow; */
       padding: 1%;
       font-size: 35%;
-      display: flex;
-      flex-direction: column;
 
       &.disabled {
         opacity: 0;
@@ -59,15 +59,17 @@ const CalendarWrapBlock = styled.div`
         }
         .red.txt {
           zoom: 0.7;
+          display: block;
+          /* border: 1px solid red; */
         }
       }
       &.on {
         border: 1px solid red;
       }
       .cell_top {
-        display: flex;
+        /* display: flex;
         justify-content: space-between;
-        flex-direction: column;
+        flex-direction: column; */
         margin-bottom: 0.15rem;
       }
       .memo_con {

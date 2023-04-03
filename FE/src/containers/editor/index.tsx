@@ -173,18 +173,25 @@ const EditorContainer = () => {
   };
 
   useEffect(() => {
-    if (holidayError || memoError || pageError) {
-      alert('에러가 발생했습니다.');
+    if (holidayError) {
+      console.log(`holidayError: ${holidayError}`);
       dispatch(initialHolidayError());
+    }
+  }, [holidayError]);
+
+  useEffect(() => {
+    if (memoError || pageError) {
+      if (memoError) alert(`memoError: ${memoError}`);
+      if (pageError) alert(`pageError: ${pageError}`);
       dispatch(initialMemoError());
       dispatch(updateDate(null));
       dispatch(changeMemoField(''));
       dispatch(initialPostResult());
       dispatch(initialPageError());
       dispatch(initialUpdatePageResult());
-      return navigate(`/${nansu}`);
+      return navigate(`/${nansu}/list?temp=${temp}&year=${year}`);
     }
-  }, [holidayError, memoError, pageError]);
+  }, [memoError, pageError]);
 
   useEffect(() => {
     if (memoLoading || pageLoading) {

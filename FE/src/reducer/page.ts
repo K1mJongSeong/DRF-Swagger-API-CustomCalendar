@@ -4,9 +4,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import client from 'lib/api/client';
 
 interface basicPageProps {
-  pic: string | null;
+  pic: string;
   nansu: string;
-  total_pic?: string;
+  total_pic: string;
 }
 
 interface postPageProps {
