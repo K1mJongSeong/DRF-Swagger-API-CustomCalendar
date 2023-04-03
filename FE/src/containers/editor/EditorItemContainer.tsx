@@ -70,7 +70,17 @@ const EditorItemContainer = ({
           {item.ctrlItems?.map((ci) => (
             <ImgBlock key={uuid()} img={ci} />
           ))}
+          <div
+            className="temp_image"
+            style={{
+              background: `url(${
+                (item?.tempSrc && item?.tempSrc) ??
+                'https://cdn-icons-png.flaticon.com/512/107/107817.png'
+              }) no-repeat 50% /cover`,
+            }}
+          />
           <img
+            className="temp"
             src={
               (item?.tempSrc && item?.tempSrc) ??
               'https://cdn-icons-png.flaticon.com/512/107/107817.png'
