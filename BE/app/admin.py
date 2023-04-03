@@ -19,7 +19,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 from django.contrib.admin import AdminSite
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm
 import random
 import json
 import string
@@ -31,6 +33,31 @@ admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 # admin.site.register(Calendar)
 # admin.site.register(Prolog)
 # admin.site.register(Cover)
+
+
+
+class CustomUserAdmin(UserAdmin):
+    fieldsets = (
+        (None, {'fields': ('username',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+    )
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    list_filter = ('is_staff', 'is_superuser', 'groups')
+    search_fields = ('username', 'first_name', 'last_name', 'email')
+    ordering = ('username',)
+
+
+# Unregister the default UserAdmin
+admin.site.unregister(User)
+
+# Register the CustomUserAdmin
+admin.site.register(User, CustomUserAdmin)
+
 
 class YourAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -174,13 +201,27 @@ class YourAppConfig(AppConfig):
 
 # admin.site.register(Notice, NoticeAdmin)
 
+
 class OrderAdmin(admin.ModelAdmin):
     actions = ['update_order_nansu']
     search_fields = ['nansu']
     ordering = ['-order_date','-create_date']
     list_filter = ['orderState']
     list_display = ('order_seq','nansu','orderState','user_name','user_phone','address','postcode','detailAddress','order_date','create_date','download_pic')
+    fields = ['nansu','user_name','user_phone','detailAddress','postcode','orderState','pic']
     list_per_page = 20
+    change_form_template = "admin/mymodel_change_form.html"
+
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['user_name'].label = "주문자 명"
+        return form
+
+
+    def has_add_permission(self, request, obj=None):
+        # 추가 권한 없애기
+        return False
 
     def download_pic(self, obj):
         if obj.pic:
@@ -205,7 +246,15 @@ class OrderAdmin(admin.ModelAdmin):
         obj.save()
     form = OrderForm
 
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['show_history'] = False
+        extra_context['show_save_and_continue'] = False
+        return super().change_view(request, object_id, form_url=form_url, extra_context=extra_context)
+
 admin.site.register(Order, OrderAdmin)
+
+
 
 
 class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
@@ -214,9 +263,16 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_type','created_at')
     change_form_template = "admin/button.html"
+    change_form_title = '난수난수'
     list_per_page = 20
     fields = ['nansu_type']
     print(change_form_template)
+
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['nansu_type'].label = "템플릿 명"
+        return form
 
     def nansu_view(self, request, object_id=None, extra_context=None):
         print('nansu_view 실행')
@@ -302,16 +358,18 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
         extra_context['show_save_and_add_another'] = False
         extra_context['show_save_and_continue'] = False
         extra_context['show_save'] = False
+        extra_context['title'] = '난수 추가'
+        extra_context['show_history'] = False
+        #return super().changeform_view(request, object_id, form_url, extra_context)
         return self.nansu_view(request, object_id=object_id, extra_context=extra_context)
 
-
-    def insert_random_nansu(self, request, queryset):
-        print('c')
-        for obj in queryset:
-            obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
-            obj.save()
-        self.message_user(request, f"{queryset.count()} 개의 난수가 생성 되었습니다.")
-    insert_random_nansu.short_description = "난수 생성"
+    # def insert_random_nansu(self, request, queryset):
+    #     print('c')
+    #     for obj in queryset:
+    #         obj.nansu = str(random.randint(10**(8-1), (10**8)-1))
+    #         obj.save()
+    #     self.message_user(request, f"{queryset.count()} 개의 난수가 생성 되었습니다.")
+    # insert_random_nansu.short_description = "난수 생성"
 
     def update_date_field(self, request, queryset): #사용 안 함.
         updated_count = queryset.update(created_at=now().date())
@@ -333,6 +391,14 @@ admin.site.register(Nansu, NansuAdmin)
 class NansuInfoAdmin(admin.ModelAdmin):
     list_display = ('info_seq', 'template_name', 'nansu_date', 'nansu_count')
     list_per_page = 20
+
+    def has_add_permission(self, request, obj=None):
+        # 추가 권한 없애기
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # 변경 권한 없애기
+        return False
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         nansu_info = NansuInfo.objects.get(pk=object_id)

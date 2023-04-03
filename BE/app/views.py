@@ -21,22 +21,6 @@ from django.contrib.auth.models import AnonymousUser
 import csv
 
 
-def index(request):
-    return HttpResponse("TEST PAGE")
-
-# def download_order(request, pk):
-#     order = get_object_or_404(Order, pk=pk)
-#     file_path = order.pic
-
-#     if os.path.exists(file_path):
-#         with open(file_path, 'rb') as file:
-#             response = FileResponse(file, content_type=mimetypes.guess_type(file_path)[0])
-#             response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
-#             return response
-
-#     return HttpResponseNotFound('파일을 찾을 수 없습니다.')
-
-
 class JanFrontPutView(generics.UpdateAPIView):
     serializer_class = JanFrontSerializer
     queryset = JanFront.objects.all()
@@ -741,19 +725,6 @@ class CoverPutView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         serializer.save(pic=serializer.validated_data['pic'])
 
-class CustomLogoutView(LogoutView):
-    def dispatch(self, request, *args, **kwargs):
-        # 세션 데이터 백업
-        session_backup = dict(request.session)
-
-        # 로그아웃
-        response = super().dispatch(request, *args, **kwargs)
-
-        # 백업된 세션 데이터를 복원
-        for key, value in session_backup.items():
-            request.session[key] = value
-
-        return response
 
 def nansu_info_detail(request, info_seq, nansu_count):
     nansu_list = Nansu.objects.all()[:nansu_count]
@@ -761,10 +732,10 @@ def nansu_info_detail(request, info_seq, nansu_count):
     return render(request, 'app/nansu_info_detail.html', context)
 
 
-def nansu(request):
-    nansuTest = Nansu.objects.filter(nansu_state='정상')
-    print(nansuTest)
-    return render(request,'index.html', {"nansuTest":nansuTest})
+# def nansu(request):
+#     nansuTest = Nansu.objects.filter(nansu_state='정상')
+#     print(nansuTest)
+#     return render(request,'index.html', {"nansuTest":nansuTest})
 
 class NansuList(APIView):
     @swagger_auto_schema(
