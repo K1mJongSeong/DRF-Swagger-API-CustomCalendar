@@ -732,10 +732,10 @@ def nansu_info_detail(request, info_seq, nansu_count):
     return render(request, 'app/nansu_info_detail.html', context)
 
 
-def nansu(request):
-    nansuTest = Nansu.objects.filter(nansu_state='정상')
-    print(nansuTest)
-    return render(request,'index.html', {"nansuTest":nansuTest})
+# def nansu(request):
+#     nansuTest = Nansu.objects.filter(nansu_state='정상')
+#     print(nansuTest)
+#     return render(request,'index.html', {"nansuTest":nansuTest})
 
 class NansuList(APIView):
     @swagger_auto_schema(

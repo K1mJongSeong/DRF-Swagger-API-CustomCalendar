@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+
+{% load admin_urls %}
+
+{% block object-tools-items %}
+    {% if has_absolute_url %}
+        <li><a href="{{ obj.get_absolute_url }}" target="_blank">View on site</a></li>
+    {% endif %}
+    {% if has_view_history_permission %}
+        <li><a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}">View history</a></li>
+    {% endif %}
+{% endblock %}

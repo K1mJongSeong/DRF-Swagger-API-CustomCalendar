@@ -40,10 +40,10 @@ class Image(models.Model):
         db_table = 'image'
 
 class NansuInfo(models.Model):
-    info_seq = models.AutoField(primary_key=True)
-    nansu_count = models.IntegerField(blank=True, null=True)
-    nansu_date = models.DateTimeField(blank=True, null=True)
-    template_name = models.CharField(max_length=15, blank=True, null=True)
+    info_seq = models.AutoField(primary_key=True, verbose_name='번호')
+    nansu_count = models.IntegerField(blank=True, null=True, verbose_name='생성 개수')
+    nansu_date = models.DateTimeField(blank=True, null=True, verbose_name='난수 생성일자')
+    template_name = models.CharField(max_length=15, blank=True, null=True, verbose_name='템플릿 명')
     session_data = models.JSONField(blank=True, null=True)
 
     class Meta:
@@ -325,13 +325,15 @@ class MayBack(models.Model):
 
 
 class Nansu(models.Model):
-    nansu_seq = models.AutoField(primary_key=True)
-    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    nansu = models.CharField(max_length=100, blank=True, null=True)
-    nansu_type = models.CharField(max_length=20, blank=True, null=True)
+    nansu_seq = models.AutoField(primary_key=True, verbose_name='번호')
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True, verbose_name='생성 날짜')
+    nansu = models.CharField(max_length=100, blank=True, null=True, verbose_name='난수')
+    nansu_type = models.CharField(max_length=20, blank=True, null=True, verbose_name='템플릿 명')
     nansu_state = models.CharField(max_length=10)
     info_seq = models.IntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return self.nansu_type
 
     class Meta:
         verbose_name = '난수'
@@ -404,24 +406,27 @@ class OctFront(models.Model):
 
 
 class Order(models.Model):
-    user_name = models.CharField(max_length=20)
-    user_phone = models.CharField(max_length=20)
-    address = models.CharField(max_length=45)
-    nansu = models.CharField(max_length=100,blank=True, null=True)
-    create_date = models.DateTimeField(blank=True, null=True,auto_now_add=True) 
-    order_seq = models.AutoField(primary_key=True)
-    order_date = models.DateTimeField(blank=True, null=True)
+    user_name = models.CharField(max_length=20, verbose_name='주문자 명')
+    user_phone = models.CharField(max_length=20, verbose_name='연락처')
+    address = models.CharField(max_length=45, verbose_name='주소')
+    nansu = models.CharField(max_length=100,blank=True, null=True, verbose_name='난수')
+    create_date = models.DateTimeField(blank=True, null=True,auto_now_add=True, verbose_name='생성 날짜') 
+    order_seq = models.AutoField(primary_key=True, verbose_name='번호')
+    order_date = models.DateTimeField(blank=True, null=True, verbose_name='주문 날짜')
     #zipcode = models.IntegerField()
-    postcode = models.CharField(max_length=20)
-    detailAddress = models.CharField(max_length=30)
-    pic = models.TextField(blank=True, null=True)
+    postcode = models.CharField(max_length=20, verbose_name='우편물번호')
+    detailAddress = models.CharField(max_length=30, verbose_name='도로명 주소')
+    pic = models.TextField(blank=True, null=True, verbose_name='이미지')
 
     ORDER_STATE_CHOICES = [
         ('미주문', '미주문'),
         ('주문신청', '주문신청'),
         ('주문완료', '주문완료'),
     ]
-    orderState = models.CharField(max_length=20, choices=ORDER_STATE_CHOICES)
+    orderState = models.CharField(max_length=20, choices=ORDER_STATE_CHOICES, verbose_name='주문 상태')
+
+    def __str__(self):
+        return self.user_name
 
     class Meta:
         verbose_name = '주문'
