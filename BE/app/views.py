@@ -725,19 +725,6 @@ class CoverPutView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         serializer.save(pic=serializer.validated_data['pic'])
 
-class CustomLogoutView(LogoutView):
-    def dispatch(self, request, *args, **kwargs):
-        # 세션 데이터 백업
-        session_backup = dict(request.session)
-
-        # 로그아웃
-        response = super().dispatch(request, *args, **kwargs)
-
-        # 백업된 세션 데이터를 복원
-        for key, value in session_backup.items():
-            request.session[key] = value
-
-        return response
 
 def nansu_info_detail(request, info_seq, nansu_count):
     nansu_list = Nansu.objects.all()[:nansu_count]
