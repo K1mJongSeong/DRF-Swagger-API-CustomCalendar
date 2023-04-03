@@ -31,7 +31,7 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),#Swagger API PATH
     path('admin/', admin.site.urls), #localhost:8000/admin/ 경로입니다. admin.site.urls 함수가 호출됩니다.
-    path('nansu/', views.nansu, name='nansu'), 
+    #path('nansu/', views.nansu, name='nansu'), 
     #path('',views.index),#root url을 의미합니다. views.index 함수가 호출됩니다. 
     path('NansuList/',NansuList.as_view()),
     path('OrderUrlDetail/<str:nansu>/', OrderUrlDetail.as_view(), name='OrderUrlDetail'), #url에 OrderList/1/ 식으로 접속하면 seq 1번으로 저장된 JSON 데이터 받아옴.
