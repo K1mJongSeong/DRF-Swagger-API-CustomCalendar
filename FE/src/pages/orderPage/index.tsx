@@ -55,6 +55,7 @@ const OrderPage = () => {
       const totalPicArrObj = {
         total_pic: getPageResult.total_pic,
         pageName: getPageResult.pageName,
+        pageNo: getPageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(updatePrevLoading(false));

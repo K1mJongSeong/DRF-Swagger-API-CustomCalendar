@@ -44,7 +44,7 @@ export interface PageState {
     pageName: string;
     pageNo: number;
   } | null;
-  totalPicArr: Array<{ total_pic: string; pageName: string }>;
+  totalPicArr: Array<{ total_pic: string; pageName: string; pageNo: number }>;
 }
 
 const initialState: PageState = {
@@ -179,7 +179,11 @@ export const pageSlice = createSlice({
     },
     updateTotalPicArr: (
       state,
-      action: PayloadAction<{ pageName: string; total_pic: string }>,
+      action: PayloadAction<{
+        pageName: string;
+        total_pic: string;
+        pageNo: number;
+      }>,
     ) => {
       let Arr = [];
       state.totalPicArr.forEach((sp) => {
@@ -191,6 +195,7 @@ export const pageSlice = createSlice({
         }
       });
       state.totalPicArr.push(action.payload);
+      state.totalPicArr.sort((a, b) => a.pageNo - b.pageNo);
     },
   },
   extraReducers: (builder) => {

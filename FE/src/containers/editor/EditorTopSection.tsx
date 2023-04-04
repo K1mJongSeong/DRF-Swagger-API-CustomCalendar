@@ -143,6 +143,7 @@ const EditorTopSection = ({
       const totalPicArrObj = {
         total_pic: postPageResult.result.total_pic,
         pageName: postPageResult.pageName,
+        pageNo: postPageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialPostResult());
@@ -153,6 +154,7 @@ const EditorTopSection = ({
       const totalPicArrObj = {
         total_pic: updatePageResult.result.total_pic,
         pageName: updatePageResult.pageName,
+        pageNo: updatePageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialUpdatePageResult());
