@@ -106,11 +106,13 @@ const EditorTopSection = ({
     const newArrToStr: string = newArr.join().split(' ').join();
     if (!newArrToStr) return;
     const body = { pic: newArrToStr, nansu, total_pic: totalImg };
+    const pageNo = page ? parseInt(page, 10) : 0;
     if (savedPages.includes(pageName) || prevWorks) {
       dispatch(
         updatePage({
           pageName,
           pagePayload: body,
+          pageNo,
         }),
       );
       return;
@@ -119,6 +121,7 @@ const EditorTopSection = ({
       postPage({
         pageName: pageName,
         pagePayload: body,
+        pageNo,
       }),
     );
   };

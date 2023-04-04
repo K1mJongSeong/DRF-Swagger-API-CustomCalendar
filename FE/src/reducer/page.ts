@@ -11,6 +11,7 @@ interface basicPageProps {
 
 interface postPageProps {
   pageName: string;
+  pageNo: number;
   pagePayload: basicPageProps;
 }
 
@@ -24,6 +25,7 @@ export interface PageState {
   postPageResult: {
     result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
+    pageNo: number;
   } | null;
   loading: boolean;
   error: string | null | undefined;
@@ -31,7 +33,7 @@ export interface PageState {
     data: Array<string>;
     pageName: string;
     total_pic: string;
-    pageNum: number;
+    pageNo: number;
   } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
@@ -40,6 +42,7 @@ export interface PageState {
   updatePageResult: {
     result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
+    pageNo: number;
   } | null;
   totalPicArr: Array<{ total_pic: string; pageName: string }>;
 }
@@ -67,7 +70,11 @@ export const postPage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return { result: res.data, pageName: postPagePayload.pageName };
+    return {
+      result: res.data,
+      pageName: postPagePayload.pageName,
+      pageNo: postPagePayload.pageNo,
+    };
   },
 );
 
@@ -103,7 +110,11 @@ export const updatePage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return { result: res.data, pageName: updatePagePayload.pageName };
+    return {
+      result: res.data,
+      pageName: updatePagePayload.pageName,
+      pageNo: updatePagePayload.pageNo,
+    };
   },
 );
 
