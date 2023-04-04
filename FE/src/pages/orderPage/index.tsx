@@ -29,7 +29,7 @@ const OrderPage = () => {
     dispatch(updatePrevLoading(true));
     Renault.forEach((el) => {
       if (!el.pageName) return;
-      dispatch(getPage({ pageName: el.pageName, nansu }));
+      dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
     });
   }, []);
 
@@ -55,6 +55,7 @@ const OrderPage = () => {
       const totalPicArrObj = {
         total_pic: getPageResult.total_pic,
         pageName: getPageResult.pageName,
+        pageNo: getPageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(updatePrevLoading(false));

@@ -16,6 +16,9 @@ export const imagesSlice = createSlice({
   name: 'images',
   initialState,
   reducers: {
+    initialImgs: (state) => {
+      state.imgs = [];
+    },
     updateImg: (
       state,
       action: PayloadAction<{ id: number; imgUrl: string; pageNo: number }>,
@@ -28,6 +31,7 @@ export const imagesSlice = createSlice({
         }
       });
       state.imgs.push(action.payload);
+      state.imgs.sort((a, b) => a.id - b.id);
     },
     deleteImg: (
       state,
@@ -45,6 +49,6 @@ export const imagesSlice = createSlice({
   },
 });
 
-export const { updateImg, deleteImg, selectId, selectPageNo } =
+export const { initialImgs, updateImg, deleteImg, selectId, selectPageNo } =
   imagesSlice.actions;
 export default imagesSlice.reducer;

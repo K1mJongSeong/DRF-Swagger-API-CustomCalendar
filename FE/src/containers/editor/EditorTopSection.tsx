@@ -10,6 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
 import {
+  getPage,
   initialUpdatePageResult,
   postPage,
   updatePage,
@@ -18,9 +19,9 @@ import {
 } from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
-import { initialPostResult } from 'reducer/memo';
+import { getMemoList, initialPostResult } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { selectId, selectPageNo } from 'reducer/images';
+import { initialImgs, selectId, selectPageNo } from 'reducer/images';
 import GetPageImg from 'utils/getPageImg';
 import WorkingLoading from 'components/common/loading/Working';
 
@@ -82,13 +83,20 @@ const EditorTopSection = ({
         newArr.push(el.imgUrl);
       }
     });
-    if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    if (newArr.length < parseInt(ctrlNum, 10))
+      return alert('이미지를 넣어주세요');
+    // make total_pic
     setTotalPicLoading(true);
-
     getPageImg.resizingItem(pageName, 'lg');
     const totalImg: string = await getPageImg.getTotalPage(pageName, nansu);
     console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
+    // prev work
+    const getRes = await dispatch(
+      getPage({ pageName, nansu, pageNo: parseInt(page, 10) }),
+    );
+    const prevWorks = getRes.payload.data;
+    //
     setTotalPicLoading(false);
     if (!totalImg) {
       alert('이미지 저장 실패');
@@ -97,32 +105,45 @@ const EditorTopSection = ({
     // update, post PAGE
     const newArrToStr: string = newArr.join().split(' ').join();
     if (!newArrToStr) return;
-    alert(newArrToStr);
-    if (savedPages.includes(pageName)) {
+    const body = { pic: newArrToStr, nansu, total_pic: totalImg };
+    const pageNo = page ? parseInt(page, 10) : 0;
+    if (savedPages.includes(pageName) || prevWorks) {
       dispatch(
         updatePage({
           pageName,
-          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+          pagePayload: body,
+          pageNo,
         }),
       );
-    } else {
-      dispatch(
-        postPage({
-          pageName,
-          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
-        }),
-      );
+      return;
     }
+    dispatch(
+      postPage({
+        pageName: pageName,
+        pagePayload: body,
+        pageNo,
+      }),
+    );
   };
 
   // POST, UPDATE result 처리
   useEffect(() => {
+    if (postPageResult || updatePageResult) {
+      if (!nansu) return;
+      dispatch(initialImgs());
+      Renault.forEach((el) => {
+        if (!el.pageName) return;
+        dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
+      });
+      dispatch(getMemoList(nansu));
+    }
     if (postPageResult) {
       setModalOpen(false);
       dispatch(updateSavedPages(postPageResult.pageName));
       const totalPicArrObj = {
         total_pic: postPageResult.result.total_pic,
         pageName: postPageResult.pageName,
+        pageNo: postPageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialPostResult());
@@ -133,6 +154,7 @@ const EditorTopSection = ({
       const totalPicArrObj = {
         total_pic: updatePageResult.result.total_pic,
         pageName: updatePageResult.pageName,
+        pageNo: updatePageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialUpdatePageResult());

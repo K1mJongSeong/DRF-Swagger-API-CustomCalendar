@@ -11,18 +11,21 @@ interface basicPageProps {
 
 interface postPageProps {
   pageName: string;
+  pageNo: number;
   pagePayload: basicPageProps;
 }
 
 interface getPageProps {
   pageName: string;
   nansu: string;
+  pageNo: number;
 }
 
 export interface PageState {
   postPageResult: {
     result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
+    pageNo: number;
   } | null;
   loading: boolean;
   error: string | null | undefined;
@@ -30,6 +33,7 @@ export interface PageState {
     data: Array<string>;
     pageName: string;
     total_pic: string;
+    pageNo: number;
   } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
@@ -38,8 +42,9 @@ export interface PageState {
   updatePageResult: {
     result: { pic: Array<string>; nansu: string; total_pic: string };
     pageName: string;
+    pageNo: number;
   } | null;
-  totalPicArr: Array<{ total_pic: string; pageName: string }>;
+  totalPicArr: Array<{ total_pic: string; pageName: string; pageNo: number }>;
 }
 
 const initialState: PageState = {
@@ -65,7 +70,11 @@ export const postPage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return { result: res.data, pageName: postPagePayload.pageName };
+    return {
+      result: res.data,
+      pageName: postPagePayload.pageName,
+      pageNo: postPagePayload.pageNo,
+    };
   },
 );
 
@@ -83,6 +92,7 @@ export const getPage = createAsyncThunk(
         data: res.data[0]?.pic,
         pageName: getPagePayload.pageName,
         total_pic: res.data[0].total_pic,
+        pageNo: getPagePayload.pageNo,
       };
     } else {
       return res.data;
@@ -100,7 +110,11 @@ export const updatePage = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    return { result: res.data, pageName: updatePagePayload.pageName };
+    return {
+      result: res.data,
+      pageName: updatePagePayload.pageName,
+      pageNo: updatePagePayload.pageNo,
+    };
   },
 );
 
@@ -147,8 +161,8 @@ export const pageSlice = createSlice({
       });
       state.prevImgs.push(action.payload);
     },
-    updatePrevLoading: (state, aciton: PayloadAction<boolean>) => {
-      state.getPrevLoading = aciton.payload;
+    updatePrevLoading: (state, action: PayloadAction<boolean>) => {
+      state.getPrevLoading = action.payload;
     },
     updatePrevDone: (state) => {
       state.getPrevDone = true;
@@ -165,7 +179,11 @@ export const pageSlice = createSlice({
     },
     updateTotalPicArr: (
       state,
-      action: PayloadAction<{ pageName: string; total_pic: string }>,
+      action: PayloadAction<{
+        pageName: string;
+        total_pic: string;
+        pageNo: number;
+      }>,
     ) => {
       let Arr = [];
       state.totalPicArr.forEach((sp) => {
@@ -177,6 +195,7 @@ export const pageSlice = createSlice({
         }
       });
       state.totalPicArr.push(action.payload);
+      state.totalPicArr.sort((a, b) => a.pageNo - b.pageNo);
     },
   },
   extraReducers: (builder) => {

@@ -62,7 +62,7 @@ const CropEditContainer = ({
       </div>
       <div className="crop_btns_wrap">
         <EditorTextButton white onClick={onApply}>
-          선택
+          자르기
         </EditorTextButton>
         <EditorTextButton red onClick={onCancle}>
           취소
