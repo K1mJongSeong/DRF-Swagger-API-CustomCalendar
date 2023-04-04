@@ -83,7 +83,8 @@ const EditorTopSection = ({
         newArr.push(el.imgUrl);
       }
     });
-    if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    if (newArr.length < parseInt(ctrlNum, 10))
+      return alert('이미지를 넣어주세요');
     // make total_pic
     setTotalPicLoading(true);
     getPageImg.resizingItem(pageName, 'lg');
