@@ -19,21 +19,22 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 from django.contrib.admin import AdminSite
-from django.contrib.auth.models import Group, User
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.models import Group, User, AbstractUser, Permission
+from django.contrib.auth.admin import UserAdmin, UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, AdminPasswordChangeForm, PasswordChangeForm
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 import random
 import json
 import string
 
-admin.site.index_title = ' '
+
 admin.site.unregister(Group)
 admin.site.site_header = '모바일 달력커스텀 인쇄주문'
 admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 # admin.site.register(Calendar)
 # admin.site.register(Prolog)
 # admin.site.register(Cover)
-
 
 
 class CustomUserAdmin(UserAdmin):
@@ -263,11 +264,13 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     ordering = ['-nansu_seq']
     list_display = ('nansu_seq','nansu','nansu_type','created_at')
     change_form_template = "admin/button.html"
-    change_form_title = '난수난수'
+    change_list_title = '난수 생성 리스트'
     list_per_page = 20
     fields = ['nansu_type']
     print(change_form_template)
 
+    # def get_list_view_title(self):
+    #     return '난수 생성 리스트'
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
