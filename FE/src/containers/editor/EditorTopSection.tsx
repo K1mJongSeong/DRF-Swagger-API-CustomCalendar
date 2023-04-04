@@ -10,6 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
 import {
+  getPage,
   initialUpdatePageResult,
   postPage,
   updatePage,
@@ -18,9 +19,9 @@ import {
 } from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
-import { initialPostResult } from 'reducer/memo';
+import { getMemoList, initialPostResult } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
-import { selectId, selectPageNo } from 'reducer/images';
+import { initialImgs, selectId, selectPageNo } from 'reducer/images';
 import GetPageImg from 'utils/getPageImg';
 import WorkingLoading from 'components/common/loading/Working';
 
@@ -83,12 +84,16 @@ const EditorTopSection = ({
       }
     });
     if (newArr.length < parseInt(ctrlNum)) return alert('이미지를 넣어주세요');
+    // make total_pic
     setTotalPicLoading(true);
-
     getPageImg.resizingItem(pageName, 'lg');
     const totalImg: string = await getPageImg.getTotalPage(pageName, nansu);
     console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
+    // prev work
+    const getRes = await dispatch(getPage({ pageName, nansu }));
+    const prevWorks = getRes.payload.data;
+    //
     setTotalPicLoading(false);
     if (!totalImg) {
       alert('이미지 저장 실패');
@@ -98,7 +103,7 @@ const EditorTopSection = ({
     const newArrToStr: string = newArr.join().split(' ').join();
     if (!newArrToStr) return;
     const body = { pic: newArrToStr, nansu, total_pic: totalImg };
-    if (savedPages.includes(pageName)) {
+    if (savedPages.includes(pageName) || prevWorks) {
       dispatch(
         updatePage({
           pageName,
@@ -117,6 +122,15 @@ const EditorTopSection = ({
 
   // POST, UPDATE result 처리
   useEffect(() => {
+    if (postPageResult || updatePageResult) {
+      if (!nansu) return;
+      dispatch(initialImgs());
+      Renault.forEach((el) => {
+        if (!el.pageName) return;
+        dispatch(getPage({ pageName: el.pageName, nansu }));
+      });
+      dispatch(getMemoList(nansu));
+    }
     if (postPageResult) {
       setModalOpen(false);
       dispatch(updateSavedPages(postPageResult.pageName));
