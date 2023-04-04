@@ -92,7 +92,9 @@ const EditorTopSection = ({
     console.log(totalImg);
     getPageImg.resizingItem(pageName, 'sm');
     // prev work
-    const getRes = await dispatch(getPage({ pageName, nansu }));
+    const getRes = await dispatch(
+      getPage({ pageName, nansu, pageNo: parseInt(page, 10) }),
+    );
     const prevWorks = getRes.payload.data;
     //
     setTotalPicLoading(false);
@@ -128,7 +130,7 @@ const EditorTopSection = ({
       dispatch(initialImgs());
       Renault.forEach((el) => {
         if (!el.pageName) return;
-        dispatch(getPage({ pageName: el.pageName, nansu }));
+        dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
       });
       dispatch(getMemoList(nansu));
     }

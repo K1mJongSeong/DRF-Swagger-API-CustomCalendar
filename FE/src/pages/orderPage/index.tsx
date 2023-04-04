@@ -29,7 +29,7 @@ const OrderPage = () => {
     dispatch(updatePrevLoading(true));
     Renault.forEach((el) => {
       if (!el.pageName) return;
-      dispatch(getPage({ pageName: el.pageName, nansu }));
+      dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
     });
   }, []);
 

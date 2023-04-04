@@ -17,6 +17,7 @@ interface postPageProps {
 interface getPageProps {
   pageName: string;
   nansu: string;
+  pageNo: number;
 }
 
 export interface PageState {
@@ -30,6 +31,7 @@ export interface PageState {
     data: Array<string>;
     pageName: string;
     total_pic: string;
+    pageNum: number;
   } | null;
   prevImgs: Array<{ data: Array<string>; pageName: string }>;
   getPrevLoading: boolean;
@@ -83,6 +85,7 @@ export const getPage = createAsyncThunk(
         data: res.data[0]?.pic,
         pageName: getPagePayload.pageName,
         total_pic: res.data[0].total_pic,
+        pageNo: getPagePayload.pageNo,
       };
     } else {
       return res.data;
