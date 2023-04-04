@@ -1,4 +1,5 @@
 from .models import Order, Notice
+#from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django import forms
 
 class OrderForm(forms.ModelForm):
@@ -21,3 +22,13 @@ class NoticeForm(forms.ModelForm):
     class Meta:
         model = Notice
         fields = '__all__'
+
+
+# class CustomUserChangeForm(UserChangeForm):
+#     class Meta(UserChangeForm.Meta):
+#         model = CustomUser
+
+
+# class CustomUserCreationForm(UserCreationForm):
+#     class Meta(UserCreationForm.Meta):
+#         model = CustomUser

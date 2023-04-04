@@ -15,6 +15,8 @@ import my_settings
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
+
+#AUTH_USER_MODEL = 'app.CustomUser'
 ADMIN_LOGOUT_PRESERVE_SESSION = True
 ACCOUNT_SESSION_REMEMBER = True
 BASE_DIR = Path(__file__).resolve().parent.parent
