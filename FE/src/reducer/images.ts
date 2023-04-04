@@ -28,6 +28,7 @@ export const imagesSlice = createSlice({
         }
       });
       state.imgs.push(action.payload);
+      state.imgs.sort((a, b) => a.id - b.id);
     },
     deleteImg: (
       state,
