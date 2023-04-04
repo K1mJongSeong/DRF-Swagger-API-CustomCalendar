@@ -147,8 +147,8 @@ export const pageSlice = createSlice({
       });
       state.prevImgs.push(action.payload);
     },
-    updatePrevLoading: (state, aciton: PayloadAction<boolean>) => {
-      state.getPrevLoading = aciton.payload;
+    updatePrevLoading: (state, action: PayloadAction<boolean>) => {
+      state.getPrevLoading = action.payload;
     },
     updatePrevDone: (state) => {
       state.getPrevDone = true;

@@ -97,22 +97,22 @@ const EditorTopSection = ({
     // update, post PAGE
     const newArrToStr: string = newArr.join().split(' ').join();
     if (!newArrToStr) return;
-    alert(newArrToStr);
+    const body = { pic: newArrToStr, nansu, total_pic: totalImg };
     if (savedPages.includes(pageName)) {
       dispatch(
         updatePage({
           pageName,
-          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
+          pagePayload: body,
         }),
       );
-    } else {
-      dispatch(
-        postPage({
-          pageName,
-          pagePayload: { pic: newArrToStr, nansu, total_pic: totalImg },
-        }),
-      );
+      return;
     }
+    dispatch(
+      postPage({
+        pageName: pageName,
+        pagePayload: body,
+      }),
+    );
   };
 
   // POST, UPDATE result 처리
