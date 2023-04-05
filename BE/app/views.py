@@ -736,11 +736,6 @@ def nansu_info_detail(request, info_seq, nansu_count):
     return render(request, 'app/nansu_info_detail.html', context)
 
 
-# def nansu(request):
-#     nansuTest = Nansu.objects.filter(nansu_state='정상')
-#     print(nansuTest)
-#     return render(request,'index.html', {"nansuTest":nansuTest})
-
 class NansuList(APIView):
     @swagger_auto_schema(
         operation_summary='난수 전체 리스트 GET API',
@@ -927,48 +922,6 @@ class JanFront(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-
-
-
-
-
-
-
-
-
-
-# class JanFrontPutView(generics.UpdateAPIView):
-#     queryset = JanFront.objects.all()
-#     serializer_class = JanFrontSerializer
-#     lookup_field = 'nansu'
-
-#     def get_object(self):
-#         nansu = self.request.data.get('nansu')
-#         queryset = self.get_queryset().filter(nansu=nansu)
-#         obj = queryset.first()
-#         if obj is None:
-#             raise Http404("매칭되는 값이 없습니다.")
-#         return obj
-
-#     @swagger_auto_schema(
-#         operation_summary='1월 앞 PUT API',
-#     )
-#     def put(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         nansu = request.data.get('nansu')
-
-#         if nansu and nansu != instance.nansu:
-#             raise serializers.ValidationError("난수 값이 일치하지 않습니다.")
-
-#         partial = kwargs.pop('partial', False)
-#         serializer = self.get_serializer(instance, data=request.data, partial=partial)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_update(serializer)
-#         return Response(serializer.data)
-
-#     def perform_update(self, serializer):
-#         serializer.save()
-
 class JanBack(generics.ListCreateAPIView):
     serializer_class = JanBackSerializer
     queryset = JanBack.objects.all()
@@ -995,6 +948,8 @@ class JanBack(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
+
 
 
 class FebFront(generics.ListCreateAPIView):
@@ -1050,6 +1005,8 @@ class FebBack(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
+
+
 class MarFront(generics.ListCreateAPIView):
     serializer_class = MarFrontSerializer
     queryset = MarFront.objects.all()
@@ -1075,6 +1032,7 @@ class MarFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class MarBack(generics.ListCreateAPIView):
     serializer_class = MarBackSerializer
@@ -1102,6 +1060,8 @@ class MarBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
 class AprilFront(generics.ListCreateAPIView):
     serializer_class = AprilFrontSerializer
     queryset = AprilFront.objects.all()
@@ -1127,6 +1087,7 @@ class AprilFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class AprilBack(generics.ListCreateAPIView):
     serializer_class = AprilBackSerializer
@@ -1154,6 +1115,8 @@ class AprilBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
 class MayFront(generics.ListCreateAPIView):
     serializer_class = MayFrontSerializer
     queryset = MayFront.objects.all()
@@ -1179,6 +1142,7 @@ class MayFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class MayBack(generics.ListCreateAPIView):
     serializer_class = MayBackSerializer
@@ -1206,6 +1170,9 @@ class MayBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class JuneFront(generics.ListCreateAPIView):
     serializer_class = JuneFrontSerializer
     queryset = JuneFront.objects.all()
@@ -1231,6 +1198,7 @@ class JuneFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class JuneBack(generics.ListCreateAPIView):
     serializer_class = JuneBackSerializer
@@ -1258,6 +1226,9 @@ class JuneBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class JulyFront(generics.ListCreateAPIView):
     serializer_class = JulyFrontSerializer
     queryset = JulyFront.objects.all()
@@ -1283,6 +1254,7 @@ class JulyFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class JulyBack(generics.ListCreateAPIView):
     serializer_class = JulyBackSerializer
@@ -1310,6 +1282,9 @@ class JulyBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class AugFront(generics.ListCreateAPIView):
     serializer_class = AugFrontSerializer
     queryset = AugFront.objects.all()
@@ -1335,6 +1310,7 @@ class AugFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class AugBack(generics.ListCreateAPIView):
     serializer_class = AugBackSerializer
@@ -1362,6 +1338,9 @@ class AugBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class SepFront(generics.ListCreateAPIView):
     serializer_class = SepFrontSerializer
     queryset = SepFront.objects.all()
@@ -1387,6 +1366,7 @@ class SepFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class SepBack(generics.ListCreateAPIView):
     serializer_class = SepBackSerializer
@@ -1414,6 +1394,9 @@ class SepBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class OctFront(generics.ListCreateAPIView):
     serializer_class = OctFrontSerializer
     queryset = OctFront.objects.all()
@@ -1439,6 +1422,7 @@ class OctFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class OctBack(generics.ListCreateAPIView):
     serializer_class = OctBackSerializer
@@ -1466,6 +1450,9 @@ class OctBack(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
+
 class NovFront(generics.ListCreateAPIView):
     serializer_class = NovFrontSerializer
     queryset = NovFront.objects.all()
@@ -1491,6 +1478,7 @@ class NovFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class NovBack(generics.ListCreateAPIView):
     serializer_class = NovBackSerializer
@@ -1519,6 +1507,8 @@ class NovBack(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
+
+
 class DecFront(generics.ListCreateAPIView):
     serializer_class = DecFrontSerializer
     queryset = DecFront.objects.all()
@@ -1544,6 +1534,7 @@ class DecFront(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 class DecBack(generics.ListCreateAPIView):
     serializer_class = DecBackSerializer
@@ -1573,6 +1564,7 @@ class DecBack(generics.ListCreateAPIView):
 
 
 
+
 class Prolog(generics.ListCreateAPIView):
     serializer_class = PrologSerializer
     queryset = Prolog.objects.all()
@@ -1599,6 +1591,8 @@ class Prolog(generics.ListCreateAPIView):
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
 
+
+
 class Cover(generics.ListCreateAPIView):
     serializer_class = CoverSerializer
     queryset = Cover.objects.all()
@@ -1624,6 +1618,7 @@ class Cover(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
+
 
 
 #@csrf_exempt
@@ -1697,15 +1692,8 @@ class ImageView(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    # def get_queryset(self):
-    #     return self.serializer_class.Meta.model.objects.all()
 
-# class ImageView(generics.CreateAPIView): #이미지 POST API
-
-#     parser_classes = [MultiPartParser, FormParser]
-#     serializer_class = ImageSerializer
-#     queryset = Image.objects.all()
-
+        
 
 class OrderUrlDetail(generics.CreateAPIView):
     serializer_class = OrderSerializer
