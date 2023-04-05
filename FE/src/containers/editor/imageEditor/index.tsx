@@ -65,14 +65,14 @@ const ImageEditorContainer = () => {
 
   /** instance 생성 및 배경이미지 */
   useEffect(() => {
-    if (imgs.length <= 0) {
-      alert('이미지가 존재하지 않습니다.');
-      return navigate(-1);
-    }
     if (!editRef.current) return;
     const editor = editRef.current?.getInstance();
     setEditorIns(editor);
 
+    if (imgs.length <= 0) {
+      alert('이미지가 존재하지 않습니다.');
+      return navigate(-1);
+    }
     imgs.forEach((el) => {
       if (el.id === selectedId) setImg(el.imgUrl);
     });
