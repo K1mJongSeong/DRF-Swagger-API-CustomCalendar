@@ -10,7 +10,6 @@ from rest_framework.decorators import api_view
 from rest_framework_swagger.views import get_swagger_view
 from app import views
 from app.admin import NansuInfoAdmin
-#from app.admin import NansuInfoDetail
 from app.views import NansuList, NansuUrlDetail, CalendarUrlDetail, ImageView, SwaggerSchemaView, JanFrontPutView, JanBackPutView, FebFrontPutView, FebBackPutView, MarFrontPutView, MarBackPutView, AprilFrontPutView, AprilBackPutView, MayFrontPutView, MayBackPutView, JuneFrontPutView, JuneBackPutView, JulyFrontPutView, JulyBackPutView, AugFrontPutView, AugBackPutView, SepFrontPutView, SepBackPutView, OctFrontPutView, OctBackPutView, NovFrontPutView, NovBackPutView, DecFrontPutView, DecBackPutView, PrologPutView, CoverPutView
 from app.views import OrderList, OrderInfoList, CalendarList, OrderUrlDetail, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, NoticePostView, NoticeListView, NoticePutView, NoticeDeleteView
 
