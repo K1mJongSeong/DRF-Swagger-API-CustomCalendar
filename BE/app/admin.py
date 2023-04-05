@@ -39,7 +39,7 @@ admin.site.index_title = '모바일 달력커스텀 인쇄주문'
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('username',)}),
+        (None, {'fields': ('username','password')}),
     )
     add_fieldsets = (
         (None, {
@@ -47,6 +47,20 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2'),
         }),
     )
+    readonly_fields = ('password_change_link',)
+
+    def password_change_link(self, obj):
+        url = reverse('admin:auth_user_password_change', args=[obj.pk])
+        return format_html('<a href="{}">비밀번호 변경</a>', url)
+
+    password_change_link.short_description = '비밀번호 변경'
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super(CustomUserAdmin, self).get_fieldsets(request, obj)
+        if obj:
+            fieldsets = list(fieldsets)
+            fieldsets[0] = (None, {'fields': ('username', 'password_change_link')})
+        return fieldsets
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'groups')
     search_fields = ('username', 'first_name', 'last_name', 'email')
@@ -58,6 +72,28 @@ admin.site.unregister(User)
 
 # Register the CustomUserAdmin
 admin.site.register(User, CustomUserAdmin)
+
+# class CustomUserAdmin(UserAdmin):
+#     fieldsets = (
+#         (None, {'fields': ('username',)}),
+#     )
+#     add_fieldsets = (
+#         (None, {
+#             'classes': ('wide',),
+#             'fields': ('username', 'password1', 'password2'),
+#         }),
+#     )
+#     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+#     list_filter = ('is_staff', 'is_superuser', 'groups')
+#     search_fields = ('username', 'first_name', 'last_name', 'email')
+#     ordering = ('username',)
+
+
+# # Unregister the default UserAdmin
+# admin.site.unregister(User)
+
+# # Register the CustomUserAdmin
+# admin.site.register(User, CustomUserAdmin)
 
 
 class YourAppConfig(AppConfig):
