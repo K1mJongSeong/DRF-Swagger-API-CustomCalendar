@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.apps import AppConfig
 from django.conf import settings
 from .models import Order, Nansu, OrderInfo, Calendar, Image, JanFront, JanBack, FebFront, FebBack, MarFront, MarBack, AprilFront, AprilBack, MayFront, MayBack, JuneFront, JuneBack, JulyFront, JulyBack, AugFront, AugBack, SepFront, SepBack, OctFront, OctBack, NovFront, NovBack, DecFront, DecBack, Prolog, Cover, Notice, NansuInfo, NansuSession
@@ -24,6 +24,8 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm, UserCreationFor
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm, AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from .validators import validate_username
+from django.core.exceptions import ValidationError
 import random
 import json
 import string
@@ -61,11 +63,37 @@ class CustomUserAdmin(UserAdmin):
             fieldsets = list(fieldsets)
             fieldsets[0] = (None, {'fields': ('username', 'password_change_link')})
         return fieldsets
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('username','is_staff')
     list_filter = ('is_staff', 'is_superuser', 'groups')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)
 
+    def save_model(self, request, obj, form, change):
+        try:
+            validate_username(obj.username)
+        except ValidationError as e:
+            messages.error(request, e.messages[0])
+            form.errors['username'] = e.messages
+            return
+        super().save_model(request, obj, form, change)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        if "_continue" in request.POST or "_saveasnew" in request.POST:
+            return super().response_add(request, obj, post_url_continue)
+        else:
+            return HttpResponseRedirect(reverse("admin:auth_user_changelist"))
+
+    def response_change(self, request, obj):
+        if "_continue" in request.POST or "_saveasnew" in request.POST or "_addanother" in request.POST:
+            return super().response_change(request, obj)
+        else:
+            return HttpResponseRedirect(reverse("admin:auth_user_changelist"))
+    # def save_model(self, request, obj, form, change):
+    #     try:
+    #         validate_username(obj.username)
+    #         super().save_model(request, obj, form, change)
+    #     except ValidationError as e:
+    #         messages.error(request, e.messages[0])
 
 # Unregister the default UserAdmin
 admin.site.unregister(User)
@@ -303,10 +331,6 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
     change_list_title = '난수 생성 리스트'
     list_per_page = 20
     fields = ['nansu_type']
-    print(change_form_template)
-
-    # def get_list_view_title(self):
-    #     return '난수 생성 리스트'
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -320,8 +344,6 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
             nansu_type = request.POST.get('nansu_type')
             create_date = request.POST.get('create_at')
             new_nansu_info = request.POST.get('info_seq')
-            print('11111')
-            print(create_date)
             session_dict = request.session.get('session_dict', {})  # 기존 세션 딕셔너리 가져오기
             new_nansu_info = NansuInfo(nansu_count=int(nansu_option), nansu_date=datetime.now(), template_name=nansu_type, session_data=session_dict)
             new_nansu_info.save()
@@ -331,23 +353,13 @@ class NansuAdmin(admin.ModelAdmin): #난수 생성 액션
                 new_nansu = Nansu(nansu=random_string, nansu_type=nansu_type,nansu_state='정상', info_seq=new_nansu_info.info_seq)
                 new_nansu.save()
                 nansu_list.append(new_nansu)
-            
-            
-            print(nansu_list)
-            print(random_string)
-
-            new_nansu_session = NansuSession(session_nansu=random_string, session_nansu_type=nansu_type, expire_date=timezone.now())# + datetime.timedelta(days=1))
-            new_nansu_session.save()
-            request.session['nansu_session_id'] = new_nansu_session.pk
-            print(new_nansu_session.pk)
 
             # 세션에 nansu_seq 값 저장
             nansu_seq_list = [nansu.nansu_seq for nansu in nansu_list]
             request.session['nansu_seq'] =  nansu_option#new_nansu.nansu_seq
             request.session['nansu'] = nansu_seq_list
             request.session['nansu_type'] = nansu_type
-            print(nansu_option)
-            print(nansu_seq_list)
+
             session_dict[new_nansu_info.info_seq] = {
                 'nansu_seq': nansu_option,
                 'nansu': [nansu.nansu_seq for nansu in nansu_list],  # 배열 형태로 저장
