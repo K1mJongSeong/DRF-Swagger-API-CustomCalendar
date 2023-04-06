@@ -243,6 +243,7 @@ export const pageSlice = createSlice({
 
 export const {
   initialPageError,
+  initialPostPageResult,
   initialPrevImgs,
   afterPrintPrevImgs,
   initialUpdatePageResult,

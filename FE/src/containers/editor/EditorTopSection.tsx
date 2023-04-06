@@ -3,7 +3,7 @@
 /* eslint-disable prefer-const */
 import { EditorTextButton } from 'components/editor/EditorButtons';
 import EditorTop from 'components/editor/EditorTop';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { BsCartPlus } from 'react-icons/bs';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 import { RootState } from 'store';
 import {
   getPage,
+  initialPostPageResult,
   initialUpdatePageResult,
   postPage,
   updatePage,
@@ -19,7 +20,7 @@ import {
 } from 'reducer/page';
 import { useEffect, useState } from 'react';
 import ConfirmPageModal from 'components/editor/ConfirmPageModal';
-import { getMemoList, initialPostResult } from 'reducer/memo';
+import { getMemoList } from 'reducer/memo';
 import { Renault } from 'data/template/renault';
 import { initialImgs, selectId, selectPageNo } from 'reducer/images';
 import GetPageImg from 'utils/getPageImg';
@@ -41,6 +42,7 @@ const EditorTopSection = ({
   const getPageImg = new GetPageImg();
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const params = useParams();
   const [searchParams] = useSearchParams();
 
@@ -126,16 +128,33 @@ const EditorTopSection = ({
     );
   };
 
+  const handleChangePage = () => {
+    if (page && parseInt(page, 10) < Renault.length) {
+      Renault.forEach((el) => {
+        if (el.id + 1 === parseInt(page, 10) + 1) {
+          return navigate(
+            `${pathname}?temp=${temp}&year=${year}&page=${el.id + 1}&pageName=${
+              el.pageName
+            }&ctrlNum=${el.ctrlItems ? el.ctrlItems.length : 0}`,
+          );
+        }
+      });
+    }
+  };
+  const handleInitImgs = () => {
+    if (!nansu) return;
+    dispatch(initialImgs());
+    Renault.forEach((el) => {
+      if (!el.pageName) return;
+      dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
+    });
+    dispatch(getMemoList(nansu));
+  };
+
   // POST, UPDATE result 처리
   useEffect(() => {
     if (postPageResult || updatePageResult) {
-      if (!nansu) return;
-      dispatch(initialImgs());
-      Renault.forEach((el) => {
-        if (!el.pageName) return;
-        dispatch(getPage({ pageName: el.pageName, nansu, pageNo: el.id }));
-      });
-      dispatch(getMemoList(nansu));
+      handleInitImgs();
     }
     if (postPageResult) {
       setModalOpen(false);
@@ -146,7 +165,8 @@ const EditorTopSection = ({
         pageNo: postPageResult.pageNo,
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
-      dispatch(initialPostResult());
+      dispatch(initialPostPageResult());
+      handleChangePage();
     }
     if (updatePageResult) {
       setModalOpen(false);
@@ -158,6 +178,7 @@ const EditorTopSection = ({
       };
       dispatch(updateTotalPicArr(totalPicArrObj));
       dispatch(initialUpdatePageResult());
+      handleChangePage();
     }
   }, [postPageResult, updatePageResult]);
 
