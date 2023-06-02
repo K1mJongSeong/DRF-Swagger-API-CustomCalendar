@@ -1,8 +1,4 @@
 # DRF Swagger API
-
-## Swagger API
-http://121.254.171.155:3003/swagger/
-
 <h2>사용 스킬🍋</h1>
 
 <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white">
